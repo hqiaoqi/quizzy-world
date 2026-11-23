@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff7f1">
+<title>全台最大心理測驗網 | Quizzy World 測驗星球</title>
+<style>
+:root{--ink:#342b46;--muted:#81788f;--pink:#ff8eb5;--peach:#ffb98e;--yellow:#ffdc7c;--mint:#9be1ce;--lilac:#c8b6ff;--bg:#fff9f5;--card:#fff;--line:#f0e8ee;--shadow:0 14px 40px rgba(83,55,91,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans TC",system-ui,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;margin:auto;padding:0 26px}
+header{position:sticky;top:0;z-index:20;background:#fffaf6eF;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.head{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);min-width:0}.logo{width:43px;height:43px;border-radius:15px;background:linear-gradient(135deg,var(--pink),var(--lilac));display:grid;place-items:center;color:white;font-size:23px;box-shadow:0 7px 16px #e8a5c455}.brand strong{display:block;font-size:15px;letter-spacing:-.3px}.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:.12em;margin-top:2px}.nav{display:flex;align-items:center;gap:24px}.nav a{font-size:13px;text-decoration:none;color:#665d75;font-weight:650}.nav a:hover{color:#dc6898}.head-actions{display:flex;gap:9px;align-items:center}.pill-btn{border:1px solid var(--line);background:white;border-radius:999px;padding:9px 14px;font-size:12px;color:var(--ink);font-weight:700}.pill-btn.hot{background:var(--ink);color:white;border-color:var(--ink)}
+.hero{padding:48px 0 34px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}.kicker{display:inline-flex;gap:7px;align-items:center;background:#fff0f5;color:#c85f8b;border-radius:999px;padding:7px 12px;font-size:11px;font-weight:800;letter-spacing:.05em}.hero h1{font-size:clamp(35px,5vw,60px);line-height:1.12;letter-spacing:-.055em;margin:17px 0 13px}.hero h1 span{color:#dc78a0}.hero p{color:var(--muted);font-size:15px;line-height:1.85;max-width:500px;margin:0}.searchbox{display:flex;gap:9px;background:white;border:1px solid var(--line);border-radius:17px;padding:8px;margin-top:24px;max-width:510px;box-shadow:var(--shadow)}.searchbox input{border:0;outline:0;flex:1;min-width:0;padding:8px 10px;color:var(--ink)}.searchbox button,.main-btn{border:0;background:var(--ink);color:white;border-radius:12px;padding:12px 17px;font-size:13px;font-weight:800}.hero-art{height:315px;position:relative;border-radius:30px;background:linear-gradient(145deg,#ffe0eb,#e9ddff 54%,#d8f4eb);overflow:hidden;box-shadow:var(--shadow)}.planet{position:absolute;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle at 32% 27%,#fff7d9,#ffc0d4 38%,#c9a9ff 76%);left:50%;top:43%;transform:translate(-50%,-50%);box-shadow:0 20px 45px #a87cbf44}.ring{position:absolute;width:290px;height:85px;border:10px solid #fff9;border-radius:50%;left:50%;top:49%;transform:translate(-50%,-50%) rotate(-20deg)}.star{position:absolute;color:white;font-size:26px;text-shadow:0 3px 12px #c28fb5}.float-card{position:absolute;background:#ffffffdf;backdrop-filter:blur(8px);padding:12px 15px;border-radius:16px;box-shadow:0 10px 24px #8f6a9b22;font-size:12px;font-weight:800}.fc1{left:7%;top:14%;transform:rotate(-7deg)}.fc2{right:7%;top:22%;transform:rotate(6deg)}.fc3{left:14%;bottom:13%;transform:rotate(5deg)}.fc4{right:10%;bottom:12%;transform:rotate(-5deg)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:6px 0 34px}.stat{background:white;border:1px solid var(--line);border-radius:16px;padding:15px 18px;display:flex;align-items:center;gap:12px}.stat .ico{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;font-size:18px}.stat strong{display:block;font-size:18px}.stat small{color:var(--muted);font-size:11px}
+section{scroll-margin-top:90px}.section-head{display:flex;justify-content:space-between;align-items:end;margin:35px 0 17px}.section-head h2{font-size:22px;margin:0;letter-spacing:-.5px}.section-head p{font-size:12px;color:var(--muted);margin:5px 0 0}.text-link{border:0;background:none;color:#c75e8b;font-weight:800;font-size:12px}.categories{display:grid;grid-template-columns:repeat(6,1fr);gap:11px}.cat{border:1px solid var(--line);background:white;border-radius:18px;padding:16px 10px;text-align:center;transition:.2s;color:var(--ink)}.cat:hover,.cat.active{transform:translateY(-3px);border-color:#eab2ca;box-shadow:var(--shadow)}.cat .emoji{font-size:26px;display:block;margin-bottom:7px}.cat strong{font-size:12px}.cat small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0}.filter-select{border:1px solid var(--line);background:white;border-radius:12px;padding:10px 12px;color:var(--ink);font-size:12px}.result-count{font-size:12px;color:var(--muted);margin-left:auto}.quiz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.quiz-card{background:white;border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:.2s;box-shadow:0 5px 20px #715b7b08}.quiz-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.quiz-cover{height:145px;display:grid;place-items:center;position:relative;overflow:hidden}.quiz-cover .bigemoji{font-size:55px;filter:drop-shadow(0 8px 10px #70546a30)}.quiz-cover:before,.quiz-cover:after{content:"";position:absolute;border-radius:50%;background:#ffffff45}.quiz-cover:before{width:150px;height:150px;right:-30px;top:-60px}.quiz-cover:after{width:90px;height:90px;left:-20px;bottom:-40px}.quiz-body{padding:15px}.meta{display:flex;gap:7px;align-items:center;margin-bottom:8px}.tag{font-size:10px;font-weight:800;color:#8a6a93;background:#f6effa;border-radius:999px;padding:5px 8px}.duration{font-size:10px;color:var(--muted)}.quiz-body h3{font-size:15px;margin:0 0 6px}.quiz-body p{font-size:11px;color:var(--muted);line-height:1.6;margin:0;min-height:35px}.card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px}.plays{font-size:10px;color:var(--muted)}.start-btn{border:0;border-radius:999px;background:#fff0f5;color:#c85e8b;padding:8px 13px;font-size:11px;font-weight:850}.start-btn:hover{background:#f9dce8}
+.two-col{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:35px}.box-panel{background:white;border:1px solid var(--line);border-radius:20px;padding:19px}.box-panel h2{font-size:18px;margin:0 0 14px}.rank-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #f4eef2}.rank-row:last-child{border:0}.rank-no{width:25px;height:25px;border-radius:9px;background:#fff1d8;display:grid;place-items:center;font-weight:900;font-size:11px}.rank-emoji{font-size:22px}.rank-info{flex:1}.rank-info strong{font-size:12px;display:block}.rank-info small{font-size:10px;color:var(--muted)}.rank-count{font-size:10px;color:var(--muted)}.admin-callout{background:linear-gradient(135deg,#fce4ed,#eee8ff);border-radius:16px;padding:17px}.admin-callout h3{margin:0 0 7px;font-size:15px}.admin-callout p{font-size:11px;color:#776d87;line-height:1.7;margin:0 0 13px}.admin-callout button{background:var(--ink);color:white;border:0;border-radius:10px;padding:10px 13px;font-size:11px;font-weight:800}
+footer{margin-top:50px;padding:26px 0 35px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:11px}.disclaimer{max-width:650px;line-height:1.7}
+.overlay{position:fixed;inset:0;background:#231b36a8;z-index:50;display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}.overlay.show{display:flex}.modal{width:min(650px,100%);max-height:92vh;overflow:auto;background:white;border-radius:24px;padding:25px;box-shadow:0 25px 80px #1a102d55;position:relative}.close{position:absolute;right:17px;top:15px;border:0;background:#f7f1f5;width:34px;height:34px;border-radius:50%;font-size:18px}.modal-kicker{font-size:11px;color:#c75e8b;font-weight:900}.modal h2{font-size:23px;margin:9px 40px 8px 0}.modal-desc{color:var(--muted);font-size:12px;line-height:1.7}.progressbar{height:7px;border-radius:99px;background:#f3edf3;margin:18px 0}.progressbar span{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--lilac));border-radius:99px;width:0}.question-title{font-size:18px;line-height:1.5;margin:18px 0}.answers{display:grid;gap:9px}.answer{border:1px solid var(--line);background:#fff;border-radius:13px;text-align:left;padding:13px 15px;font-size:13px;color:var(--ink)}.answer:hover,.answer.selected{border-color:#df8fb2;background:#fff4f8}.modal-actions{display:flex;justify-content:space-between;margin-top:20px}.secondary-btn{border:1px solid var(--line);background:white;border-radius:11px;padding:11px 15px;font-size:12px;font-weight:800}.result-box{text-align:center;padding:12px 0}.result-emoji{font-size:64px}.result-box h2{margin:7px 0}.result-box p{font-size:13px;color:var(--muted);line-height:1.8}.result-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:20px}.primary-btn{border:0;background:var(--ink);color:white;border-radius:11px;padding:12px 16px;font-size:12px;font-weight:800}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:800;color:#655a73}.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12px;outline:none;color:var(--ink);background:white}.field textarea{min-height:75px;resize:vertical}.admin-note{background:#fff5db;color:#806a35;border-radius:11px;padding:10px;font-size:11px;line-height:1.6;margin:12px 0}
+@media(max-width:850px){.nav{display:none}.hero{grid-template-columns:1fr}.hero-art{height:250px}.categories{grid-template-columns:repeat(3,1fr)}.quiz-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:0 16px}.head{height:66px}.brand strong{font-size:12px}.brand small{font-size:8px}.logo{width:38px;height:38px}.head-actions .pill-btn{padding:8px 10px;font-size:10px}.hero{padding-top:34px}.hero h1{font-size:39px}.hero-art{height:215px}.stats{gap:7px}.stat{padding:11px 8px;gap:7px}.stat .ico{width:30px;height:30px;font-size:14px}.stat strong{font-size:15px}.stat small{font-size:9px}.categories{gap:8px}.cat{padding:12px 5px}.cat .emoji{font-size:22px}.cat strong{font-size:10px}.quiz-grid{gap:10px}.quiz-cover{height:110px}.quiz-cover .bigemoji{font-size:43px}.quiz-body{padding:11px}.quiz-body h3{font-size:13px}.quiz-body p{font-size:10px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}footer{flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="wrap head">
+<a class="brand" href="#"><div class="logo">✦</div><div><strong id="brandName">全台最大心理測驗網</strong><small>QUIZZY WORLD · 測驗星球</small></div></a>
+<nav class="nav"><a href="#categories" data-i18n="navCategories">測驗分類</a><a href="#discover" data-i18n="navDiscover">探索測驗</a><a href="#ranking" data-i18n="navRanking">熱門排行</a></nav>
+<div class="head-actions"><button class="pill-btn" id="langBtn" onclick="toggleLang()">EN</button><button class="pill-btn hot" onclick="openAdmin()" data-i18n="adminBtn">管理後台</button></div>
+</div></header>
+<main class="wrap">
+<section class="hero">
+<div><div class="kicker" data-i18n="kicker">✦ 找到你的下一個有趣答案</div><h1 data-i18n-html="heroTitle">今天的你，<br><span>是哪一種有趣靈魂？</span></h1><p data-i18n="heroDesc">從人格、愛情到奇幻想像，探索更多有趣的自己。挑一個測驗，花幾分鐘認識不一樣的你！</p>
+<div class="searchbox"><input id="searchInput" type="search" placeholder="搜尋心理測驗、關鍵字或主題…" oninput="renderQuizzes()"><button onclick="renderQuizzes()" data-i18n="searchBtn">搜尋測驗</button></div></div>
+<div class="hero-art"><div class="planet"></div><div class="ring"></div><span class="star" style="left:17%;top:34%">✦</span><span class="star" style="right:18%;top:12%">✧</span><span class="star" style="right:25%;bottom:23%">✦</span><span class="float-card fc1">🌈 Personality</span><span class="float-card fc2">💗 Love test</span><span class="float-card fc3">🪄 Discover you</span><span class="float-card fc4">✨ Just for fun</span></div>
+</section>
+<div class="stats">
+<div class="stat"><div class="ico" style="background:#fff0f5">🧩</div><div><strong id="quizTotal">7</strong><small data-i18n="statQuizzes">個有趣測驗</small></div></div>
+<div class="stat"><div class="ico" style="background:#fff5dc">🎯</div><div><strong id="attemptTotal">0</strong><small data-i18n="statAttempts">次完成挑戰</small></div></div>
+<div class="stat"><div class="ico" style="background:#eaf9f3">🌍</div><div><strong>2</strong><small data-i18n="statLanguages">種網站語言</small></div></div>
+</div>
+<section id="categories"><div class="section-head"><div><h2 data-i18n="categoryTitle">探索測驗分類</h2><p data-i18n="categoryDesc">選一個你感興趣的主題開始探索</p></div></div><div class="categories" id="categoryList"></div></section>
+<section id="discover"><div class="section-head"><div><h2 data-i18n="discoverTitle">發現有趣的自己</h2><p data-i18n="discoverDesc">每個測驗，都是認識自己的新入口</p></div><button class="text-link" onclick="clearFilters()" data-i18n="showAll">查看全部 →</button></div>
+<div class="toolbar"><select class="filter-select" id="sortSelect" onchange="renderQuizzes()"><option value="featured">精選推薦</option><option value="popular">最熱門</option><option value="newest">最新上架</option></select><span class="result-count" id="resultCount"></span></div><div class="quiz-grid" id="quizGrid"></div></section>
+<div class="two-col">
+<section class="box-panel" id="ranking"><h2 data-i18n="rankingTitle">🏆 本週人氣排行</h2><div id="rankingList"></div></section>
+<aside class="box-panel"><h2 data-i18n="creatorTitle">🪄 讓測驗宇宙持續長大</h2><div class="admin-callout"><h3 data-i18n="creatorHeading">下一個熱門測驗，由你加入！</h3><p data-i18n="creatorDesc">透過管理後台建立新測驗、編輯題目與結果。這個平台採用共用測驗結構，未來能持續擴充內容。</p><button onclick="openAdmin()" data-i18n="creatorBtn">新增一個測驗</button></div></aside>
+</div>
+<footer><div><strong>全台最大心理測驗網 | Quizzy World 測驗星球</strong><div style="margin-top:5px">© 2026 Quizzy World</div></div><div class="disclaimer" data-i18n="disclaimer">本站測驗主要提供自我探索與娛樂用途，不是臨床心理診斷或醫療建議。不同測驗的準確性與適用性各有差異。</div></footer>
+</main>
+<div class="overlay" id="quizOverlay"><div class="modal" id="quizModal"><button class="close" onclick="closeOverlay('quizOverlay')">×</button><div id="quizContent"></div></div></div>
+<div class="overlay" id="adminOverlay"><div class="modal"><button class="close" onclick="closeOverlay('adminOverlay')">×</button><div class="modal-kicker">QUIZZY WORLD CMS</div><h2 data-i18n="adminTitle">新增測驗</h2><p class="modal-desc" data-i18n="adminDesc">建立測驗基本資料。此展示版先將資料保存在目前瀏覽器；正式上線後會改由管理員登入並寫入 Cloudflare D1。</p><div class="admin-note" data-i18n="adminWarning">展示版後台沒有登入驗證，不可直接公開作為正式管理系統。題目編輯器與資料庫 API 將在下一階段接上。</div>
+<form id="adminForm" onsubmit="addQuiz(event)"><div class="form-grid">
+<div class="field"><label>中文測驗名稱</label><input id="newTitle" required maxlength="60" placeholder="例如：你的隱藏人格是？"></div>
+<div class="field"><label>English title</label><input id="newTitleEn" required maxlength="60" placeholder="e.g. What's your hidden type?"></div>
+<div class="field"><label>分類</label><select id="newCategory"><option value="personality">人格性格</option><option value="love">愛情關係</option><option value="emotion">情緒心理</option><option value="subconscious">潛意識</option><option value="career">職涯天賦</option><option value="social">人際關係</option><option value="fun">趣味娛樂</option></select></div>
+<div class="field"><label>Emoji 封面</label><input id="newEmoji" maxlength="4" value="✨"></div>
+<div class="field full"><label>中文簡介</label><textarea id="newDesc" required maxlength="180" placeholder="用一句話介紹這個測驗"></textarea></div>
+<div class="field full"><label>English description</label><textarea id="newDescEn" required maxlength="180" placeholder="Describe this quiz in one sentence"></textarea></div>
+</div><button class="primary-btn" type="submit" data-i18n="saveQuiz">儲存測驗</button></form></div></div>
+<script>
+const API_BASE = "https://quizzy-world.hqiaoqi.workers.dev/api";
+const I18N = {
+  zh:{navCategories:"測驗分類",navDiscover:"探索測驗",navRanking:"熱門排行",adminBtn:"管理後台",kicker:"✦ 找到你的下一個有趣答案",heroTitle:"今天的你，<br><span>是哪一種有趣靈魂？</span>",heroDesc:"從人格、愛情到奇幻想像，探索更多有趣的自己。挑一個測驗，花幾分鐘認識不一樣的你！",searchPlaceholder:"搜尋心理測驗、關鍵字或主題…",searchBtn:"搜尋測驗",statQuizzes:"個有趣測驗",statAttempts:"次完成挑戰",statLanguages:"種網站語言",categoryTitle:"探索測驗分類",categoryDesc:"選一個你感興趣的主題開始探索",discoverTitle:"發現有趣的自己",discoverDesc:"每個測驗，都是認識自己的新入口",showAll:"查看全部 →",rankingTitle:"🏆 本週人氣排行",creatorTitle:"🪄 讓測驗宇宙持續長大",creatorHeading:"下一個熱門測驗，由你加入！",creatorDesc:"透過管理後台建立新測驗、編輯題目與結果。這個平台採用共用測驗結構，未來能持續擴充內容。",creatorBtn:"新增一個測驗",disclaimer:"本站測驗主要提供自我探索與娛樂用途，不是臨床心理診斷或醫療建議。不同測驗的準確性與適用性各有差異。",adminTitle:"新增測驗",adminDesc:"建立測驗基本資料。此展示版先將資料保存在目前瀏覽器；正式上線後會改由管理員登入並寫入 Cloudflare D1。",adminWarning:"展示版後台沒有登入驗證，不可直接公開作為正式管理系統。新增內容目前只保存在這個瀏覽器，不會寫入 D1。",saveQuiz:"儲存測驗",searchEmpty:"找不到符合條件的測驗。",start:"開始測驗",plays:"人玩過",minutes:"分鐘",questions:"題",noQuestion:"這個測驗目前尚未設定題目。",next:"下一題",prev:"上一題",finish:"查看結果",result:"你的測驗結果",share:"下載結果圖卡",again:"再測一次",close:"關閉",saved:"測驗已加入目前瀏覽器清單；尚未同步到網站資料庫。",filterAll:"全部分類",featured:"精選推薦",popular:"最熱門",newest:"最新上架",rankPlays:"次參與",qProgress:"第",of:"題，共",answerPrompt:"選擇最符合你的答案",noResults:"尚未有結果資料。",resultNote:"這是娛樂與自我探索用途的結果，不代表專業心理評估。",loading:"載入測驗中…",loadError:"測驗載入失敗，請稍後再試。",retry:"重新載入"},
+  en:{navCategories:"Categories",navDiscover:"Explore",navRanking:"Top quizzes",adminBtn:"Admin",kicker:"✦ Find your next fun answer",heroTitle:"Who are you<br><span>today, really?</span>",heroDesc:"Explore personality, love, imagination and more. Pick a quiz and discover a new side of yourself in just a few minutes!",searchPlaceholder:"Search quizzes, keywords or topics…",searchBtn:"Search",statQuizzes:"fun quizzes",statAttempts:"completed quizzes",statLanguages:"site languages",categoryTitle:"Explore categories",categoryDesc:"Choose a topic that sparks your curiosity",discoverTitle:"Discover something about you",discoverDesc:"Every quiz is a new way to explore yourself",showAll:"Show all →",rankingTitle:"🏆 This week's popular quizzes",creatorTitle:"🪄 Grow the quiz universe",creatorHeading:"Create the next popular quiz!",creatorDesc:"Add quizzes and manage content through the admin area. The platform uses a reusable quiz structure built to grow.",creatorBtn:"Add a quiz",disclaimer:"Quizzes are for entertainment and self-exploration, not clinical diagnosis or medical advice. Accuracy and suitability vary by quiz.",adminTitle:"Add a quiz",adminDesc:"Create basic quiz information. This demo stores data in your current browser. A secure admin login and Cloudflare D1 integration are required for production.",adminWarning:"This demo admin has no authentication. New quizzes are stored only in this browser and are not written to D1.",saveQuiz:"Save quiz",searchEmpty:"No quizzes match your search.",start:"Start quiz",plays:"plays",minutes:"min",questions:"questions",noQuestion:"This quiz has no questions configured yet.",next:"Next",prev:"Back",finish:"See result",result:"Your result",share:"Download result card",again:"Retake quiz",close:"Close",saved:"Quiz added to this browser only; it has not been synced to the database.",filterAll:"All categories",featured:"Featured",popular:"Most popular",newest:"Newest",rankPlays:"plays",qProgress:"Question",of:"of",answerPrompt:"Choose the answer that fits you best",noResults:"No result profile is configured yet.",resultNote:"For entertainment and self-exploration only; not a professional psychological assessment.",loading:"Loading quiz…",loadError:"Unable to load this quiz. Please try again.",retry:"Retry"}
+};
+let lang="zh",activeCategory="all",currentQuiz=null,currentQ=0,answers=[],quizzes=[],categories=[],loadingQuizzes=false;
+const categoryDefaults=[
+{id:"all",emoji:"🌟",zh:"全部測驗",en:"All quizzes",color:"#fff0c9"},
+{id:"personality",emoji:"🧠",zh:"人格性格",en:"Personality",color:"#f5eaff"},
+{id:"love",emoji:"💗",zh:"愛情關係",en:"Love & Dating",color:"#ffe8ef"},
+{id:"emotion",emoji:"🌈",zh:"情緒心理",en:"Emotions",color:"#e7f7f1"},
+{id:"subconscious",emoji:"🌙",zh:"潛意識",en:"Subconscious",color:"#e9eaff"},
+{id:"career",emoji:"🚀",zh:"職涯天賦",en:"Career",color:"#fff0df"},
+{id:"social",emoji:"🫶",zh:"人際關係",en:"Social",color:"#e6f4ff"},
+{id:"fun",emoji:"🎉",zh:"趣味娛樂",en:"Just for fun",color:"#fff0db"}
+];
+function t(key){return I18N[lang][key]||I18N.zh[key]||key}
+function apiLanguage(){return lang==="en"?"en":"zh-TW"}
+function unwrapData(payload){return payload?.data??payload}
+function asArray(payload){const d=unwrapData(payload);if(Array.isArray(d))return d;for(const k of ["quizzes","categories","items","results"])if(Array.isArray(d?.[k]))return d[k];return []}
+function categoryId(raw){const map={1:"personality",2:"love",3:"emotion",4:"subconscious",5:"career",6:"social",7:"fun",dream:"subconscious"};return map[raw]||raw||"fun"}
+function categoryEmoji(id){return categoryDefaults.find(c=>c.id===id)?.emoji||"✨"}
+function categoryColor(id){return categoryDefaults.find(c=>c.id===id)?.color||"#f5eaff"}
+function localized(row,base,language=lang){if(!row)return "";const suffix=language==="en"?"en":"zh";return row[`${base}_${suffix}`]??row[`${base}_${language==="en"?"en":"zh_TW"}`]??row[base]??row[language==="en"?"name_en":"name_zh"]??""}
+function normalizeQuizSummary(row){
+ const tr=row.translation||row.translations?.[apiLanguage()]||row.translations?.[lang]||row;
+ const slug=row.slug||row.id;
+ const cat=categoryId(row.category_slug||row.category||row.category_id);
+ return {id:slug,slug,cat,emoji:row.cover_image||row.emoji||categoryEmoji(cat),title:tr.title||row.title||row.title_zh||row.title_en||slug,titleEn:row.title_en||row.translations?.en?.title||tr.title_en||tr.title||row.title||slug,desc:tr.description||row.description||row.description_zh||"",descEn:row.description_en||row.translations?.en?.description||tr.description_en||tr.description||row.description||"",minutes:row.duration_minutes||row.minutes||3,plays:Number(row.plays||row.attempts||0),created:row.created_at?Date.parse(row.created_at)||0:Number(row.created||0),isFeatured:!!row.is_featured,status:row.status};
+}
+function normalizeQuizDetail(payload,summary){
+ const d=unwrapData(payload)||{},questions=(d.questions||[]).slice().sort((a,b)=>a.question_order-b.question_order);
+ const options=d.options||[];
+ const normalizedQuestions=questions.map(q=>{
+   const related=options.filter(o=>Number(o.question_id)===Number(q.id)).sort((a,b)=>a.option_order-b.option_order);
+   return {id:q.id,order:q.question_order,q:q.question_text||q.question||"",en:q.question_text_en||q.question_text||q.question||"",a:related.map(o=>o.label_zh??o.label??""),aEn:related.map(o=>o.label_en??o.label??"")};
+ });
+ const results=(d.results||[]).slice().sort((a,b)=>a.result_order-b.result_order).map((r,i)=>({id:r.id,key:r.result_key,order:r.result_order,name:r.title_zh||r.title||"",en:r.title_en||r.title||"",desc:r.description_zh||r.description||"",descEn:r.description_en||r.description||"",emoji:r.emoji||["✨","🌙","☀️","🪄"][i]}));
+ const titleValue=d.title||summary.title||"",descValue=d.description||summary.desc||"";
+ return {...summary,...d,id:d.slug||summary.id,slug:d.slug||summary.slug,cat:categoryId(d.category_id||summary.cat),emoji:d.cover_image||summary.emoji,title:titleValue,titleEn:d.title_en||titleValue,desc:descValue,descEn:d.description_en||descValue,questions:normalizedQuestions,results,scoring_config:d.scoring_config||{},plays:summary.plays||0};
+}
+async function apiGet(path){const response=await fetch(`${API_BASE}${path}`,{headers:{"Accept":"application/json"}});if(!response.ok)throw new Error(`API ${response.status}`);const json=await response.json();if(json.success===false)throw new Error(json.message||"API request failed");return json}
+async function loadData(){
+ loadingQuizzes=true;renderQuizzes();
+ try{
+   const [catPayload,quizPayload]=await Promise.all([apiGet(`/categories?lang=${apiLanguage()}`),apiGet(`/quizzes?lang=${apiLanguage()}`)]);
+   const apiCats=asArray(catPayload);
+   categories=categoryDefaults.map(base=>{
+     if(base.id==="all")return base;
+     const found=apiCats.find(c=>categoryId(c.slug||c.id)===base.id||categoryId(c.id)===base.id);
+     return found?{...base,zh:found.name_zh||found.name||base.zh,en:found.name_en||found.name||base.en}:base;
+   });
+   quizzes=asArray(quizPayload).map(normalizeQuizSummary).filter(q=>q.status!=="draft");
+   let custom=[];try{custom=JSON.parse(localStorage.getItem("qw_custom")||"[]")}catch(e){}
+   quizzes=[...quizzes,...custom];
+ }catch(error){
+   console.error("Quizzy World API load failed:",error);
+   quizzes=[];
+   document.getElementById("quizGrid").innerHTML=`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("loadError")} <button class="start-btn" onclick="loadData()">${t("retry")}</button></div>`;
+ }finally{
+   loadingQuizzes=false;renderCategories();renderQuizzes();renderRanking();
+ }
+}
+function title(q){return lang==="en"?(q.titleEn||q.title):(q.title||q.titleEn)}
+function desc(q){return lang==="en"?(q.descEn||q.desc):(q.desc||q.descEn)}
+function catName(id){const c=categories.find(x=>x.id===id);return c?(lang==="en"?c.en:c.zh):id}
+function applyStaticTranslations(){
+ document.documentElement.lang=lang==="zh"?"zh-Hant":"en";
+ document.getElementById("langBtn").textContent=lang==="zh"?"EN":"中文";
+ document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;el.textContent=t(k)});
+ document.querySelectorAll("[data-i18n-html]").forEach(el=>el.innerHTML=t(el.dataset.i18nHtml));
+ document.getElementById("searchInput").placeholder=t("searchPlaceholder");
+ const sort=document.getElementById("sortSelect");sort.options[0].text=t("featured");sort.options[1].text=t("popular");sort.options[2].text=t("newest");
+}
+async function toggleLang(){
+ lang=lang==="zh"?"en":"zh";applyStaticTranslations();await loadData();
+ if(currentQuiz?.slug){try{const fresh=await apiGet(`/quizzes/${encodeURIComponent(currentQuiz.slug)}?lang=${apiLanguage()}`);currentQuiz=normalizeQuizDetail(fresh,currentQuiz);renderQuestion()}catch(e){console.error(e)}}
+}
+function renderCategories(){
+ const list=categories.length?categories:categoryDefaults;
+ document.getElementById("categoryList").innerHTML=list.map(c=>`<button class="cat ${activeCategory===c.id?"active":""}" onclick="setCategory('${c.id}')" style="background:${c.color}"><span class="emoji">${c.emoji}</span><strong>${lang==="en"?c.en:c.zh}</strong><small>${c.id==="all"?quizzes.length:quizzes.filter(q=>q.cat===c.id).length} ${lang==="en"?"quizzes":"個測驗"}</small></button>`).join("");
+}
+function setCategory(id){activeCategory=id;renderCategories();renderQuizzes();document.getElementById("discover").scrollIntoView({behavior:"smooth"})}
+function clearFilters(){activeCategory="all";document.getElementById("searchInput").value="";renderCategories();renderQuizzes()}
+function renderQuizzes(){
+ const query=(document.getElementById("searchInput").value||"").toLowerCase().trim(),sort=document.getElementById("sortSelect").value;
+ let list=quizzes.filter(q=>(activeCategory==="all"||q.cat===activeCategory)&&(!query||[q.title,q.titleEn,q.desc,q.descEn,catName(q.cat)].join(" ").toLowerCase().includes(query)));
+ if(sort==="popular")list.sort((a,b)=>(b.plays||0)-(a.plays||0));else if(sort==="newest")list.sort((a,b)=>(b.created||0)-(a.created||0));else list.sort((a,b)=>Number(b.isFeatured)-Number(a.isFeatured)||(b.created||0)-(a.created||0));
+ document.getElementById("resultCount").textContent=lang==="en"?`${list.length} quizzes`:`共 ${list.length} 個測驗`;
+ if(loadingQuizzes&&quizzes.length===0){document.getElementById("quizGrid").innerHTML=`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("loading")}</div>`;return}
+ document.getElementById("quizGrid").innerHTML=list.length?list.map(q=>`<article class="quiz-card"><div class="quiz-cover" style="background:${categoryColor(q.cat)}"><span class="bigemoji">${q.emoji||categoryEmoji(q.cat)}</span></div><div class="quiz-body"><div class="meta"><span class="tag">${catName(q.cat)}</span><span class="duration">${q.minutes||3} ${t("minutes")}</span></div><h3>${title(q)}</h3><p>${desc(q)}</p><div class="card-foot"><span class="plays">👥 ${Number(q.plays||0).toLocaleString()} ${t("plays")}</span><button class="start-btn" onclick="startQuiz('${String(q.slug||q.id).replace(/'/g,"&#39;")}')">${t("start")} →</button></div></div></article>`).join(""):`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("searchEmpty")}</div>`;
+ document.getElementById("quizTotal").textContent=quizzes.length;document.getElementById("attemptTotal").textContent=Number(localStorage.getItem("qw_attempts")||0).toLocaleString();
+}
+function renderRanking(){
+ const list=[...quizzes].sort((a,b)=>Number(b.isFeatured)-Number(a.isFeatured)||(b.plays||0)-(a.plays||0)).slice(0,5);
+ document.getElementById("rankingList").innerHTML=list.map((q,i)=>`<div class="rank-row"><span class="rank-no">${i+1}</span><span class="rank-emoji">${q.emoji||"✨"}</span><div class="rank-info"><strong>${title(q)}</strong><small>${catName(q.cat)}</small></div><span class="rank-count">${Number(q.plays||0).toLocaleString()} ${t("rankPlays")}</span></div>`).join("");
+}
+function openOverlay(id){document.getElementById(id).classList.add("show")}
+function closeOverlay(id){document.getElementById(id).classList.remove("show")}
+async function startQuiz(id){
+ const summary=quizzes.find(q=>String(q.slug||q.id)===String(id));if(!summary)return;
+ currentQuiz=summary;currentQ=0;answers=[];openOverlay("quizOverlay");
+ document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="result-emoji">⏳</div><p>${t("loading")}</p></div>`;
+ try{const payload=await apiGet(`/quizzes/${encodeURIComponent(summary.slug||summary.id)}?lang=${apiLanguage()}`);currentQuiz=normalizeQuizDetail(payload,summary);renderQuestion()}
+ catch(error){console.error("Quiz detail load failed:",error);document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="result-emoji">⚠️</div><h2>${t("loadError")}</h2><button class="primary-btn" onclick="startQuiz('${summary.slug||summary.id}')">${t("retry")}</button></div>`}
+}
+function renderQuestion(){
+ const q=currentQuiz?.questions?.[currentQ];
+ if(!q){document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="result-emoji">📝</div><h2>${t("noQuestion")}</h2><button class="primary-btn" onclick="closeOverlay('quizOverlay')">${t("close")}</button></div>`;return}
+ const total=currentQuiz.questions.length,question=lang==="en"?(q.en||q.q):(q.q||q.en),opts=lang==="en"?(q.aEn||q.a):(q.a||q.aEn);
+ document.getElementById("quizContent").innerHTML=`<div class="modal-kicker">${catName(currentQuiz.cat)} · ${currentQ+1}/${total}</div><h2>${title(currentQuiz)}</h2><p class="modal-desc">${t("answerPrompt")}</p><div class="progressbar"><span style="width:${(currentQ/total)*100}%"></span></div><div class="modal-kicker">${t("qProgress")} ${currentQ+1} ${t("of")} ${total} ${t("questions")}</div><div class="question-title">${question}</div><div class="answers">${opts.map((a,i)=>`<button class="answer ${answers[currentQ]===i?"selected":""}" onclick="chooseAnswer(${i})">${String.fromCharCode(65+i)}. ${a}</button>`).join("")}</div><div class="modal-actions"><button class="secondary-btn" onclick="previousQuestion()" ${currentQ===0?"disabled":""}>← ${t("prev")}</button><button class="primary-btn" onclick="nextQuestion()" ${answers[currentQ]===undefined?"disabled":""}>${currentQ===total-1?t("finish"):t("next")} →</button></div>`;
+}
+function chooseAnswer(i){answers[currentQ]=i;renderQuestion()}
+function previousQuestion(){if(currentQ>0){currentQ--;renderQuestion()}}
+function nextQuestion(){if(answers[currentQ]===undefined)return;if(currentQ<currentQuiz.questions.length-1){currentQ++;renderQuestion()}else showResult()}
+function showResult(){
+ const config=currentQuiz.scoring_config||{},mapping=config.answer_index_to_result_index||[0,1,2,3],counts=[0,0,0,0];
+ answers.forEach(answer=>{const resultIndex=Number(mapping[answer]??answer);if(Number.isInteger(resultIndex)&&resultIndex>=0&&resultIndex<counts.length)counts[resultIndex]++});
+ const max=Math.max(...counts),idx=counts.indexOf(max),r=currentQuiz.results?.find((item,i)=>Number(item.order??i)===idx)||currentQuiz.results?.[idx];
+ if(!r){document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="result-emoji">📝</div><h2>${t("noResults")}</h2><button class="primary-btn" onclick="closeOverlay('quizOverlay')">${t("close")}</button></div>`;return}
+ const attempts=Number(localStorage.getItem("qw_attempts")||0)+1;localStorage.setItem("qw_attempts",attempts);document.getElementById("attemptTotal").textContent=attempts.toLocaleString();
+ document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="modal-kicker">${t("result")}</div><div class="result-emoji">${r.emoji||"✨"}</div><h2>${lang==="en"?(r.en||r.name):(r.name||r.en)}</h2><p>${lang==="en"?(r.descEn||r.desc):(r.desc||r.descEn)}</p><p style="font-size:10px">${t("resultNote")}</p><div class="result-actions"><button class="primary-btn" onclick="downloadResult('${currentQuiz.slug||currentQuiz.id}',${idx})">⬇ ${t("share")}</button><button class="secondary-btn" onclick="startQuiz('${currentQuiz.slug||currentQuiz.id}')">${t("again")}</button><button class="secondary-btn" onclick="closeOverlay('quizOverlay')">${t("close")}</button></div></div>`;
+}
+function downloadResult(id,idx){
+ const q=currentQuiz||quizzes.find(x=>String(x.slug||x.id)===String(id)),r=q?.results?.find((item,i)=>Number(item.order??i)===idx)||q?.results?.[idx]||{name:lang==="en"?"Your unique type":"你的專屬類型",emoji:"✨",desc:""};
+ const c=document.createElement("canvas");c.width=1080;c.height=1350;const x=c.getContext("2d");const g=x.createLinearGradient(0,0,1080,1350);g.addColorStop(0,"#ffe4ef");g.addColorStop(.55,"#eee5ff");g.addColorStop(1,"#dcf6eb");x.fillStyle=g;x.fillRect(0,0,1080,1350);x.fillStyle="#ffffffaa";x.beginPath();x.roundRect(65,65,950,1220,48);x.fill();x.textAlign="center";x.fillStyle="#8d789e";x.font="bold 34px sans-serif";x.fillText("QUIZZY WORLD",540,165);x.fillStyle="#453650";x.font="bold 46px sans-serif";x.fillText(lang==="en"?"YOUR QUIZ RESULT":"你的測驗結果",540,285);x.font="130px sans-serif";x.fillText(r.emoji||"✨",540,520);x.fillStyle="#3d304b";x.font="bold 66px sans-serif";x.fillText(lang==="en"?(r.en||r.name):(r.name||r.en),540,665);x.fillStyle="#796d86";x.font="32px sans-serif";wrapCanvas(x,lang==="en"?(r.descEn||r.desc):(r.desc||r.descEn||""),540,765,820,52);x.fillStyle="#b28ba6";x.font="26px sans-serif";x.fillText("全台最大心理測驗網 | Quizzy World 測驗星球",540,1165);x.font="22px sans-serif";x.fillText("quizzy.world",540,1215);const a=document.createElement("a");a.download="quizzy-world-result.png";a.href=c.toDataURL("image/png");a.click();
+}
+function wrapCanvas(ctx,text,cx,y,maxWidth,lineHeight){const words=[...text];let line="";for(let n=0;n<words.length;n++){const test=line+words[n];if(ctx.measureText(test).width>maxWidth&&n>0){ctx.fillText(line,cx,y);line=words[n];y+=lineHeight}else line=test}ctx.fillText(line,cx,y)}
+function openAdmin(){openOverlay("adminOverlay")}
+function addQuiz(e){
+ e.preventDefault();const q={id:"custom-"+Date.now(),slug:"custom-"+Date.now(),cat:categoryId(document.getElementById("newCategory").value),emoji:document.getElementById("newEmoji").value||"✨",title:document.getElementById("newTitle").value.trim(),titleEn:document.getElementById("newTitleEn").value.trim(),desc:document.getElementById("newDesc").value.trim(),descEn:document.getElementById("newDescEn").value.trim(),minutes:3,plays:0,created:Date.now(),questions:[],results:[]};let custom=[];try{custom=JSON.parse(localStorage.getItem("qw_custom")||"[]")}catch(e){}custom.push(q);localStorage.setItem("qw_custom",JSON.stringify(custom));loadData();e.target.reset();closeOverlay("adminOverlay");alert(t("saved"));
+}
+applyStaticTranslations();loadData();
+</script>
+</body></html>
