@@ -3,6 +3,12 @@
   "name": "quizzy-world",
   "main": "src/index.js",
   "compatibility_date": "2026-11-23",
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    }
+  },
   "d1_databases": [
     {
       "binding": "DB",
@@ -11,4 +17,3 @@
     }
   ]
 }
-
