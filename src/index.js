@@ -1,4 +1,4 @@
-
+// Redeploy after configuring admin bootstrap secret
 const ALLOWED_ORIGIN = "https://quizzy-world.pages.dev";
 const SESSION_TTL_SECONDS = 8 * 60 * 60;
 const PBKDF2_ITERATIONS = 310000;
