@@ -19,6 +19,26 @@ footer{margin-top:50px;padding:26px 0 35px;border-top:1px solid var(--line);disp
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:800;color:#655a73}.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12px;outline:none;color:var(--ink);background:white}.field textarea{min-height:75px;resize:vertical}.admin-note{background:#fff5db;color:#806a35;border-radius:11px;padding:10px;font-size:11px;line-height:1.6;margin:12px 0}
 @media(max-width:850px){.nav{display:none}.hero{grid-template-columns:1fr}.hero-art{height:250px}.categories{grid-template-columns:repeat(3,1fr)}.quiz-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
 @media(max-width:520px){.wrap{padding:0 16px}.head{height:66px}.brand strong{font-size:12px}.brand small{font-size:8px}.logo{width:38px;height:38px}.head-actions .pill-btn{padding:8px 10px;font-size:10px}.hero{padding-top:34px}.hero h1{font-size:39px}.hero-art{height:215px}.stats{gap:7px}.stat{padding:11px 8px;gap:7px}.stat .ico{width:30px;height:30px;font-size:14px}.stat strong{font-size:15px}.stat small{font-size:9px}.categories{gap:8px}.cat{padding:12px 5px}.cat .emoji{font-size:22px}.cat strong{font-size:10px}.quiz-grid{gap:10px}.quiz-cover{height:110px}.quiz-cover .bigemoji{font-size:43px}.quiz-body{padding:11px}.quiz-body h3{font-size:13px}.quiz-body p{font-size:10px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}footer{flex-direction:column}}
+
+.admin-page{min-height:100vh;background:var(--bg);display:none;padding:34px 18px}
+.admin-page.active{display:flex;align-items:center;justify-content:center}
+.admin-login,.admin-dashboard{width:min(460px,100%);background:#fff;border:1px solid var(--line);border-radius:24px;padding:30px;box-shadow:var(--shadow)}
+.admin-login h1,.admin-dashboard h1{font-size:25px;margin:8px 0}
+.admin-login p,.admin-dashboard p{font-size:13px;color:var(--muted);line-height:1.7}
+.admin-brand{font-size:11px;letter-spacing:.12em;color:#c75e8b;font-weight:900}
+.admin-field{display:flex;flex-direction:column;gap:7px;margin:16px 0}
+.admin-field label{font-size:12px;font-weight:800}
+.admin-field input{width:100%;border:1px solid var(--line);border-radius:11px;padding:13px;font-size:14px;outline:none}
+.admin-field input:focus{border-color:#d98eaf;box-shadow:0 0 0 3px #fce8f0}
+.admin-submit{width:100%;border:0;border-radius:12px;background:var(--ink);color:white;padding:13px;font-weight:850;margin-top:8px}
+.admin-submit:disabled{opacity:.6;cursor:wait}
+.admin-error{display:none;background:#fff0f0;color:#a33a48;border-radius:10px;padding:11px;font-size:12px;line-height:1.6;margin:12px 0}
+.admin-error.show{display:block}
+.admin-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.admin-logout{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 13px;font-size:12px;font-weight:800}
+.admin-status{margin-top:18px;padding:15px;background:#f7f2fa;border-radius:13px;font-size:12px;color:#665d75;line-height:1.7}
+body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:none!important}
+
 </style>
 </head>
 <body>
@@ -57,6 +77,29 @@ footer{margin-top:50px;padding:26px 0 35px;border-top:1px solid var(--line);disp
 <div class="field full"><label>中文簡介</label><textarea id="newDesc" required maxlength="180" placeholder="用一句話介紹這個測驗"></textarea></div>
 
 </div><button class="primary-btn" type="submit" data-i18n="saveQuiz">儲存測驗</button></form></div></div>
+
+<div class="admin-page" id="adminPage">
+  <div class="admin-login" id="adminLoginCard">
+    <div class="admin-brand">QUIZZY WORLD · CMS</div>
+    <h1>管理員登入</h1>
+    <p>登入 Quizzy World 管理後台，管理測驗內容。</p>
+    <form id="adminLoginForm">
+      <div class="admin-field"><label for="adminEmail">管理員 Email</label><input id="adminEmail" type="email" autocomplete="username" required></div>
+      <div class="admin-field"><label for="adminPassword">密碼</label><input id="adminPassword" type="password" autocomplete="current-password" required minlength="14"></div>
+      <div class="admin-error" id="adminLoginError" role="alert"></div>
+      <button class="admin-submit" id="adminLoginButton" type="submit">登入</button>
+    </form>
+    <p style="margin-top:18px"><a href="/" style="color:#c75e8b;text-decoration:none;font-weight:800">← 返回測驗首頁</a></p>
+  </div>
+  <div class="admin-dashboard" id="adminDashboard" hidden>
+    <div class="admin-top"><div class="admin-brand">QUIZZY WORLD · CMS</div><button class="admin-logout" id="adminLogoutButton" type="button">登出</button></div>
+    <h1>管理後台</h1>
+    <p id="adminWelcome">已登入管理員帳號。</p>
+    <div class="admin-status"><strong>登入驗證成功</strong><br>管理員登入與 Session 驗證已連接。測驗新增、編輯、發布與下架功能尚未接入。</div>
+    <p style="margin-top:20px"><a href="/" style="color:#c75e8b;text-decoration:none;font-weight:800">← 返回測驗首頁</a></p>
+  </div>
+</div>
+
 <script>
 const API_BASE = "https://quizzy-world.hqiaoqi.workers.dev/api";
 const I18N = {
@@ -184,10 +227,69 @@ function downloadResult(id,idx){
  const c=document.createElement("canvas");c.width=1080;c.height=1350;const x=c.getContext("2d");const g=x.createLinearGradient(0,0,1080,1350);g.addColorStop(0,"#ffe4ef");g.addColorStop(.55,"#eee5ff");g.addColorStop(1,"#dcf6eb");x.fillStyle=g;x.fillRect(0,0,1080,1350);x.fillStyle="#ffffffaa";x.beginPath();x.roundRect(65,65,950,1220,48);x.fill();x.textAlign="center";x.fillStyle="#8d789e";x.font="bold 34px sans-serif";x.fillText("QUIZZY WORLD",540,165);x.fillStyle="#453650";x.font="bold 46px sans-serif";x.fillText("你的測驗結果",540,285);x.font="130px sans-serif";x.fillText(r.emoji||"✨",540,520);x.fillStyle="#3d304b";x.font="bold 66px sans-serif";x.fillText(r.name||r.en,540,665);x.fillStyle="#796d86";x.font="32px sans-serif";wrapCanvas(x,r.desc||r.descEn||"",540,765,820,52);x.fillStyle="#b28ba6";x.font="26px sans-serif";x.fillText("全台最大心理測驗網 | Quizzy World 測驗星球",540,1165);x.font="22px sans-serif";x.fillText("quizzy.world",540,1215);const a=document.createElement("a");a.download="quizzy-world-result.png";a.href=c.toDataURL("image/png");a.click();
 }
 function wrapCanvas(ctx,text,cx,y,maxWidth,lineHeight){const words=[...text];let line="";for(let n=0;n<words.length;n++){const test=line+words[n];if(ctx.measureText(test).width>maxWidth&&n>0){ctx.fillText(line,cx,y);line=words[n];y+=lineHeight}else line=test}ctx.fillText(line,cx,y)}
-function openAdmin(){openOverlay("adminOverlay")}
+function openAdmin(){window.location.href="/admin"}
 function addQuiz(e){
  e.preventDefault();const q={id:"custom-"+Date.now(),slug:"custom-"+Date.now(),cat:categoryId(document.getElementById("newCategory").value),emoji:document.getElementById("newEmoji").value||"✨",title:document.getElementById("newTitle").value.trim(),titleEn:"",desc:document.getElementById("newDesc").value.trim(),descEn:"",minutes:3,plays:0,created:Date.now(),questions:[],results:[]};let custom=[];try{custom=JSON.parse(localStorage.getItem("qw_custom")||"[]")}catch(e){}custom.push(q);localStorage.setItem("qw_custom",JSON.stringify(custom));loadData();e.target.reset();closeOverlay("adminOverlay");alert(t("saved"));
 }
-applyStaticTranslations();loadData();
+
+const ADMIN_TOKEN_KEY = "qw_admin_token";
+const ADMIN_EXPIRY_KEY = "qw_admin_expires_at";
+function isAdminRoute(){return window.location.pathname.replace(/\/+$/, "") === "/admin";}
+function showAdminError(message){const box=document.getElementById("adminLoginError");box.textContent=message;box.classList.add("show");}
+function clearAdminError(){const box=document.getElementById("adminLoginError");box.textContent="";box.classList.remove("show");}
+function getAdminToken(){
+  const token=sessionStorage.getItem(ADMIN_TOKEN_KEY);
+  const expires=Number(sessionStorage.getItem(ADMIN_EXPIRY_KEY)||0);
+  if(!token||!expires||expires*1000<=Date.now()){sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_EXPIRY_KEY);return null;}
+  return token;
+}
+function showAdminDashboard(admin){
+  document.getElementById("adminLoginCard").hidden=true;
+  document.getElementById("adminDashboard").hidden=false;
+  document.getElementById("adminWelcome").textContent=`已登入：${admin?.email||"管理員"}（${admin?.role||"admin"}）`;
+}
+async function verifyAdminSession(){
+  const token=getAdminToken();if(!token)return false;
+  try{
+    const response=await fetch(`${API_BASE}/admin/me`,{headers:{"Authorization":`Bearer ${token}`,"Accept":"application/json"}});
+    if(!response.ok)throw new Error("Session expired");
+    const payload=await response.json();if(payload.success!==true)throw new Error("Session invalid");
+    showAdminDashboard(payload.admin);return true;
+  }catch(error){sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_EXPIRY_KEY);return false;}
+}
+async function handleAdminLogin(event){
+  event.preventDefault();clearAdminError();
+  const button=document.getElementById("adminLoginButton");
+  const email=document.getElementById("adminEmail").value.trim();
+  const password=document.getElementById("adminPassword").value;
+  button.disabled=true;button.textContent="登入中…";
+  try{
+    const response=await fetch(`${API_BASE}/admin/login`,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({email,password})});
+    const payload=await response.json();
+    if(!response.ok||payload.success!==true)throw new Error(payload.error||"登入失敗，請確認 Email 與密碼。");
+    if(!payload.token||!payload.expires_at)throw new Error("登入回應缺少 Session 資訊。");
+    sessionStorage.setItem(ADMIN_TOKEN_KEY,payload.token);
+    sessionStorage.setItem(ADMIN_EXPIRY_KEY,String(payload.expires_at));
+    document.getElementById("adminPassword").value="";
+    showAdminDashboard(payload.admin);
+  }catch(error){showAdminError(error.message||"登入失敗，請稍後再試。");}
+  finally{button.disabled=false;button.textContent="登入";}
+}
+async function handleAdminLogout(){
+  const token=getAdminToken();
+  if(token){try{await fetch(`${API_BASE}/admin/logout`,{method:"POST",headers:{"Authorization":`Bearer ${token}`}});}catch(error){console.error("Admin logout request failed:",error);}}
+  sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_EXPIRY_KEY);
+  document.getElementById("adminDashboard").hidden=true;document.getElementById("adminLoginCard").hidden=false;
+  document.getElementById("adminLoginForm").reset();clearAdminError();
+}
+async function initAdminPage(){
+  document.body.classList.add("admin-mode");document.getElementById("adminPage").classList.add("active");
+  document.getElementById("adminLoginForm").addEventListener("submit",handleAdminLogin);
+  document.getElementById("adminLogoutButton").addEventListener("click",handleAdminLogout);
+  if(!await verifyAdminSession()){document.getElementById("adminLoginCard").hidden=false;document.getElementById("adminDashboard").hidden=true;}
+}
+function initApp(){applyStaticTranslations();if(isAdminRoute())initAdminPage();else loadData();}
+initApp();
+
 </script>
 </body></html>
