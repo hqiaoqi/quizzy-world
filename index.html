@@ -19,42 +19,22 @@ footer{margin-top:50px;padding:26px 0 35px;border-top:1px solid var(--line);disp
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:800;color:#655a73}.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12px;outline:none;color:var(--ink);background:white}.field textarea{min-height:75px;resize:vertical}.admin-note{background:#fff5db;color:#806a35;border-radius:11px;padding:10px;font-size:11px;line-height:1.6;margin:12px 0}
 @media(max-width:850px){.nav{display:none}.hero{grid-template-columns:1fr}.hero-art{height:250px}.categories{grid-template-columns:repeat(3,1fr)}.quiz-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
 @media(max-width:520px){.wrap{padding:0 16px}.head{height:66px}.brand strong{font-size:12px}.brand small{font-size:8px}.logo{width:38px;height:38px}.head-actions .pill-btn{padding:8px 10px;font-size:10px}.hero{padding-top:34px}.hero h1{font-size:39px}.hero-art{height:215px}.stats{gap:7px}.stat{padding:11px 8px;gap:7px}.stat .ico{width:30px;height:30px;font-size:14px}.stat strong{font-size:15px}.stat small{font-size:9px}.categories{gap:8px}.cat{padding:12px 5px}.cat .emoji{font-size:22px}.cat strong{font-size:10px}.quiz-grid{gap:10px}.quiz-cover{height:110px}.quiz-cover .bigemoji{font-size:43px}.quiz-body{padding:11px}.quiz-body h3{font-size:13px}.quiz-body p{font-size:10px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}footer{flex-direction:column}}
-
-.admin-page{min-height:100vh;background:var(--bg);display:none;padding:34px 18px}
-.admin-page.active{display:flex;align-items:center;justify-content:center}
-.admin-login,.admin-dashboard{width:min(460px,100%);background:#fff;border:1px solid var(--line);border-radius:24px;padding:30px;box-shadow:var(--shadow)}
-.admin-login h1,.admin-dashboard h1{font-size:25px;margin:8px 0}
-.admin-login p,.admin-dashboard p{font-size:13px;color:var(--muted);line-height:1.7}
-.admin-brand{font-size:11px;letter-spacing:.12em;color:#c75e8b;font-weight:900}
-.admin-field{display:flex;flex-direction:column;gap:7px;margin:16px 0}
-.admin-field label{font-size:12px;font-weight:800}
-.admin-field input{width:100%;border:1px solid var(--line);border-radius:11px;padding:13px;font-size:14px;outline:none}
-.admin-field input:focus{border-color:#d98eaf;box-shadow:0 0 0 3px #fce8f0}
-.admin-submit{width:100%;border:0;border-radius:12px;background:var(--ink);color:white;padding:13px;font-weight:850;margin-top:8px}
-.admin-submit:disabled{opacity:.6;cursor:wait}
-.admin-error{display:none;background:#fff0f0;color:#a33a48;border-radius:10px;padding:11px;font-size:12px;line-height:1.6;margin:12px 0}
-.admin-error.show{display:block}
-.admin-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.admin-logout{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 13px;font-size:12px;font-weight:800}
-.admin-status{margin-top:18px;padding:15px;background:#f7f2fa;border-radius:13px;font-size:12px;color:#665d75;line-height:1.7}
-body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:none!important}
-
 </style>
 </head>
 <body>
 <header><div class="wrap head">
 <a class="brand" href="#"><div class="logo">✦</div><div><strong id="brandName">全台最大心理測驗網</strong><small>QUIZZY WORLD · 測驗星球</small></div></a>
 <nav class="nav"><a href="#categories" data-i18n="navCategories">測驗分類</a><a href="#discover" data-i18n="navDiscover">探索測驗</a><a href="#ranking" data-i18n="navRanking">熱門排行</a></nav>
-<div class="head-actions"><button class="pill-btn hot" onclick="openAdmin()" data-i18n="adminBtn">管理後台</button></div>
+<div class="head-actions"><button class="pill-btn" id="langBtn" onclick="toggleLang()">EN</button><button class="pill-btn hot" onclick="openAdmin()" data-i18n="adminBtn">管理後台</button></div>
 </div></header>
 <main class="wrap">
 <section class="hero">
 <div><div class="kicker" data-i18n="kicker">✦ 找到你的下一個有趣答案</div><h1 data-i18n-html="heroTitle">今天的你，<br><span>是哪一種有趣靈魂？</span></h1><p data-i18n="heroDesc">從人格、愛情到奇幻想像，探索更多有趣的自己。挑一個測驗，花幾分鐘認識不一樣的你！</p>
 <div class="searchbox"><input id="searchInput" type="search" placeholder="搜尋心理測驗、關鍵字或主題…" oninput="renderQuizzes()"><button onclick="renderQuizzes()" data-i18n="searchBtn">搜尋測驗</button></div></div>
-<div class="hero-art"><div class="planet"></div><div class="ring"></div><span class="star" style="left:17%;top:34%">✦</span><span class="star" style="right:18%;top:12%">✧</span><span class="star" style="right:25%;bottom:23%">✦</span><span class="float-card fc1">🌈 人格探索</span><span class="float-card fc2">💗 愛情測驗</span><span class="float-card fc3">🪄 發現自己</span><span class="float-card fc4">✨ 趣味測驗</span></div>
+<div class="hero-art"><div class="planet"></div><div class="ring"></div><span class="star" style="left:17%;top:34%">✦</span><span class="star" style="right:18%;top:12%">✧</span><span class="star" style="right:25%;bottom:23%">✦</span><span class="float-card fc1">🌈 Personality</span><span class="float-card fc2">💗 Love test</span><span class="float-card fc3">🪄 Discover you</span><span class="float-card fc4">✨ Just for fun</span></div>
 </section>
 <div class="stats">
-<div class="stat"><div class="ico" style="background:#fff0f5">🧩</div><div><strong id="quizTotal">7</strong><small data-i18n="statQuizzes">個有趣測驗</small></div></div>
+<div class="stat"><div class="ico" style="background:#fff0f5">🧩</div><div><strong id="quizTotal">8</strong><small data-i18n="statQuizzes">個有趣測驗</small></div></div>
 <div class="stat"><div class="ico" style="background:#fff5dc">🎯</div><div><strong id="attemptTotal">0</strong><small data-i18n="statAttempts">次完成挑戰</small></div></div>
 <div class="stat"><div class="ico" style="background:#eaf9f3">🌍</div><div><strong>2</strong><small data-i18n="statLanguages">種網站語言</small></div></div>
 </div>
@@ -71,225 +51,60 @@ body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:non
 <div class="overlay" id="adminOverlay"><div class="modal"><button class="close" onclick="closeOverlay('adminOverlay')">×</button><div class="modal-kicker">QUIZZY WORLD CMS</div><h2 data-i18n="adminTitle">新增測驗</h2><p class="modal-desc" data-i18n="adminDesc">建立測驗基本資料。此展示版先將資料保存在目前瀏覽器；正式上線後會改由管理員登入並寫入 Cloudflare D1。</p><div class="admin-note" data-i18n="adminWarning">展示版後台沒有登入驗證，不可直接公開作為正式管理系統。題目編輯器與資料庫 API 將在下一階段接上。</div>
 <form id="adminForm" onsubmit="addQuiz(event)"><div class="form-grid">
 <div class="field"><label>中文測驗名稱</label><input id="newTitle" required maxlength="60" placeholder="例如：你的隱藏人格是？"></div>
-
-<div class="field"><label>分類</label><select id="newCategory"><option value="personality">人格性格</option><option value="love">愛情關係</option><option value="emotion">情緒心理</option><option value="subconscious">潛意識</option><option value="career">職涯天賦</option><option value="social">人際關係</option><option value="fun">趣味娛樂</option></select></div>
+<div class="field"><label>English title</label><input id="newTitleEn" required maxlength="60" placeholder="e.g. What's your hidden type?"></div>
+<div class="field"><label>分類</label><select id="newCategory"><option value="personality">人格性格</option><option value="love">愛情關係</option><option value="emotion">情緒心理</option><option value="dream">潛意識</option><option value="career">職涯天賦</option><option value="social">人際關係</option><option value="fun">趣味娛樂</option></select></div>
 <div class="field"><label>Emoji 封面</label><input id="newEmoji" maxlength="4" value="✨"></div>
 <div class="field full"><label>中文簡介</label><textarea id="newDesc" required maxlength="180" placeholder="用一句話介紹這個測驗"></textarea></div>
-
+<div class="field full"><label>English description</label><textarea id="newDescEn" required maxlength="180" placeholder="Describe this quiz in one sentence"></textarea></div>
 </div><button class="primary-btn" type="submit" data-i18n="saveQuiz">儲存測驗</button></form></div></div>
-
-<div class="admin-page" id="adminPage">
-  <div class="admin-login" id="adminLoginCard">
-    <div class="admin-brand">QUIZZY WORLD · CMS</div>
-    <h1>管理員登入</h1>
-    <p>登入 Quizzy World 管理後台，管理測驗內容。</p>
-    <form id="adminLoginForm">
-      <div class="admin-field"><label for="adminEmail">管理員 Email</label><input id="adminEmail" type="email" autocomplete="username" required></div>
-      <div class="admin-field"><label for="adminPassword">密碼</label><input id="adminPassword" type="password" autocomplete="current-password" required minlength="14"></div>
-      <div class="admin-error" id="adminLoginError" role="alert"></div>
-      <button class="admin-submit" id="adminLoginButton" type="submit">登入</button>
-    </form>
-    <p style="margin-top:18px"><a href="/" style="color:#c75e8b;text-decoration:none;font-weight:800">← 返回測驗首頁</a></p>
-  </div>
-  <div class="admin-dashboard" id="adminDashboard" hidden>
-    <div class="admin-top"><div class="admin-brand">QUIZZY WORLD · CMS</div><button class="admin-logout" id="adminLogoutButton" type="button">登出</button></div>
-    <h1>管理後台</h1>
-    <p id="adminWelcome">已登入管理員帳號。</p>
-    <div class="admin-status"><strong>登入驗證成功</strong><br>管理員登入與 Session 驗證已連接。測驗新增、編輯、發布與下架功能尚未接入。</div>
-    <p style="margin-top:20px"><a href="/" style="color:#c75e8b;text-decoration:none;font-weight:800">← 返回測驗首頁</a></p>
-  </div>
-</div>
-
 <script>
-const API_BASE = "https://quizzy-world.hqiaoqi.workers.dev/api";
-const I18N = {
-  zh:{navCategories:"測驗分類",navDiscover:"探索測驗",navRanking:"熱門排行",adminBtn:"管理後台",kicker:"✦ 找到你的下一個有趣答案",heroTitle:"今天的你，<br><span>是哪一種有趣靈魂？</span>",heroDesc:"從人格、愛情到奇幻想像，探索更多有趣的自己。挑一個測驗，花幾分鐘認識不一樣的你！",searchPlaceholder:"搜尋心理測驗、關鍵字或主題…",searchBtn:"搜尋測驗",statQuizzes:"個有趣測驗",statAttempts:"次完成挑戰",statLanguages:"種網站語言",categoryTitle:"探索測驗分類",categoryDesc:"選一個你感興趣的主題開始探索",discoverTitle:"發現有趣的自己",discoverDesc:"每個測驗，都是認識自己的新入口",showAll:"查看全部 →",rankingTitle:"🏆 本週人氣排行",creatorTitle:"🪄 讓測驗宇宙持續長大",creatorHeading:"下一個熱門測驗，由你加入！",creatorDesc:"透過管理後台建立新測驗、編輯題目與結果。這個平台採用共用測驗結構，未來能持續擴充內容。",creatorBtn:"新增一個測驗",disclaimer:"本站測驗主要提供自我探索與娛樂用途，不是臨床心理診斷或醫療建議。不同測驗的準確性與適用性各有差異。",adminTitle:"新增測驗",adminDesc:"建立測驗基本資料。此展示版先將資料保存在目前瀏覽器；正式上線後會改由管理員登入並寫入 Cloudflare D1。",adminWarning:"展示版後台沒有登入驗證，不可直接公開作為正式管理系統。新增內容目前只保存在這個瀏覽器，不會寫入 D1。",saveQuiz:"儲存測驗",searchEmpty:"找不到符合條件的測驗。",start:"開始測驗",plays:"人玩過",minutes:"分鐘",questions:"題",noQuestion:"這個測驗目前尚未設定題目。",next:"下一題",prev:"上一題",finish:"查看結果",result:"你的測驗結果",share:"下載結果圖卡",again:"再測一次",close:"關閉",saved:"測驗已加入目前瀏覽器清單；尚未同步到網站資料庫。",filterAll:"全部分類",featured:"精選推薦",popular:"最熱門",newest:"最新上架",rankPlays:"次參與",qProgress:"第",of:"題，共",answerPrompt:"選擇最符合你的答案",noResults:"尚未有結果資料。",resultNote:"這是娛樂與自我探索用途的結果，不代表專業心理評估。",loading:"載入測驗中…",loadError:"測驗載入失敗，請稍後再試。",retry:"重新載入"},
-  en:{navCategories:"Categories",navDiscover:"Explore",navRanking:"Top quizzes",adminBtn:"Admin",kicker:"✦ Find your next fun answer",heroTitle:"Who are you<br><span>today, really?</span>",heroDesc:"Explore personality, love, imagination and more. Pick a quiz and discover a new side of yourself in just a few minutes!",searchPlaceholder:"Search quizzes, keywords or topics…",searchBtn:"Search",statQuizzes:"fun quizzes",statAttempts:"completed quizzes",statLanguages:"site languages",categoryTitle:"Explore categories",categoryDesc:"Choose a topic that sparks your curiosity",discoverTitle:"Discover something about you",discoverDesc:"Every quiz is a new way to explore yourself",showAll:"Show all →",rankingTitle:"🏆 This week's popular quizzes",creatorTitle:"🪄 Grow the quiz universe",creatorHeading:"Create the next popular quiz!",creatorDesc:"Add quizzes and manage content through the admin area. The platform uses a reusable quiz structure built to grow.",creatorBtn:"Add a quiz",disclaimer:"Quizzes are for entertainment and self-exploration, not clinical diagnosis or medical advice. Accuracy and suitability vary by quiz.",adminTitle:"Add a quiz",adminDesc:"Create basic quiz information. This demo stores data in your current browser. A secure admin login and Cloudflare D1 integration are required for production.",adminWarning:"This demo admin has no authentication. New quizzes are stored only in this browser and are not written to D1.",saveQuiz:"Save quiz",searchEmpty:"No quizzes match your search.",start:"Start quiz",plays:"plays",minutes:"min",questions:"questions",noQuestion:"This quiz has no questions configured yet.",next:"Next",prev:"Back",finish:"See result",result:"Your result",share:"Download result card",again:"Retake quiz",close:"Close",saved:"Quiz added to this browser only; it has not been synced to the database.",filterAll:"All categories",featured:"Featured",popular:"Most popular",newest:"Newest",rankPlays:"plays",qProgress:"Question",of:"of",answerPrompt:"Choose the answer that fits you best",noResults:"No result profile is configured yet.",resultNote:"For entertainment and self-exploration only; not a professional psychological assessment.",loading:"Loading quiz…",loadError:"Unable to load this quiz. Please try again.",retry:"Retry"}
+const I18N={
+zh:{navCategories:"測驗分類",navDiscover:"探索測驗",navRanking:"熱門排行",adminBtn:"管理後台",kicker:"✦ 找到你的下一個有趣答案",heroTitle:"今天的你，<br><span>是哪一種有趣靈魂？</span>",heroDesc:"從人格、愛情到奇幻想像，探索更多有趣的自己。挑一個測驗，花幾分鐘認識不一樣的你！",searchPlaceholder:"搜尋心理測驗、關鍵字或主題…",searchBtn:"搜尋測驗",statQuizzes:"個有趣測驗",statAttempts:"次完成挑戰",statLanguages:"種網站語言",categoryTitle:"探索測驗分類",categoryDesc:"選一個你感興趣的主題開始探索",discoverTitle:"發現有趣的自己",discoverDesc:"每個測驗，都是認識自己的新入口",showAll:"查看全部 →",rankingTitle:"🏆 本週人氣排行",creatorTitle:"🪄 讓測驗宇宙持續長大",creatorHeading:"下一個熱門測驗，由你加入！",creatorDesc:"透過管理後台建立新測驗、編輯題目與結果。這個平台採用共用測驗結構，未來能持續擴充內容。",creatorBtn:"新增一個測驗",disclaimer:"本站測驗主要提供自我探索與娛樂用途，不是臨床心理診斷或醫療建議。不同測驗的準確性與適用性各有差異。",adminTitle:"新增測驗",adminDesc:"建立測驗基本資料。此展示版先將資料保存在目前瀏覽器；正式上線後會改由管理員登入並寫入 Cloudflare D1。",adminWarning:"展示版後台沒有登入驗證，不可直接公開作為正式管理系統。題目編輯器與資料庫 API 將在下一階段接上。",saveQuiz:"儲存測驗",searchEmpty:"找不到符合條件的測驗。",start:"開始測驗",plays:"人玩過",minutes:"分鐘",questions:"題",noQuestion:"這個測驗目前尚未設定題目。",next:"下一題",prev:"上一題",finish:"查看結果",result:"你的測驗結果",share:"下載結果圖卡",again:"再測一次",close:"關閉",saved:"測驗已加入清單！目前為展示版資料。",filterAll:"全部分類",featured:"精選推薦",popular:"最熱門",newest:"最新上架",rankPlays:"次參與",qProgress:"第",of:"題，共",answerPrompt:"選擇最符合你的答案",noResults:"尚未有結果資料。",resultNote:"這是娛樂與自我探索用途的結果，不代表專業心理評估。"},
+en:{navCategories:"Categories",navDiscover:"Explore",navRanking:"Top quizzes",adminBtn:"Admin",kicker:"✦ Find your next fun answer",heroTitle:"Who are you<br><span>today, really?</span>",heroDesc:"Explore personality, love, imagination and more. Pick a quiz and discover a new side of yourself in just a few minutes!",searchPlaceholder:"Search quizzes, keywords or topics…",searchBtn:"Search",statQuizzes:"fun quizzes",statAttempts:"completed quizzes",statLanguages:"site languages",categoryTitle:"Explore categories",categoryDesc:"Choose a topic that sparks your curiosity",discoverTitle:"Discover something about you",discoverDesc:"Every quiz is a new way to explore yourself",showAll:"Show all →",rankingTitle:"🏆 This week's popular quizzes",creatorTitle:"🪄 Grow the quiz universe",creatorHeading:"Create the next popular quiz!",creatorDesc:"Add quizzes and manage content through the admin area. The platform uses a reusable quiz structure built to grow.",creatorBtn:"Add a quiz",disclaimer:"Quizzes are for entertainment and self-exploration, not clinical diagnosis or medical advice. Accuracy and suitability vary by quiz.",adminTitle:"Add a quiz",adminDesc:"Create basic quiz information. This demo stores data in your current browser. A secure admin login and Cloudflare D1 integration will be added for production.",adminWarning:"This demo admin has no authentication and must not be exposed as a production admin system. The question editor and database API come in the next phase.",saveQuiz:"Save quiz",searchEmpty:"No quizzes match your search.",start:"Start quiz",plays:"plays",minutes:"min",questions:"questions",noQuestion:"This quiz has no questions configured yet.",next:"Next",prev:"Back",finish:"See result",result:"Your result",share:"Download result card",again:"Retake quiz",close:"Close",saved:"Quiz added to the list. Demo data only.",filterAll:"All categories",featured:"Featured",popular:"Most popular",newest:"Newest",rankPlays:"plays",qProgress:"Question",of:"of",answerPrompt:"Choose the answer that fits you best",noResults:"No result profile is configured yet.",resultNote:"For entertainment and self-exploration only; not a professional psychological assessment."}
 };
-let lang="zh",activeCategory="all",currentQuiz=null,currentQ=0,answers=[],quizzes=[],categories=[],loadingQuizzes=false;
-const categoryDefaults=[
+let lang="zh",activeCategory="all",currentQuiz=null,currentQ=0,answers=[],quizzes=[];
+const categories=[
 {id:"all",emoji:"🌟",zh:"全部測驗",en:"All quizzes",color:"#fff0c9"},
 {id:"personality",emoji:"🧠",zh:"人格性格",en:"Personality",color:"#f5eaff"},
 {id:"love",emoji:"💗",zh:"愛情關係",en:"Love & Dating",color:"#ffe8ef"},
 {id:"emotion",emoji:"🌈",zh:"情緒心理",en:"Emotions",color:"#e7f7f1"},
-{id:"subconscious",emoji:"🌙",zh:"潛意識",en:"Subconscious",color:"#e9eaff"},
+{id:"dream",emoji:"🌙",zh:"潛意識",en:"Subconscious",color:"#e9eaff"},
 {id:"career",emoji:"🚀",zh:"職涯天賦",en:"Career",color:"#fff0df"},
 {id:"social",emoji:"🫶",zh:"人際關係",en:"Social",color:"#e6f4ff"},
 {id:"fun",emoji:"🎉",zh:"趣味娛樂",en:"Just for fun",color:"#fff0db"}
 ];
+const seed=[
+{id:"soul-type",cat:"personality",emoji:"🔮",title:"你的靈魂星座是哪一型？",titleEn:"What Is Your Soul Archetype?",desc:"用 7 個生活情境，探索你的性格能量與內在特質。",descEn:"Explore your personality energy through seven everyday scenarios.",minutes:3,plays:12480,created:8,questions:[{q:"遇到臨時變動，你通常會？",en:"When plans suddenly change, you…",a:["立刻想出新方案","先觀察再決定","順其自然，走一步算一步","有點焦慮，需要時間適應"]},{q:"朋友聚餐都說隨便，你會？",en:"When everyone says “anything” for dinner, you…",a:["直接選一家","整理選項讓大家投票","等別人決定","看當天心情"]},{q:"理想的休假日是？",en:"Your ideal day off is…",a:["探索新地方","和喜歡的人相處","在家安靜充電","安排喜歡的興趣活動"]},{q:"收到訊息時，你通常？",en:"When a message arrives, you…",a:["看到就回","有空再仔細回","先想好怎麼說","看對象和事情"]},{q:"重要決定時，你最相信？",en:"For an important decision, you trust…",a:["理性分析","直覺感受","過往經驗","親友建議"]},{q:"被別人誤解時，你會？",en:"When someone misunderstands you, you…",a:["立刻解釋清楚","先冷靜再溝通","不太在意","會放在心上"]},{q:"你最嚮往哪種生活？",en:"Which life appeals to you most?",a:["自由冒險","穩定安心","充滿創造力","與重要的人連結"]}],results:[{name:"星際探索者",en:"Cosmic Explorer",emoji:"🚀",desc:"你充滿好奇心，喜歡探索未知，也願意為自己的選擇開路。",descEn:"Curious and open-minded, you love exploring the unknown and creating your own path."},{name:"月光觀察家",en:"Moonlight Observer",emoji:"🌙",desc:"你細膩、善於觀察，常能注意到別人忽略的小細節。",descEn:"Thoughtful and perceptive, you notice the little details others often miss."},{name:"陽光行動派",en:"Sunshine Doer",emoji:"☀️",desc:"你有行動力，喜歡把想法變成真實體驗，讓生活保持熱度。",descEn:"Energetic and proactive, you turn ideas into experiences and keep life moving."},{name:"夢境創造家",en:"Dream Weaver",emoji:"🪄",desc:"你想像力豐富，重視感受與創意，總能看見不同可能。",descEn:"Imaginative and creative, you value feelings and see possibilities everywhere."}]},
+{id:"love-language",cat:"love",emoji:"💌",title:"你的戀愛表達方式是什麼？",titleEn:"How Do You Express Love?",desc:"看看你習慣如何表達在乎，以及期待怎樣的互動。",descEn:"Discover how you show affection and what connection means to you.",minutes:2,plays:9870,created:7,questions:[{q:"喜歡一個人時，你會？",en:"When you like someone, you…",a:["主動關心對方","用行動默默付出","分享生活大小事","需要時間確認感覺"]},{q:"你最重視伴侶的？",en:"What matters most in a partner?",a:["願意陪伴","言語上的肯定","實際的照顧","尊重彼此空間"]},{q:"感到失落時，你希望對方？",en:"When you feel down, you want them to…",a:["抱抱安慰","認真聽我說","幫忙解決問題","給我一點時間"]}],results:[{name:"陪伴型戀人",en:"The Companion",emoji:"🤝",desc:"你重視共同經歷與穩定陪伴，日常的小小相處就是愛的證明。",descEn:"You value shared moments and steady presence. Everyday time together is love."},{name:"溫柔行動派",en:"The Gentle Doer",emoji:"🌷",desc:"你常用實際行動表達關心，細節裡藏著你的溫柔。",descEn:"You express care through thoughtful actions and quiet attention to detail."},{name:"浪漫表達者",en:"The Romantic",emoji:"💗",desc:"你喜歡分享感受，也希望愛意能被清楚說出來。",descEn:"You love sharing feelings and appreciate affection expressed openly."},{name:"自在守護者",en:"The Free Guardian",emoji:"🕊️",desc:"你相信親密與自由可以並存，尊重是關係的重要基礎。",descEn:"You believe closeness and independence can coexist, with respect at the center."}]},
+{id:"color-mood",cat:"emotion",emoji:"🎨",title:"現在的你是哪一種情緒色彩？",titleEn:"What Color Is Your Mood Today?",desc:"從日常感受出發，找出最接近你此刻狀態的顏色。",descEn:"Explore your current mood through colors and everyday feelings.",minutes:2,plays:8350,created:6,questions:[{q:"今天醒來時，你的感覺比較像？",en:"When you woke up today, you felt…",a:["清爽有精神","平靜普通","有點疲憊","期待新事情"]},{q:"最近最需要的是？",en:"What do you need most lately?",a:["休息與放空","陪伴與理解","新的刺激","明確的方向"]},{q:"遇到忙亂的一天，你會？",en:"On a chaotic day, you…",a:["列出清單整理","找人聊聊","先暫停一下","努力完成再休息"]}],results:[{name:"薄荷綠",en:"Mint Green",emoji:"🍃",desc:"你正在尋找平衡，希望用舒服的節奏照顧自己。",descEn:"You are seeking balance and a gentler rhythm for yourself."},{name:"暖陽黃",en:"Sunny Yellow",emoji:"🌞",desc:"你渴望活力與新鮮感，期待生活出現值得期待的小事。",descEn:"You are craving energy, novelty, and little things to look forward to."},{name:"晚霞粉",en:"Sunset Pink",emoji:"🌸",desc:"你很重視情感連結，也希望自己的感受被好好理解。",descEn:"Emotional connection matters to you, and you want your feelings understood."},{name:"靜謐藍",en:"Quiet Blue",emoji:"🌊",desc:"你需要安靜整理思緒，讓自己慢慢回到舒服的狀態。",descEn:"You need quiet space to sort your thoughts and return to your own pace."}]},
+{id:"dream-symbol",cat:"dream",emoji:"🌙",title:"你的內在世界像哪一座奇幻場景？",titleEn:"Which Fantasy World Mirrors Your Inner Self?",desc:"透過想像情境，探索你偏好的氛圍與內在需求。",descEn:"Use imaginative scenarios to explore your preferred atmosphere and needs.",minutes:3,plays:7210,created:5,questions:[{q:"你會走進哪一道入口？",en:"Which doorway would you enter?",a:["漂浮在雲上的門","森林深處的木門","海底發光的拱門","古老城堡的石門"]},{q:"你最想帶走什麼？",en:"What would you take with you?",a:["一張星圖","一盞燈","一本日記","一把古老鑰匙"]},{q:"場景裡出現一個聲音，你希望是？",en:"A sound appears. You hope it is…",a:["風與星塵","鳥鳴與樹葉","海浪與水滴","遠方的鐘聲"]}],results:[{name:"雲端花園",en:"Cloud Garden",emoji:"☁️",desc:"你嚮往自由與想像，喜歡保留自己的空間。",descEn:"You long for freedom and imagination, while keeping room to be yourself."},{name:"祕密森林",en:"Secret Forest",emoji:"🌳",desc:"你重視安全感與深度連結，喜歡慢慢認識世界。",descEn:"You value security and meaningful connection, exploring the world at your own pace."},{name:"深海月宮",en:"Moonlit Sea Palace",emoji:"🪼",desc:"你感受力豐富，容易被細節、情緒與美感打動。",descEn:"You are sensitive to details, emotions, and beauty."},{name:"星塵城堡",en:"Stardust Castle",emoji:"🏰",desc:"你有明確的理想，也喜歡替生活創造目標與儀式感。",descEn:"You have ideals and enjoy giving life a sense of purpose and ritual."}]},
+{id:"career-style",cat:"career",emoji:"🚀",title:"你的工作風格是哪一派？",titleEn:"What's Your Work Style?",desc:"找出你在團隊與任務中最自然的工作方式。",descEn:"Discover the work habits you naturally bring to a team.",minutes:3,plays:6120,created:4,questions:[{q:"接到新任務，你會先？",en:"When you get a new task, you first…",a:["拆解步驟與時程","先想整體方向","找人確認需求","直接動手試試"]},{q:"團隊合作時，你常是？",en:"In a team, you are often…",a:["規劃與統整者","創意發想者","溝通協調者","執行推進者"]},{q:"最有成就感的是？",en:"What feels most rewarding?",a:["事情有條理完成","提出新點子","幫團隊達成共識","看到成果落地"]}],results:[{name:"策略規劃家",en:"The Strategist",emoji:"🧭",desc:"你擅長整理資訊、設定方向，讓複雜任務變得清楚。",descEn:"You organize information and set direction, making complex work clearer."},{name:"靈感創造者",en:"The Creative",emoji:"💡",desc:"你喜歡提出新觀點，為問題找到不一樣的解法。",descEn:"You enjoy fresh perspectives and finding unexpected solutions."},{name:"溝通連結者",en:"The Connector",emoji:"🫶",desc:"你善於理解不同立場，讓合作更順暢。",descEn:"You understand different perspectives and help collaboration flow."},{name:"實踐推進者",en:"The Doer",emoji:"⚡",desc:"你重視行動與成果，擅長把計畫一步步完成。",descEn:"You focus on action and results, turning plans into progress."}]},
+{id:"friendship",cat:"social",emoji:"🫶",title:"你在朋友圈裡是什麼角色？",titleEn:"Who Are You in Your Friend Group?",desc:"看看你在朋友之間自然展現的互動風格。",descEn:"Explore the role you naturally play among friends.",minutes:2,plays:5580,created:3,questions:[{q:"朋友遇到煩惱時，你會？",en:"When a friend has a problem, you…",a:["耐心聽他說","幫忙想解決方法","帶他出去散心","給他時間與空間"]},{q:"聚會時你通常？",en:"At a gathering, you usually…",a:["帶動氣氛","照顧每個人","和熟悉的人深聊","自在地到處交流"]},{q:"朋友最常找你？",en:"Friends usually come to you for…",a:["情緒支持","實際建議","好玩點子","安靜陪伴"]}],results:[{name:"氣氛點火者",en:"The Spark",emoji:"🎉",desc:"你讓聚會充滿活力，常常是大家笑聲的來源。",descEn:"You bring energy to the group and often spark the laughter."},{name:"暖心聆聽者",en:"The Listener",emoji:"☕",desc:"你願意理解別人的心情，是朋友安心分享的對象。",descEn:"You make people feel safe to share and feel understood."},{name:"可靠軍師",en:"The Advisor",emoji:"🧠",desc:"你擅長整理問題，朋友遇到難題時會想到你。",descEn:"You help make sense of problems and offer grounded advice."},{name:"自由連結者",en:"The Connector",emoji:"🦋",desc:"你自在、有彈性，能和不同類型的人找到共同話題。",descEn:"You are adaptable and find common ground with many kinds of people."}]},
+{id:"animal-vibe",cat:"fun",emoji:"🐾",title:"哪種動物最像你的日常靈魂？",titleEn:"Which Animal Matches Your Everyday Vibe?",desc:"用幾個輕鬆選擇，找到你的動物系人格。",descEn:"Answer a few fun questions to find your animal vibe.",minutes:2,plays:4990,created:2,questions:[{q:"放假時，你最想？",en:"On a day off, you want to…",a:["窩在舒服的地方","去戶外探索","找朋友玩","做喜歡的事"]},{q:"面對陌生環境，你會？",en:"In a new environment, you…",a:["先觀察一下","很快開始探索","找熟人一起","保持彈性"]},{q:"你的生活節奏？",en:"Your daily rhythm is…",a:["慢慢來最舒服","充滿變化","規律又安心","看心情調整"]}],results:[{name:"慵懶貓咪",en:"Cozy Cat",emoji:"🐈",desc:"你重視舒適與界線，喜歡用自己的節奏生活。",descEn:"You value comfort and boundaries, living life at your own pace."},{name:"好奇狐狸",en:"Curious Fox",emoji:"🦊",desc:"你機靈又好奇，喜歡探索新鮮事物。",descEn:"You are curious and clever, always ready to explore something new."},{name:"熱情小狗",en:"Happy Pup",emoji:"🐶",desc:"你喜歡互動與陪伴，容易為生活帶來熱情。",descEn:"You enjoy connection and bring warmth and enthusiasm to everyday life."},{name:"自在水獺",en:"Free Otter",emoji:"🦦",desc:"你彈性十足，懂得在忙碌與放鬆之間找到平衡。",descEn:"You are flexible and find a playful balance between activity and rest."}]}
+];
+function loadData(){let custom=[];try{custom=JSON.parse(localStorage.getItem("qw_custom")||"[]")}catch(e){}quizzes=[...seed,...custom];}
 function t(key){return I18N[lang][key]||I18N.zh[key]||key}
-function apiLanguage(){return "zh-TW"}
-function unwrapData(payload){return payload?.data??payload}
-function asArray(payload){const d=unwrapData(payload);if(Array.isArray(d))return d;for(const k of ["quizzes","categories","items","results"])if(Array.isArray(d?.[k]))return d[k];return []}
-function categoryId(raw){const map={1:"personality",2:"love",3:"emotion",4:"subconscious",5:"career",6:"social",7:"fun",dream:"subconscious"};return map[raw]||raw||"fun"}
-function categoryEmoji(id){return categoryDefaults.find(c=>c.id===id)?.emoji||"✨"}
-function categoryColor(id){return categoryDefaults.find(c=>c.id===id)?.color||"#f5eaff"}
-function localized(row,base,language=lang){if(!row)return "";const suffix=language==="en"?"en":"zh";return row[`${base}_${suffix}`]??row[`${base}_${language==="en"?"en":"zh_TW"}`]??row[base]??row[language==="en"?"name_en":"name_zh"]??""}
-function normalizeQuizSummary(row){
- const tr=row.translation||row.translations?.[apiLanguage()]||row.translations?.[lang]||row;
- const slug=row.slug||row.id;
- const cat=categoryId(row.category_slug||row.category||row.category_id);
- return {id:slug,slug,cat,emoji:row.cover_image||row.emoji||categoryEmoji(cat),title:tr.title||row.title||row.title_zh||row.title_en||slug,titleEn:row.title_en||row.translations?.en?.title||tr.title_en||tr.title||row.title||slug,desc:tr.description||row.description||row.description_zh||"",descEn:row.description_en||row.translations?.en?.description||tr.description_en||tr.description||row.description||"",minutes:row.duration_minutes||row.minutes||3,plays:Number(row.plays||row.attempts||0),created:row.created_at?Date.parse(row.created_at)||0:Number(row.created||0),isFeatured:!!row.is_featured,status:row.status};
-}
-function normalizeQuizDetail(payload,summary){
- const d=unwrapData(payload)||{},questions=(d.questions||[]).slice().sort((a,b)=>a.question_order-b.question_order);
- const options=d.options||[];
- const normalizedQuestions=questions.map(q=>{
-   const related=options.filter(o=>Number(o.question_id)===Number(q.id)).sort((a,b)=>a.option_order-b.option_order);
-   return {id:q.id,order:q.question_order,q:q.question_text||q.question||"",en:q.question_text_en||q.question_text||q.question||"",a:related.map(o=>o.label_zh??o.label??""),aEn:related.map(o=>o.label_en??o.label??"")};
- });
- const results=(d.results||[]).slice().sort((a,b)=>a.result_order-b.result_order).map((r,i)=>({id:r.id,key:r.result_key,order:r.result_order,name:r.title_zh||r.title||"",en:r.title_en||r.title||"",desc:r.description_zh||r.description||"",descEn:r.description_en||r.description||"",emoji:r.emoji||["✨","🌙","☀️","🪄"][i]}));
- const titleValue=d.title||summary.title||"",descValue=d.description||summary.desc||"";
- return {...summary,...d,id:d.slug||summary.id,slug:d.slug||summary.slug,cat:categoryId(d.category_id||summary.cat),emoji:d.cover_image||summary.emoji,title:titleValue,titleEn:d.title_en||titleValue,desc:descValue,descEn:d.description_en||descValue,questions:normalizedQuestions,results,scoring_config:d.scoring_config||{},plays:summary.plays||0};
-}
-async function apiGet(path){const response=await fetch(`${API_BASE}${path}`,{headers:{"Accept":"application/json"}});if(!response.ok)throw new Error(`API ${response.status}`);const json=await response.json();if(json.success===false)throw new Error(json.message||"API request failed");return json}
-async function loadData(){
- loadingQuizzes=true;renderQuizzes();
- try{
-   const [catPayload,quizPayload]=await Promise.all([apiGet(`/categories?lang=${apiLanguage()}`),apiGet(`/quizzes?lang=${apiLanguage()}`)]);
-   const apiCats=asArray(catPayload);
-   categories=categoryDefaults.map(base=>{
-     if(base.id==="all")return base;
-     const found=apiCats.find(c=>categoryId(c.slug||c.id)===base.id||categoryId(c.id)===base.id);
-     return found?{...base,zh:found.name_zh||found.name||base.zh,en:found.name_en||found.name||base.en}:base;
-   });
-   quizzes=asArray(quizPayload).map(normalizeQuizSummary).filter(q=>q.status!=="draft");
-   let custom=[];try{custom=JSON.parse(localStorage.getItem("qw_custom")||"[]")}catch(e){}
-   quizzes=[...quizzes,...custom];
- }catch(error){
-   console.error("Quizzy World API load failed:",error);
-   quizzes=[];
-   document.getElementById("quizGrid").innerHTML=`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("loadError")} <button class="start-btn" onclick="loadData()">${t("retry")}</button></div>`;
- }finally{
-   loadingQuizzes=false;renderCategories();renderQuizzes();renderRanking();
- }
-}
-function title(q){return q.title||q.titleEn||"未命名測驗"}
-function desc(q){return q.desc||q.descEn||""}
-function catName(id){const c=categories.find(x=>x.id===id);return c?(c.zh||c.en):id}
-function applyStaticTranslations(){
- lang="zh";
- document.documentElement.lang="zh-Hant";
- document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;el.textContent=I18N.zh[k]||el.textContent});
- document.querySelectorAll("[data-i18n-html]").forEach(el=>el.innerHTML=I18N.zh[el.dataset.i18nHtml]||el.innerHTML);
- document.getElementById("searchInput").placeholder=I18N.zh.searchPlaceholder;
- const sort=document.getElementById("sortSelect");sort.options[0].text=I18N.zh.featured;sort.options[1].text=I18N.zh.popular;sort.options[2].text=I18N.zh.newest;
-}
-// 本階段固定使用繁體中文，不提供語言切換。
-function toggleLang(){return;}
-function renderCategories(){
- const list=categories.length?categories:categoryDefaults;
- document.getElementById("categoryList").innerHTML=list.map(c=>`<button class="cat ${activeCategory===c.id?"active":""}" onclick="setCategory('${c.id}')" style="background:${c.color}"><span class="emoji">${c.emoji}</span><strong>${c.zh}</strong><small>${c.id==="all"?quizzes.length:quizzes.filter(q=>q.cat===c.id).length} ${"個測驗"}</small></button>`).join("");
-}
+function title(q){return lang==="en"?q.titleEn:q.title}
+function desc(q){return lang==="en"?q.descEn:q.desc}
+function catName(id){let c=categories.find(x=>x.id===id);return c?(lang==="en"?c.en:c.zh):id}
+function toggleLang(){lang=lang==="zh"?"en":"zh";document.documentElement.lang=lang==="zh"?"zh-Hant":"en";document.getElementById("langBtn").textContent=lang==="zh"?"EN":"中文";document.querySelectorAll("[data-i18n]").forEach(el=>{let k=el.dataset.i18n;if(k==="searchPlaceholder")return;el.textContent=t(k)});document.querySelectorAll("[data-i18n-html]").forEach(el=>el.innerHTML=t(el.dataset.i18nHtml));document.getElementById("searchInput").placeholder=t("searchPlaceholder");document.getElementById("sortSelect").options[0].text=t("featured");document.getElementById("sortSelect").options[1].text=t("popular");document.getElementById("sortSelect").options[2].text=t("newest");renderCategories();renderQuizzes();renderRanking()}
+function renderCategories(){document.getElementById("categoryList").innerHTML=categories.map(c=>`<button class="cat ${activeCategory===c.id?"active":""}" onclick="setCategory('${c.id}')" style="background:${c.color}"><span class="emoji">${c.emoji}</span><strong>${lang==="en"?c.en:c.zh}</strong><small>${c.id==="all"?quizzes.length:(quizzes.filter(q=>q.cat===c.id).length)} ${lang==="en"?"quizzes":"個測驗"}</small></button>`).join("")}
 function setCategory(id){activeCategory=id;renderCategories();renderQuizzes();document.getElementById("discover").scrollIntoView({behavior:"smooth"})}
 function clearFilters(){activeCategory="all";document.getElementById("searchInput").value="";renderCategories();renderQuizzes()}
-function renderQuizzes(){
- const query=(document.getElementById("searchInput").value||"").toLowerCase().trim(),sort=document.getElementById("sortSelect").value;
- let list=quizzes.filter(q=>(activeCategory==="all"||q.cat===activeCategory)&&(!query||[q.title,q.titleEn,q.desc,q.descEn,catName(q.cat)].join(" ").toLowerCase().includes(query)));
- if(sort==="popular")list.sort((a,b)=>(b.plays||0)-(a.plays||0));else if(sort==="newest")list.sort((a,b)=>(b.created||0)-(a.created||0));else list.sort((a,b)=>Number(b.isFeatured)-Number(a.isFeatured)||(b.created||0)-(a.created||0));
- document.getElementById("resultCount").textContent=lang==="en"?`${list.length} quizzes`:`共 ${list.length} 個測驗`;
- if(loadingQuizzes&&quizzes.length===0){document.getElementById("quizGrid").innerHTML=`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("loading")}</div>`;return}
- document.getElementById("quizGrid").innerHTML=list.length?list.map(q=>`<article class="quiz-card"><div class="quiz-cover" style="background:${categoryColor(q.cat)}"><span class="bigemoji">${q.emoji||categoryEmoji(q.cat)}</span></div><div class="quiz-body"><div class="meta"><span class="tag">${catName(q.cat)}</span><span class="duration">${q.minutes||3} ${t("minutes")}</span></div><h3>${title(q)}</h3><p>${desc(q)}</p><div class="card-foot"><span class="plays">👥 ${Number(q.plays||0).toLocaleString()} ${t("plays")}</span><button class="start-btn" onclick="startQuiz('${String(q.slug||q.id).replace(/'/g,"&#39;")}')">${t("start")} →</button></div></div></article>`).join(""):`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("searchEmpty")}</div>`;
- document.getElementById("quizTotal").textContent=quizzes.length;document.getElementById("attemptTotal").textContent=Number(localStorage.getItem("qw_attempts")||0).toLocaleString();
-}
-function renderRanking(){
- const list=[...quizzes].sort((a,b)=>Number(b.isFeatured)-Number(a.isFeatured)||(b.plays||0)-(a.plays||0)).slice(0,5);
- document.getElementById("rankingList").innerHTML=list.map((q,i)=>`<div class="rank-row"><span class="rank-no">${i+1}</span><span class="rank-emoji">${q.emoji||"✨"}</span><div class="rank-info"><strong>${title(q)}</strong><small>${catName(q.cat)}</small></div><span class="rank-count">${Number(q.plays||0).toLocaleString()} ${t("rankPlays")}</span></div>`).join("");
-}
-function openOverlay(id){document.getElementById(id).classList.add("show")}
-function closeOverlay(id){document.getElementById(id).classList.remove("show")}
-async function startQuiz(id){
- const summary=quizzes.find(q=>String(q.slug||q.id)===String(id));if(!summary)return;
- currentQuiz=summary;currentQ=0;answers=[];openOverlay("quizOverlay");
- document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="result-emoji">⏳</div><p>${t("loading")}</p></div>`;
- try{const payload=await apiGet(`/quizzes/${encodeURIComponent(summary.slug||summary.id)}?lang=${apiLanguage()}`);currentQuiz=normalizeQuizDetail(payload,summary);renderQuestion()}
- catch(error){console.error("Quiz detail load failed:",error);document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="result-emoji">⚠️</div><h2>${t("loadError")}</h2><button class="primary-btn" onclick="startQuiz('${summary.slug||summary.id}')">${t("retry")}</button></div>`}
-}
-function renderQuestion(){
- const q=currentQuiz?.questions?.[currentQ];
- if(!q){document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="result-emoji">📝</div><h2>${t("noQuestion")}</h2><button class="primary-btn" onclick="closeOverlay('quizOverlay')">${t("close")}</button></div>`;return}
- const total=currentQuiz.questions.length,question=q.q||q.en,opts=q.a||q.aEn||[];
- document.getElementById("quizContent").innerHTML=`<div class="modal-kicker">${catName(currentQuiz.cat)} · ${currentQ+1}/${total}</div><h2>${title(currentQuiz)}</h2><p class="modal-desc">${t("answerPrompt")}</p><div class="progressbar"><span style="width:${(currentQ/total)*100}%"></span></div><div class="modal-kicker">${t("qProgress")} ${currentQ+1} ${t("of")} ${total} ${t("questions")}</div><div class="question-title">${question}</div><div class="answers">${opts.map((a,i)=>`<button class="answer ${answers[currentQ]===i?"selected":""}" onclick="chooseAnswer(${i})">${String.fromCharCode(65+i)}. ${a}</button>`).join("")}</div><div class="modal-actions"><button class="secondary-btn" onclick="previousQuestion()" ${currentQ===0?"disabled":""}>← ${t("prev")}</button><button class="primary-btn" onclick="nextQuestion()" ${answers[currentQ]===undefined?"disabled":""}>${currentQ===total-1?t("finish"):t("next")} →</button></div>`;
-}
+function renderQuizzes(){let query=(document.getElementById("searchInput").value||"").toLowerCase().trim(),sort=document.getElementById("sortSelect").value;let list=quizzes.filter(q=>(activeCategory==="all"||q.cat===activeCategory)&&(!query||[q.title,q.titleEn,q.desc,q.descEn,catName(q.cat)].join(" ").toLowerCase().includes(query)));if(sort==="popular")list.sort((a,b)=>b.plays-a.plays);else if(sort==="newest")list.sort((a,b)=>b.created-a.created);else list.sort((a,b)=>b.created-a.created);document.getElementById("resultCount").textContent=lang==="en"?`${list.length} quizzes`:`共 ${list.length} 個測驗`;document.getElementById("quizGrid").innerHTML=list.length?list.map(q=>{let c=categories.find(x=>x.id===q.cat)||categories[7];return `<article class="quiz-card"><div class="quiz-cover" style="background:${c.color}"><span class="bigemoji">${q.emoji||c.emoji}</span></div><div class="quiz-body"><div class="meta"><span class="tag">${catName(q.cat)}</span><span class="duration">${q.minutes||3} ${t("minutes")}</span></div><h3>${title(q)}</h3><p>${desc(q)}</p><div class="card-foot"><span class="plays">👥 ${Number(q.plays||0).toLocaleString()} ${t("plays")}</span><button class="start-btn" onclick="startQuiz('${q.id}')">${t("start")} →</button></div></div></article>`}).join(""):`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("searchEmpty")}</div>`;document.getElementById("quizTotal").textContent=quizzes.length;document.getElementById("attemptTotal").textContent=Number(localStorage.getItem("qw_attempts")||0).toLocaleString()}
+function renderRanking(){let list=[...quizzes].sort((a,b)=>b.plays-a.plays).slice(0,5);document.getElementById("rankingList").innerHTML=list.map((q,i)=>`<div class="rank-row"><span class="rank-no">${i+1}</span><span class="rank-emoji">${q.emoji}</span><div class="rank-info"><strong>${title(q)}</strong><small>${catName(q.cat)}</small></div><span class="rank-count">${Number(q.plays||0).toLocaleString()} ${t("rankPlays")}</span></div>`).join("")}
+function openOverlay(id){document.getElementById(id).classList.add("show")}function closeOverlay(id){document.getElementById(id).classList.remove("show")}
+function startQuiz(id){currentQuiz=quizzes.find(q=>q.id===id);if(!currentQuiz)return;currentQ=0;answers=[];openOverlay("quizOverlay");renderQuestion()}
+function renderQuestion(){let q=currentQuiz.questions?.[currentQ];if(!q){document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="result-emoji">📝</div><h2>${t("noQuestion")}</h2><button class="primary-btn" onclick="closeOverlay('quizOverlay')">${t("close")}</button></div>`;return}let total=currentQuiz.questions.length,question=lang==="en"?(q.en||q.q):q.q,opts=lang==="en"?(q.aEn||q.a):q.a;document.getElementById("quizContent").innerHTML=`<div class="modal-kicker">${catName(currentQuiz.cat)} · ${currentQ+1}/${total}</div><h2>${title(currentQuiz)}</h2><p class="modal-desc">${t("answerPrompt")}</p><div class="progressbar"><span style="width:${(currentQ/total)*100}%"></span></div><div class="modal-kicker">${t("qProgress")} ${currentQ+1} ${t("of")} ${total} ${t("questions")}</div><div class="question-title">${question}</div><div class="answers">${opts.map((a,i)=>`<button class="answer ${answers[currentQ]===i?"selected":""}" onclick="chooseAnswer(${i})">${String.fromCharCode(65+i)}. ${a}</button>`).join("")}</div><div class="modal-actions"><button class="secondary-btn" onclick="previousQuestion()" ${currentQ===0?"disabled":""}>← ${t("prev")}</button><button class="primary-btn" onclick="nextQuestion()" ${answers[currentQ]===undefined?"disabled":""}>${currentQ===total-1?t("finish"):t("next")} →</button></div>`}
 function chooseAnswer(i){answers[currentQ]=i;renderQuestion()}
 function previousQuestion(){if(currentQ>0){currentQ--;renderQuestion()}}
 function nextQuestion(){if(answers[currentQ]===undefined)return;if(currentQ<currentQuiz.questions.length-1){currentQ++;renderQuestion()}else showResult()}
-function showResult(){
- const config=currentQuiz.scoring_config||{},mapping=config.answer_index_to_result_index||[0,1,2,3],counts=[0,0,0,0];
- answers.forEach(answer=>{const resultIndex=Number(mapping[answer]??answer);if(Number.isInteger(resultIndex)&&resultIndex>=0&&resultIndex<counts.length)counts[resultIndex]++});
- const max=Math.max(...counts),idx=counts.indexOf(max),r=currentQuiz.results?.find((item,i)=>Number(item.order??i)===idx)||currentQuiz.results?.[idx];
- if(!r){document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="result-emoji">📝</div><h2>${t("noResults")}</h2><button class="primary-btn" onclick="closeOverlay('quizOverlay')">${t("close")}</button></div>`;return}
- const attempts=Number(localStorage.getItem("qw_attempts")||0)+1;localStorage.setItem("qw_attempts",attempts);document.getElementById("attemptTotal").textContent=attempts.toLocaleString();
- document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="modal-kicker">${t("result")}</div><div class="result-emoji">${r.emoji||"✨"}</div><h2>${r.name||r.en}</h2><p>${r.desc||r.descEn}</p><p style="font-size:10px">${t("resultNote")}</p><div class="result-actions"><button class="primary-btn" onclick="downloadResult('${currentQuiz.slug||currentQuiz.id}',${idx})">⬇ ${t("share")}</button><button class="secondary-btn" onclick="startQuiz('${currentQuiz.slug||currentQuiz.id}')">${t("again")}</button><button class="secondary-btn" onclick="closeOverlay('quizOverlay')">${t("close")}</button></div></div>`;
-}
-function downloadResult(id,idx){
- const q=currentQuiz||quizzes.find(x=>String(x.slug||x.id)===String(id)),r=q?.results?.find((item,i)=>Number(item.order??i)===idx)||q?.results?.[idx]||{name:"你的專屬類型",emoji:"✨",desc:""};
- const c=document.createElement("canvas");c.width=1080;c.height=1350;const x=c.getContext("2d");const g=x.createLinearGradient(0,0,1080,1350);g.addColorStop(0,"#ffe4ef");g.addColorStop(.55,"#eee5ff");g.addColorStop(1,"#dcf6eb");x.fillStyle=g;x.fillRect(0,0,1080,1350);x.fillStyle="#ffffffaa";x.beginPath();x.roundRect(65,65,950,1220,48);x.fill();x.textAlign="center";x.fillStyle="#8d789e";x.font="bold 34px sans-serif";x.fillText("QUIZZY WORLD",540,165);x.fillStyle="#453650";x.font="bold 46px sans-serif";x.fillText("你的測驗結果",540,285);x.font="130px sans-serif";x.fillText(r.emoji||"✨",540,520);x.fillStyle="#3d304b";x.font="bold 66px sans-serif";x.fillText(r.name||r.en,540,665);x.fillStyle="#796d86";x.font="32px sans-serif";wrapCanvas(x,r.desc||r.descEn||"",540,765,820,52);x.fillStyle="#b28ba6";x.font="26px sans-serif";x.fillText("全台最大心理測驗網 | Quizzy World 測驗星球",540,1165);x.font="22px sans-serif";x.fillText("quizzy.world",540,1215);const a=document.createElement("a");a.download="quizzy-world-result.png";a.href=c.toDataURL("image/png");a.click();
-}
-function wrapCanvas(ctx,text,cx,y,maxWidth,lineHeight){const words=[...text];let line="";for(let n=0;n<words.length;n++){const test=line+words[n];if(ctx.measureText(test).width>maxWidth&&n>0){ctx.fillText(line,cx,y);line=words[n];y+=lineHeight}else line=test}ctx.fillText(line,cx,y)}
-function openAdmin(){window.location.href="/admin"}
-function addQuiz(e){
- e.preventDefault();const q={id:"custom-"+Date.now(),slug:"custom-"+Date.now(),cat:categoryId(document.getElementById("newCategory").value),emoji:document.getElementById("newEmoji").value||"✨",title:document.getElementById("newTitle").value.trim(),titleEn:"",desc:document.getElementById("newDesc").value.trim(),descEn:"",minutes:3,plays:0,created:Date.now(),questions:[],results:[]};let custom=[];try{custom=JSON.parse(localStorage.getItem("qw_custom")||"[]")}catch(e){}custom.push(q);localStorage.setItem("qw_custom",JSON.stringify(custom));loadData();e.target.reset();closeOverlay("adminOverlay");alert(t("saved"));
-}
-
-const ADMIN_TOKEN_KEY = "qw_admin_token";
-const ADMIN_EXPIRY_KEY = "qw_admin_expires_at";
-function isAdminRoute(){return window.location.pathname.replace(/\/+$/, "") === "/admin";}
-function showAdminError(message){const box=document.getElementById("adminLoginError");box.textContent=message;box.classList.add("show");}
-function clearAdminError(){const box=document.getElementById("adminLoginError");box.textContent="";box.classList.remove("show");}
-function getAdminToken(){
-  const token=sessionStorage.getItem(ADMIN_TOKEN_KEY);
-  const expires=Number(sessionStorage.getItem(ADMIN_EXPIRY_KEY)||0);
-  if(!token||!expires||expires*1000<=Date.now()){sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_EXPIRY_KEY);return null;}
-  return token;
-}
-function showAdminDashboard(admin){
-  document.getElementById("adminLoginCard").hidden=true;
-  document.getElementById("adminDashboard").hidden=false;
-  document.getElementById("adminWelcome").textContent=`已登入：${admin?.email||"管理員"}（${admin?.role||"admin"}）`;
-}
-async function verifyAdminSession(){
-  const token=getAdminToken();if(!token)return false;
-  try{
-    const response=await fetch(`${API_BASE}/admin/me`,{headers:{"Authorization":`Bearer ${token}`,"Accept":"application/json"}});
-    if(!response.ok)throw new Error("Session expired");
-    const payload=await response.json();if(payload.success!==true)throw new Error("Session invalid");
-    showAdminDashboard(payload.admin);return true;
-  }catch(error){sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_EXPIRY_KEY);return false;}
-}
-async function handleAdminLogin(event){
-  event.preventDefault();clearAdminError();
-  const button=document.getElementById("adminLoginButton");
-  const email=document.getElementById("adminEmail").value.trim();
-  const password=document.getElementById("adminPassword").value;
-  button.disabled=true;button.textContent="登入中…";
-  try{
-    const response=await fetch(`${API_BASE}/admin/login`,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({email,password})});
-    const payload=await response.json();
-    if(!response.ok||payload.success!==true)throw new Error(payload.error||"登入失敗，請確認 Email 與密碼。");
-    if(!payload.token||!payload.expires_at)throw new Error("登入回應缺少 Session 資訊。");
-    sessionStorage.setItem(ADMIN_TOKEN_KEY,payload.token);
-    sessionStorage.setItem(ADMIN_EXPIRY_KEY,String(payload.expires_at));
-    document.getElementById("adminPassword").value="";
-    showAdminDashboard(payload.admin);
-  }catch(error){showAdminError(error.message||"登入失敗，請稍後再試。");}
-  finally{button.disabled=false;button.textContent="登入";}
-}
-async function handleAdminLogout(){
-  const token=getAdminToken();
-  if(token){try{await fetch(`${API_BASE}/admin/logout`,{method:"POST",headers:{"Authorization":`Bearer ${token}`}});}catch(error){console.error("Admin logout request failed:",error);}}
-  sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_EXPIRY_KEY);
-  document.getElementById("adminDashboard").hidden=true;document.getElementById("adminLoginCard").hidden=false;
-  document.getElementById("adminLoginForm").reset();clearAdminError();
-}
-async function initAdminPage(){
-  document.body.classList.add("admin-mode");document.getElementById("adminPage").classList.add("active");
-  document.getElementById("adminLoginForm").addEventListener("submit",handleAdminLogin);
-  document.getElementById("adminLogoutButton").addEventListener("click",handleAdminLogout);
-  if(!await verifyAdminSession()){document.getElementById("adminLoginCard").hidden=false;document.getElementById("adminDashboard").hidden=true;}
-}
-function initApp(){applyStaticTranslations();if(isAdminRoute())initAdminPage();else loadData();}
-initApp();
-
+function showResult(){let counts=[0,0,0,0];answers.forEach((a,i)=>counts[a%4]++);let max=Math.max(...counts),idx=counts.indexOf(max),r=currentQuiz.results?.[idx];if(!r){r={name:lang==="en"?"Your unique type":"你的專屬類型",en:"Your unique type",emoji:"✨",desc:"每個選擇都拼出獨特的你。",descEn:"Every choice is part of what makes you unique."}}currentQuiz.plays=(currentQuiz.plays||0)+1;let custom=quizzes.filter(q=>!seed.some(s=>s.id===q.id));localStorage.setItem("qw_custom",JSON.stringify(custom));let attempts=Number(localStorage.getItem("qw_attempts")||0)+1;localStorage.setItem("qw_attempts",attempts);document.getElementById("attemptTotal").textContent=attempts.toLocaleString();renderRanking();renderQuizzes();document.getElementById("quizContent").innerHTML=`<div class="result-box"><div class="modal-kicker">${t("result")}</div><div class="result-emoji">${r.emoji}</div><h2>${lang==="en"?(r.en||r.name):r.name}</h2><p>${lang==="en"?(r.descEn||r.desc):r.desc}</p><p style="font-size:10px">${t("resultNote")}</p><div class="result-actions"><button class="primary-btn" onclick="downloadResult('${currentQuiz.id}',${idx})">⬇ ${t("share")}</button><button class="secondary-btn" onclick="startQuiz('${currentQuiz.id}')">${t("again")}</button><button class="secondary-btn" onclick="closeOverlay('quizOverlay')">${t("close")}</button></div></div>`}
+function downloadResult(id,idx){let q=quizzes.find(x=>x.id===id),r=q.results?.[idx]||{name:lang==="en"?"Your unique type":"你的專屬類型",emoji:"✨",desc:""};let c=document.createElement("canvas");c.width=1080;c.height=1350;let x=c.getContext("2d");let g=x.createLinearGradient(0,0,1080,1350);g.addColorStop(0,"#ffe4ef");g.addColorStop(.55,"#eee5ff");g.addColorStop(1,"#dcf6eb");x.fillStyle=g;x.fillRect(0,0,1080,1350);x.fillStyle="#ffffffaa";x.beginPath();x.roundRect(65,65,950,1220,48);x.fill();x.textAlign="center";x.fillStyle="#8d789e";x.font="bold 34px sans-serif";x.fillText("QUIZZY WORLD",540,165);x.fillStyle="#453650";x.font="bold 46px sans-serif";x.fillText(lang==="en"?"YOUR QUIZ RESULT":"你的測驗結果",540,285);x.font="130px sans-serif";x.fillText(r.emoji||"✨",540,520);x.fillStyle="#3d304b";x.font="bold 66px sans-serif";let name=lang==="en"?(r.en||r.name):r.name;x.fillText(name,540,665);x.fillStyle="#796d86";x.font="32px sans-serif";wrapCanvas(x,lang==="en"?(r.descEn||r.desc):(r.desc||""),540,765,820,52);x.fillStyle="#b28ba6";x.font="26px sans-serif";x.fillText("全台最大心理測驗網 | Quizzy World 測驗星球",540,1165);x.font="22px sans-serif";x.fillText("quizzy.world",540,1215);let a=document.createElement("a");a.download="quizzy-world-result.png";a.href=c.toDataURL("image/png");a.click()}
+function wrapCanvas(ctx,text,cx,y,maxWidth,lineHeight){let words=[...text],line="";for(let n=0;n<words.length;n++){let test=line+words[n];if(ctx.measureText(test).width>maxWidth&&n>0){ctx.fillText(line,cx,y);line=words[n];y+=lineHeight}else line=test}ctx.fillText(line,cx,y)}
+function openAdmin(){openOverlay("adminOverlay")}
+function addQuiz(e){e.preventDefault();let q={id:"custom-"+Date.now(),cat:document.getElementById("newCategory").value,emoji:document.getElementById("newEmoji").value||"✨",title:document.getElementById("newTitle").value.trim(),titleEn:document.getElementById("newTitleEn").value.trim(),desc:document.getElementById("newDesc").value.trim(),descEn:document.getElementById("newDescEn").value.trim(),minutes:3,plays:0,created:Date.now(),questions:[],results:[]};let custom=quizzes.filter(x=>!seed.some(s=>s.id===x.id));custom.push(q);localStorage.setItem("qw_custom",JSON.stringify(custom));loadData();renderCategories();renderQuizzes();renderRanking();e.target.reset();closeOverlay("adminOverlay");alert(t("saved"))}
+document.getElementById("searchInput").placeholder=t("searchPlaceholder");
+loadData();renderCategories();renderQuizzes();renderRanking();
 </script>
 </body></html>
