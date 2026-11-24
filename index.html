@@ -253,9 +253,10 @@ function renderQuestion(){
  document.getElementById("quizContent").innerHTML=`<div class="modal-kicker">${catName(currentQuiz.cat)} · ${currentQ+1}/${total}</div><h2>${title(currentQuiz)}</h2><p class="modal-desc">${t("answerPrompt")}</p><div class="progressbar"><span style="width:${(currentQ/total)*100}%"></span></div><div class="modal-kicker">${t("qProgress")} ${currentQ+1} ${t("of")} ${total} ${t("questions")}</div><div class="question-title">${question}</div><div class="answers">${opts.map((a,i)=>`<button class="answer ${answers[currentQ]===i?"selected":""}" onclick="chooseAnswer(${i})">${String.fromCharCode(65+i)}. ${a}</button>`).join("")}</div><div class="modal-actions"><button class="secondary-btn" onclick="previousQuestion()" ${currentQ===0?"disabled":""}>← 上一題</button><span class="modal-kicker">${answers[currentQ]===undefined?"選擇答案後自動前進":"已選擇答案"}</span></div>`;
 }
 function chooseAnswer(i){
- answers[currentQ]=i;
- if(currentQ<currentQuiz.questions.length-1){setTimeout(()=>{if(answers[currentQ]===i){currentQ++;renderQuestion()}},220)}
- else setTimeout(()=>{if(answers[currentQ]===i)showResult()},220);
+ const answeredQuestion=currentQ;
+ answers[answeredQuestion]=i;
+ if(answeredQuestion<currentQuiz.questions.length-1){setTimeout(()=>{if(currentQ===answeredQuestion&&answers[answeredQuestion]===i){currentQ++;renderQuestion()}},220)}
+ else setTimeout(()=>{if(currentQ===answeredQuestion&&answers[answeredQuestion]===i)showResult()},220);
 }
 function previousQuestion(){if(currentQ>0){currentQ--;renderQuestion()}}
 function nextQuestion(){if(answers[currentQ]===undefined)return;if(currentQ<currentQuiz.questions.length-1){currentQ++;renderQuestion()}else showResult()}
