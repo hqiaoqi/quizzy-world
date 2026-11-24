@@ -135,7 +135,7 @@ body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:non
       <div class="admin-error" id="adminCreateError" role="alert"></div>
       <button class="admin-submit" id="adminCreateButton" type="submit">建立測驗</button>
     </form>
-    <div class="admin-list-head"><h2>測驗內容</h2><button class="admin-refresh" id="adminRefreshButton" type="button">重新載入</button></div>
+    <div class="admin-list-head"><h2>測驗內容</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="admin-refresh" id="adminExportResultsButton" type="button">匯出結果資料</button><button class="admin-refresh" id="adminRefreshButton" type="button">重新載入</button></div></div>
     <div id="adminQuizList" class="admin-quiz-list"><div class="admin-list-message">載入測驗清單中…</div></div>
     <p style="margin-top:20px"><a href="/" style="color:#c75e8b;text-decoration:none;font-weight:800">← 返回測驗首頁</a></p>
   </div>
@@ -395,11 +395,27 @@ async function handleAdminCreateQuiz(event){
   }catch(err){error.textContent=err.message||"建立失敗，請稍後再試。";error.classList.add("show");}
   finally{button.disabled=false;button.textContent="建立測驗";}
 }
+
+async function exportAdminResults(){
+  const button=document.getElementById("adminExportResultsButton");
+  const token=getAdminToken();if(!token){alert("登入已逾期，請重新登入。");return;}
+  button.disabled=true;button.textContent="匯出中…";
+  try{
+    const response=await fetch(`${API_BASE}/admin/export-results`,{headers:{"Authorization":`Bearer ${token}`,"Accept":"application/json"}});
+    const payload=await response.json();
+    if(!response.ok||payload.success!==true)throw new Error(payload.error||`匯出失敗（HTTP ${response.status}）`);
+    const blob=new Blob([JSON.stringify(payload.data,null,2)],{type:"application/json;charset=utf-8"});
+    const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="quizzy-world-result-data.json";a.click();URL.revokeObjectURL(url);
+    alert(`已匯出 ${payload.data.length} 組結果資料。請將下載的 JSON 檔上傳到 ChatGPT 對話。`);
+  }catch(error){alert(error.message||"匯出失敗");}
+  finally{button.disabled=false;button.textContent="匯出結果資料";}
+}
 async function initAdminPage(){
   document.body.classList.add("admin-mode");document.getElementById("adminPage").classList.add("active");
   document.getElementById("adminLoginForm").addEventListener("submit",handleAdminLogin);
   document.getElementById("adminLogoutButton").addEventListener("click",handleAdminLogout);
   document.getElementById("adminRefreshButton").addEventListener("click",loadAdminQuizzes);
+  document.getElementById("adminExportResultsButton").addEventListener("click",exportAdminResults);
   buildAdminCreateFields();
   document.getElementById("adminCreateQuizForm").addEventListener("submit",handleAdminCreateQuiz);
   if(!await verifyAdminSession()){document.getElementById("adminLoginCard").hidden=false;document.getElementById("adminDashboard").hidden=true;}
