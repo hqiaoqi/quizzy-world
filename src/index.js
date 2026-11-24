@@ -631,16 +631,17 @@ if (
       }
 
       return json({ error: "API endpoint not found" }, 404, origin);
+  } catch (error) {
+  console.error("Worker API Error:", error);
 
-    } catch (error) {
-      return json(
-        {
-          success: false,
-          error: "Internal server error"
-        },
-        500,
-        origin
-      );
-    }
+  return json(
+    {
+      success: false,
+      error: "Internal server error"
+    },
+    500,
+    origin
+  );
+}
   }
 };
