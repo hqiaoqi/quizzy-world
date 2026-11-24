@@ -247,7 +247,16 @@ export default {
       if (!env.DB) {
         return json({ error: "D1 binding DB not found" }, 500, origin);
       }
-
+// 檢查管理員初始化設定
+if (
+  path === "/api/admin/bootstrap-status" &&
+  request.method === "GET"
+) {
+  return json({
+    success: true,
+    configured: Boolean(env.ADMIN_BOOTSTRAP_SECRET)
+  }, 200, origin);
+}
       // 初始化第一個管理員
       if (
         path === "/api/admin/bootstrap" &&
