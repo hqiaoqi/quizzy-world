@@ -48,6 +48,15 @@ footer{margin-top:50px;padding:26px 0 35px;border-top:1px solid var(--line);disp
 .admin-quiz-status{display:inline-block;padding:4px 8px;border-radius:99px;background:#f4eff8;color:#75628b;font-size:10px;font-weight:800}
 .admin-quiz-status.published{background:#eaf8f1;color:#347b60}
 .admin-quiz-status.draft{background:#fff4df;color:#98702e}
+
+.admin-create-form{border:1px solid var(--line);border-radius:16px;padding:18px;margin:12px 0 26px;background:#fff}
+.admin-create-form .admin-field{display:flex;flex-direction:column;gap:7px;margin:10px 0}
+.admin-create-form .admin-field label{font-size:12px;font-weight:800}
+.admin-create-form input,.admin-create-form select,.admin-create-form textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px;font:inherit;font-size:12px;color:var(--ink);background:#fff}
+.admin-create-form textarea{min-height:70px;resize:vertical}
+.admin-question-card{border:1px solid var(--line);border-radius:13px;padding:14px;margin:14px 0;background:#fff}
+.admin-question-card h3{font-size:14px;margin:0 0 8px}
+.admin-create-form .admin-submit{cursor:pointer}
 .admin-list-message{padding:22px;text-align:center;color:var(--muted);font-size:12px;background:#faf7fb;border-radius:12px}
 @media(max-width:600px){.admin-dashboard{padding:20px}.admin-quiz-row{grid-template-columns:1fr}.admin-list-head{align-items:flex-start}}
 body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:none!important}
@@ -109,6 +118,23 @@ body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:non
     <h1>管理後台</h1>
     <p id="adminWelcome">已登入管理員帳號。</p>
     <div class="admin-status"><strong>登入驗證成功</strong><br>目前已連接測驗資料庫清單。此階段先提供查看與重新載入，尚未開放新增、編輯、發布或下架。</div>
+
+    <div class="admin-list-head"><h2>新增測驗</h2></div>
+    <form id="adminCreateQuizForm" class="admin-create-form">
+      <div class="form-grid">
+        <div class="admin-field"><label for="createTitle">測驗名稱</label><input id="createTitle" maxlength="80" required placeholder="例如：你的隱藏人格是？"></div>
+        <div class="admin-field"><label for="createSlug">Slug（可留空自動產生）</label><input id="createSlug" maxlength="80" placeholder="例如：hidden-personality"></div>
+        <div class="admin-field"><label for="createCategory">分類</label><select id="createCategory"><option value="personality">人格性格</option><option value="love">愛情關係</option><option value="emotion">情緒心理</option><option value="subconscious">潛意識</option><option value="career">職涯天賦</option><option value="social">人際關係</option><option value="fun">趣味娛樂</option></select></div>
+        <div class="admin-field"><label for="createEmoji">封面 Emoji</label><input id="createEmoji" maxlength="4" value="✨" required></div>
+        <div class="admin-field" style="grid-column:1/-1"><label for="createDescription">測驗簡介</label><textarea id="createDescription" maxlength="300" required placeholder="簡單介紹這個測驗"></textarea></div>
+      </div>
+      <div id="adminQuestionFields"></div>
+      <h3 style="font-size:16px;margin:24px 0 8px">測驗結果（4 組）</h3>
+      <div id="adminResultFields" class="form-grid"></div>
+      <div class="admin-field"><label for="createStatus">儲存方式</label><select id="createStatus"><option value="draft">儲存為草稿</option><option value="published">直接發布</option></select></div>
+      <div class="admin-error" id="adminCreateError" role="alert"></div>
+      <button class="admin-submit" id="adminCreateButton" type="submit">建立測驗</button>
+    </form>
     <div class="admin-list-head"><h2>測驗內容</h2><button class="admin-refresh" id="adminRefreshButton" type="button">重新載入</button></div>
     <div id="adminQuizList" class="admin-quiz-list"><div class="admin-list-message">載入測驗清單中…</div></div>
     <p style="margin-top:20px"><a href="/" style="color:#c75e8b;text-decoration:none;font-weight:800">← 返回測驗首頁</a></p>
@@ -338,11 +364,44 @@ async function handleAdminLogout(){
   document.getElementById("adminDashboard").hidden=true;document.getElementById("adminLoginCard").hidden=false;
   document.getElementById("adminLoginForm").reset();clearAdminError();
 }
+
+function buildAdminCreateFields(){
+  const q=document.getElementById("adminQuestionFields");
+  const r=document.getElementById("adminResultFields");
+  q.innerHTML=Array.from({length:3},(_,i)=>`<div class="admin-question-card">
+    <h3>第 ${i+1} 題</h3>
+    <div class="admin-field"><label for="createQ${i}">題目內容</label><textarea id="createQ${i}" required placeholder="輸入第 ${i+1} 題"></textarea></div>
+    <div class="form-grid">${Array.from({length:4},(_,j)=>`<div class="admin-field"><label for="createQ${i}O${j}">選項 ${String.fromCharCode(65+j)}</label><input id="createQ${i}O${j}" required placeholder="輸入選項內容"></div>`).join("")}</div>
+  </div>`).join("");
+  r.innerHTML=Array.from({length:4},(_,i)=>`<div class="admin-field"><label for="createR${i}">結果 ${i+1} 名稱</label><input id="createR${i}" required placeholder="結果名稱">
+    <label for="createRD${i}">結果 ${i+1} 描述</label><textarea id="createRD${i}" required placeholder="結果描述"></textarea></div>`).join("");
+}
+async function handleAdminCreateQuiz(event){
+  event.preventDefault();
+  const token=getAdminToken(),button=document.getElementById("adminCreateButton"),error=document.getElementById("adminCreateError");
+  error.textContent="";error.classList.remove("show");
+  if(!token){error.textContent="登入已逾期，請重新登入。";error.classList.add("show");return;}
+  const questions=Array.from({length:3},(_,i)=>({text:document.getElementById(`createQ${i}`).value.trim(),options:Array.from({length:4},(_,j)=>document.getElementById(`createQ${i}O${j}`).value.trim())}));
+  const results=Array.from({length:4},(_,i)=>({title:document.getElementById(`createR${i}`).value.trim(),description:document.getElementById(`createRD${i}`).value.trim()}));
+  const payload={title:document.getElementById("createTitle").value.trim(),slug:document.getElementById("createSlug").value.trim(),category_id:document.getElementById("createCategory").value,cover_image:document.getElementById("createEmoji").value.trim()||"✨",description:document.getElementById("createDescription").value.trim(),status:document.getElementById("createStatus").value,questions,results};
+  button.disabled=true;button.textContent="建立中…";
+  try{
+    const response=await fetch(`${API_BASE}/admin/quizzes`,{method:"POST",headers:{"Authorization":`Bearer ${token}`,"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)});
+    const data=await response.json();
+    if(response.status===401){sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_EXPIRY_KEY);throw new Error("登入已逾期，請重新登入。");}
+    if(!response.ok||data.success!==true)throw new Error(data.error||`建立失敗（HTTP ${response.status}）`);
+    alert(data.message||"測驗建立成功");
+    event.target.reset();document.getElementById("createEmoji").value="✨";buildAdminCreateFields();await loadAdminQuizzes();
+  }catch(err){error.textContent=err.message||"建立失敗，請稍後再試。";error.classList.add("show");}
+  finally{button.disabled=false;button.textContent="建立測驗";}
+}
 async function initAdminPage(){
   document.body.classList.add("admin-mode");document.getElementById("adminPage").classList.add("active");
   document.getElementById("adminLoginForm").addEventListener("submit",handleAdminLogin);
   document.getElementById("adminLogoutButton").addEventListener("click",handleAdminLogout);
   document.getElementById("adminRefreshButton").addEventListener("click",loadAdminQuizzes);
+  buildAdminCreateFields();
+  document.getElementById("adminCreateQuizForm").addEventListener("submit",handleAdminCreateQuiz);
   if(!await verifyAdminSession()){document.getElementById("adminLoginCard").hidden=false;document.getElementById("adminDashboard").hidden=true;}
 }
 function initApp(){applyStaticTranslations();if(isAdminRoute())initAdminPage();else loadData();}
