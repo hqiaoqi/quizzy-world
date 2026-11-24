@@ -568,26 +568,62 @@ if (
       }
 
 
-      // 管理後台：匯出所有測驗結果文字，供圖卡製作使用
+      // 管理後台：匯出完整測驗資料（題目、選項與結果），供封面與結果圖卡製作使用
       if (path === "/api/admin/export-results" && request.method === "GET") {
         const admin = await authenticateAdmin(request, env);
         if (!admin || admin.role !== "admin") {
           return json({ error: "Unauthorized" }, 401, origin);
         }
-        const result = await env.DB.prepare(`
+
+        const quizzes = await env.DB.prepare(`
           SELECT q.id AS quiz_id, q.slug, qt.title AS quiz_title,
-            r.id AS result_id, r.result_order,
-            rt.title AS result_title, rt.description AS result_description,
-            rt.advice AS result_advice
+            qt.description AS quiz_description
           FROM quizzes q
           LEFT JOIN quiz_translations qt
             ON qt.quiz_id = q.id AND qt.language = 'zh-TW'
-          INNER JOIN results r ON r.quiz_id = q.id
-          LEFT JOIN result_translations rt
-            ON rt.result_id = r.id AND rt.language = 'zh-TW'
-          ORDER BY q.id, r.result_order
+          ORDER BY q.id
         `).all();
-        return json({ success: true, data: result.results || [] }, 200, origin);
+
+        const data = [];
+        for (const quiz of (quizzes.results || [])) {
+          const questions = await env.DB.prepare(`
+            SELECT q.id AS question_id, q.question_order,
+              qt.question_text
+            FROM questions q
+            LEFT JOIN question_translations qt
+              ON qt.question_id = q.id AND qt.language = 'zh-TW'
+            WHERE q.quiz_id = ?
+            ORDER BY q.question_order
+          `).bind(quiz.quiz_id).all();
+
+          const options = await env.DB.prepare(`
+            SELECT o.id AS option_id, o.question_id, o.option_order,
+              o.label_zh, o.label_en
+            FROM options o
+            INNER JOIN questions q ON q.id = o.question_id
+            WHERE q.quiz_id = ?
+            ORDER BY q.question_order, o.option_order
+          `).bind(quiz.quiz_id).all();
+
+          const results = await env.DB.prepare(`
+            SELECT r.id AS result_id, r.result_order,
+              rt.title AS result_title, rt.description AS result_description,
+              rt.advice AS result_advice
+            FROM results r
+            LEFT JOIN result_translations rt
+              ON rt.result_id = r.id AND rt.language = 'zh-TW'
+            WHERE r.quiz_id = ?
+            ORDER BY r.result_order
+          `).bind(quiz.quiz_id).all();
+
+          data.push({
+            ...quiz,
+            questions: questions.results || [],
+            options: options.results || [],
+            results: results.results || []
+          });
+        }
+        return json({ success: true, data }, 200, origin);
       }
 
       if (request.method !== "GET") {
