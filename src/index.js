@@ -452,6 +452,121 @@ if (
         return json({ success: true }, 200, origin);
       }
 
+
+      // 管理後台：新增測驗（3 題、每題 4 選項、4 組結果）
+      if (path === "/api/admin/quizzes" && request.method === "POST") {
+        const admin = await authenticateAdmin(request, env);
+        if (!admin || admin.role !== "admin") {
+          return json({ error: "Unauthorized" }, 401, origin);
+        }
+
+        const body = await readBody(request);
+        const title = String(body.title || "").trim();
+        const description = String(body.description || "").trim();
+        const categoryId = String(body.category_id || "").trim();
+        const coverImage = String(body.cover_image || "✨").trim();
+        const status = body.status === "published" ? "published" : "draft";
+        const slug = String(body.slug || `quiz-${Date.now()}`).trim().toLowerCase();
+        const questions = Array.isArray(body.questions) ? body.questions : [];
+        const results = Array.isArray(body.results) ? body.results : [];
+
+        if (!title || title.length > 80 || !description || description.length > 300) {
+          return json({ error: "測驗名稱或簡介格式不正確" }, 400, origin);
+        }
+        if (!/^[a-z0-9-]{3,80}$/.test(slug)) {
+          return json({ error: "Slug 僅能使用小寫英文、數字與連字號（3–80 字元）" }, 400, origin);
+        }
+        if (!["personality","love","emotion","subconscious","career","social","fun"].includes(categoryId)) {
+          return json({ error: "請選擇有效的測驗分類" }, 400, origin);
+        }
+        if (questions.length !== 3 || results.length !== 4) {
+          return json({ error: "目前版本需要 3 題與 4 組結果" }, 400, origin);
+        }
+        for (const q of questions) {
+          if (!String(q.text || "").trim() || !Array.isArray(q.options) || q.options.length !== 4 ||
+              q.options.some(v => !String(v || "").trim())) {
+            return json({ error: "每題都必須填寫題目與 4 個選項" }, 400, origin);
+          }
+        }
+        if (results.some(r => !String(r.title || "").trim() || !String(r.description || "").trim())) {
+          return json({ error: "請完整填寫 4 組結果名稱與描述" }, 400, origin);
+        }
+
+        const insertedQuiz = await env.DB.prepare(`
+          INSERT INTO quizzes
+            (slug, category_id, cover_image, status, is_featured, scoring_config_json)
+          VALUES (?, ?, ?, ?, 0, ?)
+        `).bind(
+          slug, categoryId, coverImage, status,
+          JSON.stringify({ answer_index_to_result_index: [0,1,2,3] })
+        ).run();
+
+        const quizId = insertedQuiz.meta?.last_row_id;
+        if (!quizId) throw new Error("Quiz insert did not return an ID");
+
+        await env.DB.prepare(`
+          INSERT INTO quiz_translations
+            (quiz_id, language, title, description, instructions)
+          VALUES (?, 'zh-TW', ?, ?, ?)
+        `).bind(quizId, title, description, "選擇最符合你的答案，完成所有題目後查看結果。").run();
+
+        for (let qi = 0; qi < questions.length; qi++) {
+          const q = questions[qi];
+          const insertedQuestion = await env.DB.prepare(`
+            INSERT INTO questions (quiz_id, question_order, question_type, is_required)
+            VALUES (?, ?, 'single_choice', 1)
+          `).bind(quizId, qi + 1).run();
+
+          const questionId = insertedQuestion.meta?.last_row_id;
+          if (!questionId) throw new Error("Question insert did not return an ID");
+
+          await env.DB.prepare(`
+            INSERT INTO question_translations (question_id, language, question_text)
+            VALUES (?, 'zh-TW', ?)
+          `).bind(questionId, String(q.text).trim()).run();
+
+          for (let oi = 0; oi < 4; oi++) {
+            await env.DB.prepare(`
+              INSERT INTO options
+                (question_id, option_order, label_zh, label_en, score_key, score_value)
+              VALUES (?, ?, ?, ?, ?, ?)
+            `).bind(
+              questionId, oi + 1, String(q.options[oi]).trim(),
+              String(q.options[oi]).trim(), String(oi), 0
+            ).run();
+          }
+        }
+
+        for (let ri = 0; ri < results.length; ri++) {
+          const r = results[ri];
+          const insertedResult = await env.DB.prepare(`
+            INSERT INTO results (quiz_id, result_key, criteria_json, result_order)
+            VALUES (?, ?, ?, ?)
+          `).bind(
+            quizId, `type-${ri + 1}`,
+            JSON.stringify({ answer_index: ri }), ri + 1
+          ).run();
+
+          const resultId = insertedResult.meta?.last_row_id;
+          if (!resultId) throw new Error("Result insert did not return an ID");
+
+          await env.DB.prepare(`
+            INSERT INTO result_translations
+              (result_id, language, title, description, advice)
+            VALUES (?, 'zh-TW', ?, ?, ?)
+          `).bind(
+            resultId, String(r.title).trim(),
+            String(r.description).trim(), ""
+          ).run();
+        }
+
+        return json({
+          success: true,
+          message: status === "published" ? "測驗已建立並發布" : "測驗已儲存為草稿",
+          data: { id: quizId, slug, status }
+        }, 201, origin);
+      }
+
       if (request.method !== "GET") {
         return json({ error: "Method not allowed" }, 405, origin);
       }
