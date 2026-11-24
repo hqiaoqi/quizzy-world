@@ -455,7 +455,59 @@ if (
       if (request.method !== "GET") {
         return json({ error: "Method not allowed" }, 405, origin);
       }
+// 管理後台：取得所有測驗（包含未發布測驗）
+if (
+  path === "/api/admin/quizzes" &&
+  request.method === "GET"
+) {
+  const admin = await authenticateAdmin(request, env);
 
+  if (!admin || admin.role !== "admin") {
+    return json({ error: "Unauthorized" }, 401, origin);
+  }
+
+  const lang = url.searchParams.get("lang") || "zh-TW";
+
+  const result = await env.DB.prepare(`
+    SELECT
+      q.id,
+      q.slug,
+      q.category_id,
+      q.cover_image,
+      q.status,
+      q.is_featured,
+      t.language,
+      t.title,
+      t.description,
+      (
+        SELECT COUNT(*)
+        FROM questions questions_count
+        WHERE questions_count.quiz_id = q.id
+      ) AS question_count,
+      (
+        SELECT COUNT(*)
+        FROM results results_count
+        WHERE results_count.quiz_id = q.id
+      ) AS result_count
+    FROM quizzes q
+    LEFT JOIN quiz_translations t
+      ON t.quiz_id = q.id
+      AND t.language = ?
+    ORDER BY q.id DESC
+  `)
+    .bind(lang)
+    .all();
+
+  return json(
+    {
+      success: true,
+      language: lang,
+      data: result.results || []
+    },
+    200,
+    origin
+  );
+}
       // Worker 與 D1 連線測試
       if (path === "/api/health") {
         await env.DB.prepare("SELECT 1").first();
