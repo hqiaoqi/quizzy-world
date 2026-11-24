@@ -1,7 +1,7 @@
 // Redeploy after configuring admin bootstrap secret
 const ALLOWED_ORIGIN = "https://quizzy-world.pages.dev";
 const SESSION_TTL_SECONDS = 8 * 60 * 60;
-const PBKDF2_ITERATIONS = 310000;
+const PBKDF2_ITERATIONS = 100000
 
 function json(data, status = 200, origin = ALLOWED_ORIGIN) {
   return new Response(JSON.stringify(data), {
