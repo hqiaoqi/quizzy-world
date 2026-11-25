@@ -185,6 +185,14 @@ body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:non
 /* Submission textarea matches the input fields */
 #quizSubmissionForm textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:11px;padding:13px;font-size:14px;outline:none;background:#fff;color:var(--ink);resize:vertical;line-height:1.6}
 #quizSubmissionForm textarea:focus{border-color:#d98eaf;box-shadow:0 0 0 3px #fce8f0}
+
+/* Category heading: lightweight rocket-launch styling, no panel/window */
+#categories>.section-head{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-radius:0!important;padding:20px 26px 26px!important;overflow:visible!important;}
+#categories>.section-head:before{content:"🚀";position:absolute;right:36px;top:50%;transform:translateY(-50%) rotate(-18deg);font-size:56px;filter:drop-shadow(0 8px 12px #34265c50);pointer-events:none}
+#categories>.section-head:after{content:none!important;display:none!important}
+#categories>.section-head h2{font-size:30px!important;letter-spacing:2px!important;color:#fff!important;text-shadow:0 3px 12px #39226075!important;margin:0!important}
+#categories>.section-head p{margin-top:10px!important;color:#f0e6ff!important;font-size:14px!important}
+@media(max-width:520px){#categories>.section-head{padding:18px 18px 24px!important}#categories>.section-head:before{right:16px;font-size:42px}#categories>.section-head h2{font-size:24px!important}}
 </style>
 </head>
 <body>
