@@ -231,6 +231,14 @@ footer .footer-brand{font-size:12px;color:var(--muted);line-height:1.5}footer .f
 body.view-home main>#myMedals,body.view-home main>#quizSubmission,body.view-home main>#servicesPage{display:none!important}
 body.view-medals main>:not(#myMedals):not(footer),body.view-submission main>:not(#quizSubmission):not(footer),body.view-services main>:not(#servicesPage):not(footer){display:none!important}
 body.view-medals main>#myMedals,body.view-submission main>#quizSubmission,body.view-services main>#servicesPage,body.view-medals main>footer,body.view-submission main>footer,body.view-services main>footer{display:block!important}
+/* Category heading blends directly into the shared galaxy backdrop; remove framing only. */
+#categories{border:0!important;outline:0!important;box-shadow:none!important;background-image:linear-gradient(#25113a22,#25113a22),url("/assets/quizzy-purple-galaxy-gradient.jpg")!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important}
+#categories>.category-heading{background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+#categories>.category-heading:before,#categories>.category-heading:after{content:none!important;display:none!important;background:none!important;border:0!important;outline:0!important;box-shadow:none!important}
+#categories>.category-heading h2{color:#fff!important;text-shadow:0 2px 10px #25113a75!important}
+#categories>.category-heading p{color:#eee5ff!important;text-shadow:0 1px 6px #25113a70!important}
+#categories #categoryList.categories{background:transparent!important;background-image:none!important;border:0!important;outline:0!important;box-shadow:none!important;border-radius:0!important}
+#categories #categoryList.categories:before,#categories #categoryList.categories:after{content:none!important;display:none!important}
 </style>
 </head>
 <body class="view-home">
@@ -254,7 +262,7 @@ body.view-medals main>#myMedals,body.view-submission main>#quizSubmission,body.v
 <div class="medal-grid" id="medalGrid"></div>
 <div class="medal-milestones" id="medalMilestones"></div>
 </section>
-<section id="categories"><div class="section-head"><div><h2 data-i18n="categoryTitle">測驗分類</h2><p data-i18n="categoryDesc">選一個你感興趣的主題開始探索</p></div></div><div class="categories" id="categoryList"></div></section>
+<section id="categories"><div class="section-head category-heading"><div><h2 data-i18n="categoryTitle">測驗分類</h2><p data-i18n="categoryDesc">選一個你感興趣的主題開始探索</p></div></div><div class="categories" id="categoryList"></div></section>
 <section id="discover"><div class="section-head"><div><h2 data-i18n="discoverTitle">發現有趣的自己</h2><p data-i18n="discoverDesc">每個測驗，都是認識自己的新入口</p></div><button class="text-link" onclick="clearFilters()" data-i18n="showAll">查看全部 →</button></div>
 <div class="toolbar"><select class="filter-select" id="sortSelect" onchange="renderQuizzes()"><option value="featured">精選推薦</option><option value="popular">最熱門</option><option value="newest">最新上架</option></select><span class="result-count" id="resultCount"></span></div><div class="quiz-grid" id="quizGrid"></div></section>
 <div class="two-col">
