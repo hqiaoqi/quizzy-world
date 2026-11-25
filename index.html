@@ -311,7 +311,7 @@ async function loadData(){
    quizzes=[];
    document.getElementById("quizGrid").innerHTML=`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("loadError")} <button class="start-btn" onclick="loadData()">${t("retry")}</button></div>`;
  }finally{
-   loadingQuizzes=false;renderCategories();renderQuizzes();renderRanking();
+   loadingQuizzes=false;renderCategories();renderQuizzes();renderRanking();renderMedals();
  }
 }
 function title(q){return q.title||q.titleEn||"未命名測驗"}
