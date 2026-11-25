@@ -264,6 +264,15 @@ footer .footer-contact a{white-space:nowrap}
 .services-step-copy small{display:block;margin-top:4px;color:var(--muted);font-size:10px;line-height:1.55}
 .services-contact .services-email{margin-top:6px}
 @media(max-width:520px){.services-type-grid{grid-template-columns:1fr}.services-type-card{align-items:flex-start;flex-direction:row}.services-step-copy small{font-size:11px}}
+/* Compact scope notes under the simple site price */
+.services-scope-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.services-scope-card{min-width:0;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:#faf7fb}
+.services-scope-card h4{margin:0 0 8px;color:#655a73;font-size:12px}
+.services-scope-card ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 14px;margin:0;padding:0;list-style:none}
+.services-scope-card li{position:relative;padding-left:12px;color:var(--muted);font-size:10px;line-height:1.55}
+.services-scope-card li:before{content:"·";position:absolute;left:0;color:#a87db4;font-weight:900}
+.services-scope-note{margin:10px 0 0;color:var(--muted);font-size:11px;line-height:1.6}
+@media(max-width:520px){.services-scope-grid{grid-template-columns:1fr}.services-scope-card ul{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body class="view-home">
@@ -321,7 +330,11 @@ footer .footer-contact a{white-space:nowrap}
 <article class="services-type-card"><span aria-hidden="true">🖼️</span><h4>圖片與素材排版</h4></article>
 </div></section>
 <section class="services-block"><h3>服務項目</h3><ul class="services-list"><li>個人網站製作</li><li>網頁設計與版面調整</li><li>現有網站修改</li><li>新增網站功能</li><li>CSS 樣式調整與問題修復</li><li>網站內容與使用者體驗優化</li></ul></section>
-<section class="services-block"><div class="services-price-heading"><div><span class="services-kicker">EARLY CLIENT OFFER</span><h3>接案初期優惠價格</h3></div><span class="services-offer">初期優惠</span></div><p class="services-price-intro">目前提供接案初期優惠價格，歡迎依照需求洽詢。</p><div class="services-prices"><article class="services-price-card"><h4>簡易網站製作</h4><p><strong>NT$1,500</strong> 起</p></article><article class="services-price-card"><h4>網站修改</h4><p><strong>NT$300</strong> 起</p></article><article class="services-price-card"><h4>功能新增</h4><p><strong>NT$500</strong> 起</p></article><article class="services-price-card"><h4>CSS / 排版修復</h4><p><strong>NT$300</strong> 起</p></article><article class="services-price-card services-custom"><h4>客製化需求</h4><p><strong>依需求報價</strong></p></article></div><p class="services-note">價格為起始參考價格，實際費用依網站內容、功能複雜度與需求調整。</p></section>
+<section class="services-block"><div class="services-price-heading"><div><span class="services-kicker">EARLY CLIENT OFFER</span><h3>接案初期優惠價格</h3></div><span class="services-offer">初期優惠</span></div><p class="services-price-intro">目前提供接案初期優惠價格，歡迎依照需求洽詢。</p><div class="services-prices"><article class="services-price-card"><h4>簡易網站製作</h4><p><strong>NT$5,000</strong> 起</p></article><article class="services-price-card"><h4>網站修改</h4><p><strong>NT$800</strong> 起</p></article><article class="services-price-card"><h4>功能新增</h4><p><strong>NT$500</strong> 起</p></article><article class="services-price-card"><h4>CSS／排版修復</h4><p><strong>NT$300</strong> 起</p></article><article class="services-price-card services-custom"><h4>客製化需求</h4><p><strong>依需求報價</strong></p></article></div><p class="services-note">價格為起始參考價格，實際費用依網站內容、功能複雜度與需求調整。</p></section>
+<section class="services-block services-scope"><h3>服務範圍說明</h3><div class="services-scope-grid">
+<div class="services-scope-card"><h4>簡易網站製作包含</h4><ul><li>簡易單頁網站</li><li>基本視覺與版面規劃</li><li>基本手機版適配</li><li>基本導覽與區塊設計</li><li>基本聯絡資訊呈現</li><li>一次合理的修改調整</li></ul></div>
+<div class="services-scope-card"><h4>不包含</h4><ul><li>金流系統</li><li>複雜會員系統</li><li>複雜資料庫</li><li>進階 API 串接</li><li>複雜動畫</li><li>大量頁面</li><li>無限制修改</li></ul></div>
+</div><p class="services-scope-note">超出上述範圍的功能或需求，將另行評估與報價。</p></section>
 <section class="services-block"><h3>合作流程</h3><ol class="services-steps"><li><span>01</span><div class="services-step-copy"><strong>提出需求</strong><small>說明想製作的網站、需要修改的內容或希望新增的功能。</small></div></li><li><span>02</span><div class="services-step-copy"><strong>確認需求與報價</strong><small>依照需求評估可行性、工作範圍及費用。</small></div></li><li><span>03</span><div class="services-step-copy"><strong>開始製作</strong><small>確認後開始設計、製作或修改網站。</small></div></li><li><span>04</span><div class="services-step-copy"><strong>完成與確認</strong><small>完成後確認成果，並交付相關內容。</small></div></li></ol></section>
 <section class="services-contact"><h3>聯絡方式</h3><p>如果有網站製作、修改或功能調整需求，歡迎聯絡洽詢。</p><p class="services-email">Email：<a href="mailto:qiaoqi@gmail.com">qiaoqi@gmail.com</a></p></section></section><footer><div class="footer-brand"><strong>全台最大心理測驗網 | Quizzy World 測驗星球</strong><div style="margin-top:5px">© 2026 Quizzy World</div></div><div class="footer-contact"><strong>聯繫方式</strong><a href="mailto:qiao7602@gmail.com">qiao7602@gmail.com</a></div><div class="disclaimer" data-i18n="disclaimer">本站測驗主要提供自我探索與娛樂用途，不是臨床心理診斷或醫療建議。不同測驗的準確性與適用性各有差異。</div></footer></main>
 <div class="overlay" id="quizOverlay"><div class="modal" id="quizModal"><button class="close" onclick="closeOverlay('quizOverlay')">×</button><div id="quizContent"></div></div></div>
