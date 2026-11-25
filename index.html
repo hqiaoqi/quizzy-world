@@ -169,7 +169,7 @@ body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:non
 </style>
 </head>
 <body>
-<aside id="siteSidebar" class="site-sidebar"><div class="sidebar-top"><strong>QUIZZY WORLD</strong><button id="sidebarClose" aria-label="關閉側欄">×</button></div><a class="side-link" href="#" onclick="showSitePage('home');return false">🏠 主頁</a><details open class="side-group"><summary>🪐 測驗分類</summary><div id="sidebarCategoryItems" class="side-subitems"></div></details><a class="side-link" href="#" onclick="showSitePage('submission');return false">✍️ 測驗投稿區</a><a class="side-link" href="#" onclick="showSitePage('medals');return false">🏅 完成獎牌收藏</a><a class="side-link" href="#" onclick="showSitePage('about');return false">ℹ️ 關於我們</a><a class="side-link" href="#" onclick="showSitePage('sponsor');return false">💜 贊助網站運營</a></aside><div id="sidebarBackdrop" class="sidebar-backdrop"></div><header><div class="wrap head"><button class="sidebar-toggle" id="sidebarToggle" aria-label="開啟選單">☰</button>
+<aside id="siteSidebar" class="site-sidebar"><div class="sidebar-top"><strong>QUIZZY WORLD</strong><button id="sidebarClose" aria-label="關閉側欄">×</button></div><a class="side-link" href="#" onclick="showSitePage('home');return false">🏠 主頁</a><details open class="side-group"><summary>🪐 測驗分類</summary><div id="sidebarCategoryItems" class="side-subitems"></div></details><a class="side-link" href="#" onclick="showSitePage('submission');return false">✍️ 測驗投稿區</a><a class="side-link" href="#" onclick="showSitePage('medals');return false">🏅 獎牌收藏</a><a class="side-link" href="#" onclick="showSitePage('about');return false">ℹ️ 關於我們</a><a class="side-link" href="#" onclick="showSitePage('sponsor');return false">💜 贊助網站運營</a></aside><div id="sidebarBackdrop" class="sidebar-backdrop"></div><header><div class="wrap head"><button class="sidebar-toggle" id="sidebarToggle" aria-label="開啟選單">☰</button>
 <a class="brand" href="#"><div class="logo">✦</div><div><strong id="brandName">全台最大心理測驗網</strong><small>QUIZZY WORLD · 測驗星球</small></div></a>
 <nav class="nav"><a href="#categories" data-i18n="navCategories">測驗分類</a><a href="#discover" data-i18n="navDiscover">探索測驗</a><a href="#ranking" data-i18n="navRanking">熱門排行</a></nav>
 <div class="head-actions"><button class="pill-btn hot" onclick="openAdmin()" data-i18n="adminBtn">管理後台</button></div>
@@ -182,10 +182,10 @@ body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:non
 </section>
 <div class="stats">
 <div class="stat completion-rank-stat"><div class="ico" style="background:#fff0f5">🏆</div><div><strong id="completionRank">未上榜</strong><small id="completionRankText">完成測驗累積排名</small></div></div>
-<div class="stat medal-summary-stat"><div class="ico" style="background:#f5eafb">🏅</div><div class="medal-summary-content"><strong>完成獎牌收藏</strong><small id="homeMedalProgress">0 / 7 · 0%</small><div class="medal-progress-track home-medal-track"><i id="homeMedalProgressBar" style="width:0%"></i></div></div></div>
+<div class="stat medal-summary-stat"><div class="ico" style="background:#f5eafb">🏅</div><div class="medal-summary-content"><strong>獎牌收藏</strong><small id="homeMedalProgress">0 / 7 · 0%</small><div class="medal-progress-track home-medal-track"><i id="homeMedalProgressBar" style="width:0%"></i></div></div></div>
 </div>
 <section class="medals-panel" id="myMedals" style="display:none">
-<div class="medals-head"><div><h2>🏅 完成獎牌收藏</h2><p>完成不同測驗，收集專屬獎牌</p></div><strong id="medalCount">0 / 7</strong></div>
+<div class="medals-head"><div><h2>🏅 獎牌收藏</h2><p>完成不同測驗，收集專屬獎牌</p></div><strong id="medalCount">0 / 7</strong></div>
 <div class="medal-grid" id="medalGrid"></div>
 <div class="medal-milestones" id="medalMilestones"></div>
 </section>
