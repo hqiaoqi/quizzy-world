@@ -442,7 +442,8 @@ async function initAdminPage(){
   document.getElementById("adminCreateQuizForm").addEventListener("submit",handleAdminCreateQuiz);
   if(!await verifyAdminSession()){document.getElementById("adminLoginCard").hidden=false;document.getElementById("adminDashboard").hidden=true;}
 }
-document.getElementById("quizSubmissionForm")?.addEventListener("submit",function(e){e.preventDefault();const title=document.getElementById("submissionTitle").value.trim();const detail=document.getElementById("submissionDetail").value.trim();const email=document.getElementById("submissionEmail").value.trim();const subject="[Quizzy World 心理測驗投稿] "+title;const body="投稿題目："+title+"\\n\\n投稿內容：\\n"+detail+"\\n\\n聯絡 Email："+(email||"未提供")+"\\n\\n——\\n若未來新增此投稿題目，所留 Email 僅用於聯繫該項更新資訊。";window.location.href="mailto:hqiaoqi@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);});\nfunction initApp(){applyStaticTranslations();if(isAdminRoute())initAdminPage();else loadData();}
+document.getElementById("quizSubmissionForm")?.addEventListener("submit",function(e){e.preventDefault();const title=document.getElementById("submissionTitle").value.trim();const detail=document.getElementById("submissionDetail").value.trim();const email=document.getElementById("submissionEmail").value.trim();const subject="[Quizzy World 心理測驗投稿] "+title;const body="投稿題目："+title+"\\n\\n投稿內容：\\n"+detail+"\\n\\n聯絡 Email："+(email||"未提供")+"\\n\\n——\\n若未來新增此投稿題目，所留 Email 僅用於聯繫該項更新資訊。";window.location.href="mailto:hqiaoqi@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);});
+function initApp(){applyStaticTranslations();if(isAdminRoute())initAdminPage();else loadData();}
 initApp();
 
 </script>
