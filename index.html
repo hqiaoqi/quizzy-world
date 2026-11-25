@@ -61,7 +61,7 @@ footer{margin-top:50px;padding:26px 0 35px;border-top:1px solid var(--line);disp
 @media(max-width:600px){.admin-dashboard{padding:20px}.admin-quiz-row{grid-template-columns:1fr}.admin-list-head{align-items:flex-start}}
 body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:none!important}
 
-.medal-overall{grid-column:1/-1;padding:4px 2px 14px}.medal-progress-head,.medal-category-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;color:#78658d;margin-bottom:8px}.medal-progress-head strong,.medal-category-head strong{color:#4c3b62}.medal-progress-track{height:9px;border-radius:99px;background:#eee7f4;overflow:hidden}.medal-progress-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#c9a3e9,#e8a9cb,#a9c7e8);transition:width .4s}.medal-category{grid-column:1/-1;padding:13px 0;border-top:1px solid #f0e8ee}.category-track{height:6px;margin-bottom:12px}.medal-group-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}@media(max-width:600px){.medal-group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}</style>
+.medal-overall{grid-column:1/-1;padding:4px 2px 14px}.medal-progress-head,.medal-category-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;color:#78658d;margin-bottom:8px}.medal-progress-head strong,.medal-category-head strong{color:#4c3b62}.medal-progress-track{height:9px;border-radius:99px;background:#eee7f4;overflow:hidden}.medal-progress-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#c9a3e9,#e8a9cb,#a9c7e8);transition:width .4s}.medal-category{grid-column:1/-1;padding:13px 0;border-top:1px solid #f0e8ee}.category-track{height:6px;margin-bottom:12px}.medal-group-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}@media(max-width:600px){.medal-group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}.submission-panel{margin:32px 0}.submission-intro{font-size:12px;color:var(--muted);line-height:1.7}.submission-panel form{max-width:700px}.submission-privacy{font-size:11px;color:#8b7b91;background:#f8f2fa;padding:12px;border-radius:12px;line-height:1.65}.submission-panel .main-btn{margin-top:8px}</style>
 </head>
 <body>
 <header><div class="wrap head">
@@ -442,7 +442,7 @@ async function initAdminPage(){
   document.getElementById("adminCreateQuizForm").addEventListener("submit",handleAdminCreateQuiz);
   if(!await verifyAdminSession()){document.getElementById("adminLoginCard").hidden=false;document.getElementById("adminDashboard").hidden=true;}
 }
-function initApp(){applyStaticTranslations();if(isAdminRoute())initAdminPage();else loadData();}
+document.getElementById("quizSubmissionForm")?.addEventListener("submit",function(e){e.preventDefault();const title=document.getElementById("submissionTitle").value.trim();const detail=document.getElementById("submissionDetail").value.trim();const email=document.getElementById("submissionEmail").value.trim();const subject="[Quizzy World 心理測驗投稿] "+title;const body="投稿題目："+title+"\\n\\n投稿內容：\\n"+detail+"\\n\\n聯絡 Email："+(email||"未提供")+"\\n\\n——\\n若未來新增此投稿題目，所留 Email 僅用於聯繫該項更新資訊。";window.location.href="mailto:hqiaoqi@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);});\nfunction initApp(){applyStaticTranslations();if(isAdminRoute())initAdminPage();else loadData();}
 initApp();
 
 </script>
