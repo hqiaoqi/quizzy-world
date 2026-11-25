@@ -699,7 +699,7 @@ function buildSidebarCategories(){const el=document.getElementById("sidebarCateg
 function sidebarSelectCategory(id){showSitePage("home");setCategory(id);document.getElementById("discover")?.scrollIntoView({behavior:"smooth"});toggleSidebar(false);}
 function showSitePage(page){const pages=["home","medals","submission","services"];const currentPage=pages.includes(page)?page:"home";document.body.classList.remove("view-home","view-medals","view-submission","view-services");document.body.classList.add("view-"+currentPage);window.scrollTo({top:0,behavior:"smooth"});toggleSidebar(false);}
 function initApp(){applyStaticTranslations();if(isAdminRoute())initAdminPage();else {loadData();buildSidebarCategories();showSitePage("home");}}
-if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initApp,{once:true});}else{initApp();}
+if(document.readyState==="complete"){initApp();}else{document.addEventListener("DOMContentLoaded",initApp,{once:true});}
 
 </script>
 </body></html>
