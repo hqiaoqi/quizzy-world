@@ -136,6 +136,11 @@ body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:non
 #categories .category-decor .spark{left:12%;bottom:35%;width:20px;height:20px;background:#fff8;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);opacity:.5}
 #categories .category-decor .cloud{background:linear-gradient(180deg,#fff9f9aa,#e7d8f788);box-shadow:0 12px 30px #d8c1ed20;opacity:.3;filter:blur(2px)}
 #categories .categories{background:radial-gradient(ellipse at 12% 12%,#f4c5e4 0,transparent 32%),radial-gradient(ellipse at 84% 28%,#d2c1f0 0,transparent 35%),radial-gradient(ellipse at 45% 85%,#e6c7ef 0,transparent 40%),linear-gradient(135deg,#9884c7,#c6a8de 52%,#d9b9e6)!important}
+
+/* Temporarily remove the category exploration area's background for prompt planning */
+#categories{background:none!important;box-shadow:none!important;border:none!important}
+#categories:before,#categories:after{display:none!important}
+#categories .categories{background:transparent!important;box-shadow:none!important;border:none!important}
 </style>
 </head>
 <body>
