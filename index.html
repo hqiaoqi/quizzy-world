@@ -66,6 +66,18 @@ body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:non
 #categories .section-head{position:relative;z-index:2;margin:0 0 8px;padding:17px 20px;border-radius:20px;background:linear-gradient(120deg,#ffffff45,#fce8f735,#e9e0ff35);border:1px solid #ffffff65;box-shadow:0 8px 24px #5b43751a;backdrop-filter:blur(12px)}
 #categories .section-head h2{color:#49365f;text-shadow:0 1px 0 #ffffff55}
 #categories .section-head p{color:#765e8c}
+
+/* scattered planet field with celestial and non-planet ornaments */
+#categories{background:radial-gradient(ellipse at 50% 45%,#ffffff32,transparent 58%),radial-gradient(ellipse at 12% 15%,#f7bce5 0,transparent 30%),radial-gradient(ellipse at 88% 25%,#c6b5f4 0,transparent 32%),radial-gradient(ellipse at 25% 85%,#b9c6f3 0,transparent 30%),radial-gradient(ellipse at 78% 90%,#f6c5db 0,transparent 32%),linear-gradient(135deg,#8d79c8,#b99bdc 35%,#e8b9d9 70%,#a99bdc)!important}
+#categories .categories{min-height:530px;position:relative;isolation:isolate}
+#categories .category-wheel{width:min(560px,92vw);z-index:2}
+#categories .cat{width:122px;height:116px}
+#categories .cat-star{width:98px;height:98px}
+.category-decor{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.category-decor .deco{position:absolute;display:grid;place-items:center;color:#fff9ff;text-shadow:0 0 16px #fff9;opacity:.72;font-weight:300}
+.category-decor .d1{left:12%;top:17%;font-size:35px}.category-decor .d2{left:25%;top:65%;font-size:48px;color:#ffe5f5}.category-decor .d3{right:13%;top:22%;font-size:38px}.category-decor .d4{left:47%;top:75%;font-size:34px;color:#fff0d8}.category-decor .d5{left:6%;top:52%;font-size:42px}.category-decor .d6{right:6%;top:65%;font-size:36px}.category-decor .d7{right:24%;top:8%;font-size:42px;color:#ffeaf7}.category-decor .d8{left:38%;top:12%;font-size:28px}.category-decor .d9{right:39%;top:52%;font-size:32px;color:#fff0d8}.category-decor .d10{right:8%;top:42%;font-size:24px}
+@media(max-width:850px){#categories .categories{min-height:430px}#categories .category-wheel{width:min(430px,92vw)}#categories .cat{width:90px;height:90px}#categories .cat-star{width:72px;height:72px}}
+@media(max-width:520px){#categories .categories{min-height:340px}#categories .category-wheel{width:min(330px,88vw)}#categories .cat{width:76px;height:76px}#categories .cat-star{width:62px;height:62px}}
 </style>
 </head>
 <body>
@@ -239,7 +251,7 @@ function renderCategories(){
  '<circle cx="50" cy="50" r="35"/> <path d="M25 22 L60 15 L82 40 L65 78 L30 72 L15 48Z" fill="#fff" opacity=".18"/>',
  '<circle cx="50" cy="50" r="35"/> <ellipse cx="50" cy="50" rx="49" ry="18" fill="none" stroke="#fff" stroke-width="5" opacity=".55" transform="rotate(32 50 50)"/> <path d="M20 40 Q50 70 80 40" fill="none" stroke="#fff" opacity=".28" stroke-width="6"/>'];
  const categoryEmojis={personality:"🧠",love:"💗",emotion:"🎨",subconscious:"🌙",career:"🚀",social:"🤝",fun:"🎉"};const buttons=list.map((c,i)=>{const angle=(-90+(i+.5)*360/list.length)*Math.PI/180;const x=50+Math.cos(angle)*43,y=50+Math.sin(angle)*43;const color=colors[i%colors.length];const svg=`<svg viewBox="0 0 100 100" aria-hidden="true"><defs><radialGradient id="p${i}" cx="28%" cy="25%" r="75%"><stop offset="0%" stop-color="#fff" stop-opacity=".9"/><stop offset="38%" stop-color="${color}"/><stop offset="100%" stop-color="${color}" stop-opacity=".58"/></radialGradient></defs><g fill="url(#p${i})" stroke="#fff" stroke-opacity=".65" stroke-width="1.4">${planetShapes[i%planetShapes.length]}</g><path d="M20 30 Q45 12 65 25" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><circle cx="27" cy="30" r="3" fill="#fff" opacity=".65"/></svg>`;return `<button class="cat ${activeCategory===c.id?"active":""}" aria-label="${c.zh}，${quizzes.filter(q=>q.cat===c.id).length} 個測驗" onclick="setCategory('${c.id}')" style="--x:${x}%;--y:${y}%;--star-color:${color}"><span class="cat-star" aria-hidden="true">${svg}</span><span class="cat-label"><strong>${c.zh} ${categoryEmojis[c.id]||"✨"}</strong><small>${quizzes.filter(q=>q.cat===c.id).length} 個測驗 📝</small></span></button>`}).join("");
- document.getElementById("categoryList").innerHTML=`<div class="category-wheel">${buttons}</div>`;
+ document.getElementById("categoryList").innerHTML=`<div class="category-decor" aria-hidden="true"><span class="deco d1">✦</span><span class="deco d2">☾</span><span class="deco d3">✧</span><span class="deco d4">♢</span><span class="deco d5">⋆</span><span class="deco d6">✦</span><span class="deco d7">☁</span><span class="deco d8">✧</span><span class="deco d9">♧</span><span class="deco d10">⋆</span></div><div class="category-wheel">${buttons}</div>`;
 }
 function setCategory(id){activeCategory=id;renderCategories();renderQuizzes();document.getElementById("discover").scrollIntoView({behavior:"smooth"})}
 function clearFilters(){activeCategory="all";document.getElementById("searchInput").value="";renderCategories();renderQuizzes()}
