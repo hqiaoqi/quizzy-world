@@ -193,6 +193,13 @@ body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:non
 #categories>.section-head h2{font-size:30px!important;letter-spacing:2px!important;color:#fff!important;text-shadow:0 3px 12px #39226075!important;margin:0!important}
 #categories>.section-head p{margin-top:10px!important;color:#f0e6ff!important;font-size:14px!important}
 @media(max-width:520px){#categories>.section-head{padding:18px 18px 24px!important}#categories>.section-head:before{right:16px;font-size:42px}#categories>.section-head h2{font-size:24px!important}}
+
+/* Category header placement: remove shuttle and place heading in marked left area */
+#categories>.section-head:before{content:none!important;display:none!important}
+#categories>.section-head{position:relative!important;box-sizing:border-box!important;padding:58px 60px 34px!important;min-height:190px!important;margin:0!important}
+#categories>.section-head h2{margin:0!important;font-size:32px!important;line-height:1.25!important}
+#categories>.section-head p{margin-top:12px!important;font-size:16px!important;line-height:1.5!important}
+@media(max-width:520px){#categories>.section-head{padding:38px 28px 28px!important;min-height:150px!important}#categories>.section-head h2{font-size:26px!important}#categories>.section-head p{font-size:14px!important}}
 </style>
 </head>
 <body>
