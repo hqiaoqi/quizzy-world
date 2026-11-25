@@ -310,7 +310,7 @@ function showAdminDashboard(admin){
   document.getElementById("adminLoginCard").hidden=true;
   document.getElementById("adminDashboard").hidden=false;
   document.getElementById("adminWelcome").textContent=`已登入：${admin?.email||"管理員"}（${admin?.role||"admin"}）`;
-  loadAdminQuizzes();
+  loadAdminQuizzes();loadAdminSubmissions();
 }
 async function loadAdminQuizzes(){
   const list=document.getElementById("adminQuizList");
