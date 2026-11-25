@@ -626,6 +626,43 @@ if (
         return json({ success: true, data }, 200, origin);
       }
 
+      // 社群心理測驗投稿：存入 D1 並可選擇透過 Resend 通知管理員
+      if (path === "/api/submissions" && request.method === "POST") {
+        const body = await readBody(request);
+        const title = String(body.title || "").trim();
+        const detail = String(body.detail || "").trim();
+        const email = String(body.email || "").trim();
+        if (!title || title.length > 120 || !detail || detail.length > 2000 || (email && !validEmail(email))) {
+          return json({ error: "投稿內容格式不正確" }, 400, origin);
+        }
+        await env.DB.prepare(`CREATE TABLE IF NOT EXISTS quiz_submissions (
+          id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, detail TEXT NOT NULL,
+          email TEXT, created_at TEXT NOT NULL DEFAULT (datetime('now')), status TEXT NOT NULL DEFAULT 'new'
+        )`).run();
+        const saved = await env.DB.prepare("INSERT INTO quiz_submissions (title,detail,email) VALUES (?,?,?)").bind(title,detail,email||null).run();
+        let notified = false;
+        if (env.RESEND_API_KEY && env.RESEND_FROM) {
+          const mail = await fetch("https://api.resend.com/emails", {
+            method:"POST", headers:{"Authorization":"Bearer "+env.RESEND_API_KEY,"Content-Type":"application/json"},
+            body:JSON.stringify({from:env.RESEND_FROM,to:["hqiaoqi@gmail.com"],subject:"[Quizzy World 投稿] "+title,
+              text:"投稿："+title+"\n\n內容：\n"+detail+"\n\nEmail："+(email||"未提供")+"\n\n投稿已存入網站資料庫。" })
+          });
+          notified = mail.ok;
+        }
+        return json({success:true,id:saved.meta?.last_row_id,notified},201,origin);
+      }
+
+      if (path === "/api/admin/submissions" && request.method === "GET") {
+        const admin = await authenticateAdmin(request, env);
+        if (!admin || admin.role !== "admin") return json({error:"Unauthorized"},401,origin);
+        await env.DB.prepare(`CREATE TABLE IF NOT EXISTS quiz_submissions (
+          id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, detail TEXT NOT NULL,
+          email TEXT, created_at TEXT NOT NULL DEFAULT (datetime('now')), status TEXT NOT NULL DEFAULT 'new'
+        )`).run();
+        const rows = await env.DB.prepare("SELECT id,title,detail,email,created_at,status FROM quiz_submissions ORDER BY id DESC LIMIT 200").all();
+        return json({success:true,data:rows.results||[]},200,origin);
+      }
+
       if (request.method !== "GET") {
         return json({ error: "Method not allowed" }, 405, origin);
       }
