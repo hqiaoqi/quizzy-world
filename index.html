@@ -148,6 +148,10 @@ body.admin-mode>header,body.admin-mode>main,body.admin-mode>.overlay{display:non
 .medal-item .medal-icon{width:54px;height:54px;margin-bottom:10px}
 .medal-category .category-track{width:calc((100% - 3*12px)/4);min-width:180px;max-width:100%;margin:8px 0 12px}
 @media(max-width:700px){.medal-group-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.medal-category .category-track{width:calc((100% - 12px)/2);min-width:0}}
+
+/* Remove the marked castle silhouettes and crystal ornament from category background */
+#categories .category-decor .castle,
+#categories .category-decor .crystal{display:none!important}
 </style>
 </head>
 <body>
