@@ -663,6 +663,18 @@ if (
         return json({success:true,data:rows.results||[]},200,origin);
       }
 
+      // 公開：完成測驗，累積全站參與人次
+      const completionMatch = path.match(/^\/api\/quizzes\/([^/]+)\/complete$/);
+      if (completionMatch && request.method === "POST") {
+        const slug = decodeURIComponent(completionMatch[1]);
+        await env.DB.prepare(`CREATE TABLE IF NOT EXISTS quiz_play_stats (quiz_id INTEGER PRIMARY KEY, plays INTEGER NOT NULL DEFAULT 0)`).run();
+        const quiz = await env.DB.prepare("SELECT id FROM quizzes WHERE slug = ? AND status = 'published' LIMIT 1").bind(slug).first();
+        if (!quiz) return json({ error: "Quiz not found" }, 404, origin);
+        await env.DB.prepare("INSERT INTO quiz_play_stats (quiz_id, plays) VALUES (?, 1) ON CONFLICT(quiz_id) DO UPDATE SET plays = plays + 1").bind(quiz.id).run();
+        const updated = await env.DB.prepare("SELECT plays FROM quiz_play_stats WHERE quiz_id = ?").bind(quiz.id).first();
+        return json({ success: true, plays: Number(updated?.plays || 0) }, 200, origin);
+      }
+
       if (request.method !== "GET") {
         return json({ error: "Method not allowed" }, 405, origin);
       }
@@ -750,18 +762,6 @@ if (
           200,
           origin
         );
-      }
-
-      // 公開：完成測驗，累積全站參與人次
-      const completionMatch = path.match(/^\/api\/quizzes\/([^/]+)\/complete$/);
-      if (completionMatch && request.method === "POST") {
-        const slug = decodeURIComponent(completionMatch[1]);
-        await env.DB.prepare(`CREATE TABLE IF NOT EXISTS quiz_play_stats (quiz_id INTEGER PRIMARY KEY, plays INTEGER NOT NULL DEFAULT 0)`).run();
-        const quiz = await env.DB.prepare("SELECT id FROM quizzes WHERE slug = ? AND status = 'published' LIMIT 1").bind(slug).first();
-        if (!quiz) return json({ error: "Quiz not found" }, 404, origin);
-        await env.DB.prepare("INSERT INTO quiz_play_stats (quiz_id, plays) VALUES (?, 1) ON CONFLICT(quiz_id) DO UPDATE SET plays = plays + 1").bind(quiz.id).run();
-        const updated = await env.DB.prepare("SELECT plays FROM quiz_play_stats WHERE quiz_id = ?").bind(quiz.id).first();
-        return json({ success: true, plays: Number(updated?.plays || 0) }, 200, origin);
       }
 
       // 取得已發布測驗（人氣統計）
