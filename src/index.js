@@ -764,10 +764,6 @@ if (
         return json({ success: true, plays: Number(updated?.plays || 0) }, 200, origin);
       }
 
-      // Ensure play counter table exists before public listing
-      if (path === "/api/quizzes" && request.method === "GET") {
-        await env.DB.prepare(`CREATE TABLE IF NOT EXISTS quiz_play_stats (quiz_id INTEGER PRIMARY KEY, plays INTEGER NOT NULL DEFAULT 0)`).run();
-      }
       // 取得已發布測驗
       if (path === "/api/quizzes") {
         const lang = url.searchParams.get("lang") || "zh-TW";
@@ -780,13 +776,11 @@ if (
             q.cover_image,
             q.status,
             q.is_featured,
-            COALESCE(ps.plays, 0) AS plays,
             t.language,
             t.title,
             t.description,
             t.instructions
           FROM quizzes q
-          LEFT JOIN quiz_play_stats ps ON ps.quiz_id = q.id
           LEFT JOIN quiz_translations t
             ON t.quiz_id = q.id
             AND t.language = ?
