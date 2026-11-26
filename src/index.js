@@ -503,8 +503,8 @@ if (
         if (!["personality","love","emotion","subconscious","career","social","fun"].includes(categoryId)) {
           return json({ error: "請選擇有效的測驗分類" }, 400, origin);
         }
-        if (questions.length !== 6 || results.length !== 4) {
-          return json({ error: "目前版本需要 6 題與 4 組結果" }, 400, origin);
+        if (questions.length !== 7 || results.length !== 4) {
+          return json({ error: "目前版本需要 7 題與 4 組結果" }, 400, origin);
         }
         for (const q of questions) {
           if (!String(q.text || "").trim() || !Array.isArray(q.options) || q.options.length !== 4 ||
