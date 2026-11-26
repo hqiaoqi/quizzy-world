@@ -611,8 +611,21 @@ async function saveResultImage(id,idx){
  catch(error){alert("圖卡儲存失敗，請稍後再試。");console.error(error)}
 }
 async function shareResultImage(id,idx){
- try{const blob=await resultImageBlob(id,idx);const file=new File([blob],"quizzy-world-result.png",{type:"image/png"});if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"我的測驗結果",text:"看看我的測驗結果！"});}else{await saveResultImage(id,idx);alert("此裝置不支援直接分享圖卡，已改為下載圖片。下載後可分享到 LINE 或 Instagram。");}}
- catch(error){if(error.name!=="AbortError"){console.error(error);alert("分享失敗，請再試一次。")}}
+ try{
+  const blob=await resultImageBlob(id,idx);
+  const file=new File([blob],"quizzy-world-result.png",{type:"image/png"});
+  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+   await navigator.share({files:[file],title:"我的測驗結果",text:"看看我的測驗結果！"});
+  }else{
+   const url=URL.createObjectURL(blob);
+   const win=window.open(url,"_blank");
+   if(!win){
+    const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";a.click();
+   }
+   alert("此瀏覽器無法直接分享圖片。已開啟圖卡：請長按圖片選擇「下載圖片／儲存圖片」，再分享到 LINE 或 Instagram。");
+   setTimeout(()=>URL.revokeObjectURL(url),60000);
+  }
+ }catch(error){if(error.name!=="AbortError"){console.error(error);alert("分享失敗，請改用「儲存圖卡」或 Chrome 瀏覽器。")}}
 }
 function wrapCanvas(ctx,text,cx,y,maxWidth,lineHeight){const words=[...text];let line="";for(let n=0;n<words.length;n++){const test=line+words[n];if(ctx.measureText(test).width>maxWidth&&n>0){ctx.fillText(line,cx,y);line=words[n];y+=lineHeight}else line=test}ctx.fillText(line,cx,y)}
 function openAdmin(){window.location.href="/admin"}
