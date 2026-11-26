@@ -277,21 +277,24 @@ footer .footer-contact a{white-space:nowrap}
 /* Quizzy World motion system */
 @keyframes qw-rise-in{from{opacity:0;transform:translate3d(0,22px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
 @keyframes qw-soft-pop{0%{opacity:0;transform:scale(.94) translateY(12px)}100%{opacity:1;transform:scale(1) translateY(0)}}
-@keyframes qw-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}\n@keyframes qw-planet-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.01)}}
-@keyframes qw-orbit-glow{0%,100%{filter:drop-shadow(0 8px 12px #34265c50)}50%{filter:drop-shadow(0 10px 18px #d99acb88)}}
+@keyframes qw-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+
 @keyframes qw-shimmer{0%{background-position:180% 0}100%{background-position:-180% 0}}
 .hero .kicker,.hero h1,.hero>div:first-child>p,.hero .searchbox{animation:qw-rise-in .75s both}
 .hero h1{animation-delay:.08s}.hero>div:first-child>p{animation-delay:.16s}.hero .searchbox{animation-delay:.24s}
 .hero-art{transform-origin:center}
-.hero-art img{animation:qw-planet-breathe 8s ease-in-out infinite;transform-origin:center}.hero-art:hover img{transform:none}
+.hero-art img{animation:none!important;transform:none!important;transition:none!important;transform-origin:center}.hero-art:hover img{transform:none}
 .logo{animation:qw-float 5s ease-in-out infinite}
 .stat,.medal-item,.quiz-card,.box-panel,.medals-panel,.submission-panel,.services-scope-card,.admin-quiz-row{transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
 .stat:hover,.medal-item:hover,.quiz-card:hover,.box-panel:hover,.services-scope-card:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(83,55,91,.13);border-color:#ead4e4}
 .medal-item:hover .medal-icon{transform:scale(1.09) rotate(-5deg);transition:transform .25s}
 .quiz-card{will-change:transform}.quiz-card:hover .quiz-cover-art{transform:scale(1.045);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
-.cat-star{transform-origin:center;animation:qw-orbit-glow 4.8s ease-in-out infinite}
-.cat:nth-child(2n) .cat-star{animation-delay:-1.6s}.cat:nth-child(3n) .cat-star{animation-delay:-3.1s}
-.cat:hover .cat-star,.cat:focus-visible .cat-star,.cat.active .cat-star{animation:none}\n.cat-personality .cat-star,.cat-personality:hover .cat-star,.cat-personality:focus-visible .cat-star,.cat-personality.active .cat-star{animation:none;transform:none;transform-origin:center}\n.cat.cat-personality:hover,.cat.cat-personality:focus-visible,.cat.cat-personality:active{transform:translate(-50%,-50%)}
+.cat-star{transform-origin:center;animation:none!important;transform:none!important;transition:none!important}
+.cat:hover .cat-star,.cat:focus-visible .cat-star,.cat.active .cat-star{transform:none!important}
+.cat.cat:hover:not(:disabled),.cat.cat:focus-visible,.cat.cat:active:not(:disabled){transform:translate(-50%,-50%)!important}
+
+
 button,.pill-btn,.main-btn,.start-btn,.primary-btn,.secondary-btn,.admin-submit,.admin-refresh{transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,color .2s ease,border-color .2s ease}
 button:hover:not(:disabled){transform:translateY(-2px)}
 button:active:not(:disabled){transform:translateY(0) scale(.97)}
@@ -311,6 +314,7 @@ button:active:not(:disabled){transform:translateY(0) scale(.97)}
 .section-head{animation:qw-rise-in .65s both}
 .qw-reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
 .qw-reveal.qw-visible{opacity:1;transform:translateY(0)}
+.hero.qw-reveal,.hero.qw-reveal.qw-visible,#categories.qw-reveal,#categories.qw-reveal.qw-visible{transform:none!important;transition:opacity .65s ease!important}
 .qw-stagger>*{transition-delay:var(--qw-delay,0ms)}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.qw-reveal{opacity:1;transform:none}}
 @media(max-width:520px){.hero-art:hover img{transform:none}.quiz-card:hover,.stat:hover,.medal-item:hover{transform:translateY(-2px)}}
