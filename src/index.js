@@ -453,7 +453,31 @@ if (
       }
 
 
-      // 管理後台：新增測驗（3 題、每題 4 選項、4 組結果）
+      // AI 自動生成測驗內容（需設定 OPENAI_API_KEY secret）
+      if (path === "/api/admin/generate-quiz" && request.method === "POST") {
+        const admin = await authenticateAdmin(request, env);
+        if (!admin || admin.role !== "admin") return json({ error: "Unauthorized" }, 401, origin);
+        if (!env.OPENAI_API_KEY) return json({ error: "Worker 尚未設定 OPENAI_API_KEY secret。" }, 503, origin);
+        const body = await readBody(request);
+        const title = String(body.title || "").trim();
+        const category = String(body.category || "personality");
+        if (!title || title.length > 80 || !["personality","love","emotion","subconscious","career","social","fun"].includes(category)) return json({ error: "測驗名稱或分類不正確。" }, 400, origin);
+        const categoryNames = {personality:"人格性格",love:"愛情關係",emotion:"情緒心理",subconscious:"潛意識",career:"職涯天賦",social:"人際關係",fun:"趣味娛樂"};
+        const prompt = `請為 Quizzy World 心理測驗網站創作一份完整的繁體中文娛樂性心理測驗。測驗名稱：${title}。分類：${categoryNames[category]}。請生成簡介、6題單選題（每題4個選項），以及4種結果。每題選項的順序要對應四種結果類型（A=結果1、B=結果2、C=結果3、D=結果4），各題的選項需有趣、自然、不直接透露結果。結果描述要有辨識度、適合社群分享。輸出純JSON，格式為 {"description":"簡介","questions":[{"text":"題目","options":["選項A","選項B","選項C","選項D"]}],"results":[{"title":"結果名稱","description":"結果描述"}]}。不要附加任何JSON以外文字。`;
+        const aiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {"Authorization":"Bearer "+env.OPENAI_API_KEY,"Content-Type":"application/json"},
+          body: JSON.stringify({model:env.OPENAI_MODEL||"gpt-4.1-mini",temperature:0.8,response_format:{type:"json_object"},messages:[{role:"system",content:"你是專業的心理測驗內容設計師，遵循要求並只輸出有效JSON。內容適合一般使用者，不作診斷或醫療判斷。"},{"role":"user",content:prompt}]})
+        });
+        if (!aiResponse.ok) return json({error:"AI 服務呼叫失敗："+aiResponse.status},502,origin);
+        const aiData = await aiResponse.json();
+        let generated;
+        try { generated = JSON.parse(aiData.choices?.[0]?.message?.content || "{}"); } catch { return json({error:"AI 回傳內容格式無法解析。"},502,origin); }
+        if (!generated.description || !Array.isArray(generated.questions) || generated.questions.length !== 6 || generated.questions.some(q=>!q.text||!Array.isArray(q.options)||q.options.length!==4) || !Array.isArray(generated.results)||generated.results.length!==4||generated.results.some(r=>!r.title||!r.description)) return json({error:"AI 生成內容不完整，請再試一次。"},502,origin);
+        return json({success:true,data:generated},200,origin);
+      }
+
+      // 管理後台：新增測驗（6 題、每題 4 選項、4 組結果）
       if (path === "/api/admin/quizzes" && request.method === "POST") {
         const admin = await authenticateAdmin(request, env);
         if (!admin || admin.role !== "admin") {
@@ -479,8 +503,8 @@ if (
         if (!["personality","love","emotion","subconscious","career","social","fun"].includes(categoryId)) {
           return json({ error: "請選擇有效的測驗分類" }, 400, origin);
         }
-        if (questions.length !== 3 || results.length !== 4) {
-          return json({ error: "目前版本需要 3 題與 4 組結果" }, 400, origin);
+        if (questions.length !== 6 || results.length !== 4) {
+          return json({ error: "目前版本需要 6 題與 4 組結果" }, 400, origin);
         }
         for (const q of questions) {
           if (!String(q.text || "").trim() || !Array.isArray(q.options) || q.options.length !== 4 ||
