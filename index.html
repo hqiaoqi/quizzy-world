@@ -428,7 +428,7 @@ button:active:not(:disabled){transform:translateY(0) scale(.97)}
         <div class="admin-field"><label for="createEmoji">封面 Emoji</label><input id="createEmoji" maxlength="4" value="✨" required></div>
         <div class="admin-field" style="grid-column:1/-1"><label for="createDescription">測驗簡介</label><textarea id="createDescription" maxlength="300" required placeholder="簡單介紹這個測驗"></textarea></div>
       </div>
-      <button class="admin-secondary" type="button" id="adminGenerateQuizButton" style="width:100%;margin:14px 0">✨ AI 自動生成簡介、6 題與 4 組結果</button>
+      <button class="admin-secondary" type="button" id="adminGenerateQuizButton" style="width:100%;margin:14px 0">✨ </button>
       <div id="adminQuestionFields"></div>
       <h3 style="font-size:16px;margin:24px 0 8px">測驗結果（4 組）</h3>
       <div id="adminResultFields" class="form-grid"></div>
@@ -758,7 +758,7 @@ async function handleAdminCreateQuiz(event){
   const token=getAdminToken(),button=document.getElementById("adminCreateButton"),error=document.getElementById("adminCreateError");
   error.textContent="";error.classList.remove("show");
   if(!token){error.textContent="登入已逾期，請重新登入。";error.classList.add("show");return;}
-  const questions=Array.from({length:6},(_,i)=>({text:document.getElementById(`createQ${i}`).value.trim(),options:Array.from({length:4},(_,j)=>document.getElementById(`createQ${i}O${j}`).value.trim())}));
+  const questions=Array.from({length:7},(_,i)=>({text:document.getElementById(`createQ${i}`).value.trim(),options:Array.from({length:4},(_,j)=>document.getElementById(`createQ${i}O${j}`).value.trim())}));
   const results=Array.from({length:4},(_,i)=>({title:document.getElementById(`createR${i}`).value.trim(),description:document.getElementById(`createRD${i}`).value.trim()}));
   const payload={title:document.getElementById("createTitle").value.trim(),slug:document.getElementById("createSlug").value.trim(),category_id:document.getElementById("createCategory").value,cover_image:document.getElementById("createEmoji").value.trim()||"✨",description:document.getElementById("createDescription").value.trim(),status:document.getElementById("createStatus").value,questions,results};
   button.disabled=true;button.textContent="建立中…";
@@ -768,7 +768,7 @@ async function handleAdminCreateQuiz(event){
     if(response.status===401){sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_EXPIRY_KEY);throw new Error("登入已逾期，請重新登入。");}
     if(!response.ok||data.success!==true)throw new Error(data.error||`建立失敗（HTTP ${response.status}）`);
     alert(data.message||"測驗建立成功");
-    event.target.reset();document.getElementById("createEmoji").value="✨";buildAdminCreateFields();await loadAdminQuizzes();
+    event.target.reset();document.getElementById("createEmoji").value="✨";buildAdminCreateFields(7);await loadAdminQuizzes();
   }catch(err){error.textContent=err.message||"建立失敗，請稍後再試。";error.classList.add("show");}
   finally{button.disabled=false;button.textContent="建立測驗";}
 }
@@ -793,8 +793,8 @@ async function initAdminPage(){
   document.getElementById("adminLogoutButton").addEventListener("click",handleAdminLogout);
   document.getElementById("adminRefreshButton").addEventListener("click",loadAdminQuizzes);
   document.getElementById("adminExportResultsButton").addEventListener("click",exportAdminResults);
-  buildAdminCreateFields(6);
-  document.getElementById("adminGenerateQuizButton").addEventListener("click",generateAdminQuiz);
+  buildAdminCreateFields(7);
+
   document.getElementById("adminCreateQuizForm").addEventListener("submit",handleAdminCreateQuiz);
   if(!await verifyAdminSession()){document.getElementById("adminLoginCard").hidden=false;document.getElementById("adminDashboard").hidden=true;}
 }
