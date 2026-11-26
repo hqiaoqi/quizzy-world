@@ -588,7 +588,20 @@ function showResult(){
 }
 function downloadResult(id,idx){
  const q=currentQuiz||quizzes.find(x=>String(x.slug||x.id)===String(id)),r=q?.results?.find((item,i)=>Number(item.order??i)===idx)||q?.results?.[idx]||{name:"你的專屬類型",emoji:"✨",desc:""};
- const c=document.createElement("canvas");c.width=1080;c.height=1350;const x=c.getContext("2d");const g=x.createLinearGradient(0,0,1080,1350);g.addColorStop(0,"#ffe4ef");g.addColorStop(.55,"#eee5ff");g.addColorStop(1,"#dcf6eb");x.fillStyle=g;x.fillRect(0,0,1080,1350);x.fillStyle="#ffffffaa";x.beginPath();x.roundRect(65,65,950,1220,48);x.fill();x.textAlign="center";x.fillStyle="#8d789e";x.font="bold 34px sans-serif";x.fillText("QUIZZY WORLD",540,165);x.fillStyle="#453650";x.font="bold 46px sans-serif";x.fillText("你的測驗結果",540,285);x.font="150px sans-serif";x.fillText(r.emoji||"✨",540,530);x.fillStyle="#3d304b";x.font="bold 66px sans-serif";x.fillText(r.name||r.en,540,680);x.fillStyle="#796d86";x.font="32px sans-serif";wrapCanvas(x,r.desc||r.descEn||"",540,765,820,52);x.fillStyle="#b28ba6";x.font="26px sans-serif";x.fillText("全台最大心理測驗網 | Quizzy World 測驗星球",540,1165);x.font="22px sans-serif";x.fillText("quizzy.world",540,1215);const a=document.createElement("a");a.download="quizzy-world-result.png";a.href=c.toDataURL("image/png");a.click();
+ // Unified 3:4 social-share card: 1080 x 1440
+ const c=document.createElement("canvas");c.width=1080;c.height=1440;const x=c.getContext("2d");
+ const g=x.createLinearGradient(0,0,1080,1440);g.addColorStop(0,"#ffe4ef");g.addColorStop(.55,"#eee5ff");g.addColorStop(1,"#dcf6eb");x.fillStyle=g;x.fillRect(0,0,1080,1440);
+ x.fillStyle="#ffffffbb";x.beginPath();x.roundRect(65,65,950,1310,48);x.fill();
+ // restrained decorative circles
+ x.fillStyle="#d9c6f455";x.beginPath();x.arc(150,260,95,0,Math.PI*2);x.fill();x.fillStyle="#f4c6db55";x.beginPath();x.arc(930,1080,130,0,Math.PI*2);x.fill();
+ x.textAlign="center";x.fillStyle="#8d789e";x.font="bold 34px sans-serif";x.fillText("QUIZZY WORLD",540,165);
+ x.fillStyle="#453650";x.font="bold 46px sans-serif";x.fillText(q?.title||"你的測驗結果",540,285);
+ x.font="150px sans-serif";x.fillText(r.emoji||"✨",540,560);
+ x.fillStyle="#3d304b";x.font="bold 66px sans-serif";x.fillText(r.name||r.en,540,730);
+ x.fillStyle="#796d86";x.font="32px sans-serif";wrapCanvas(x,r.desc||r.descEn||"",540,825,820,52);
+ x.fillStyle="#b28ba6";x.font="26px sans-serif";x.fillText("全台最大心理測驗網 | Quizzy World 測驗星球",540,1250);
+ x.font="22px sans-serif";x.fillText("quizzy.world",540,1300);
+ const a=document.createElement("a");a.download="quizzy-world-result.png";a.href=c.toDataURL("image/png");a.click();
 }
 function wrapCanvas(ctx,text,cx,y,maxWidth,lineHeight){const words=[...text];let line="";for(let n=0;n<words.length;n++){const test=line+words[n];if(ctx.measureText(test).width>maxWidth&&n>0){ctx.fillText(line,cx,y);line=words[n];y+=lineHeight}else line=test}ctx.fillText(line,cx,y)}
 function openAdmin(){window.location.href="/admin"}
