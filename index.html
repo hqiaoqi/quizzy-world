@@ -428,6 +428,7 @@ button:active:not(:disabled){transform:translateY(0) scale(.97)}
         <div class="admin-field"><label for="createEmoji">封面 Emoji</label><input id="createEmoji" maxlength="4" value="✨" required></div>
         <div class="admin-field" style="grid-column:1/-1"><label for="createDescription">測驗簡介</label><textarea id="createDescription" maxlength="300" required placeholder="簡單介紹這個測驗"></textarea></div>
       </div>
+      <button class="admin-secondary" type="button" id="adminGenerateQuizButton" style="width:100%;margin:14px 0">✨ AI 自動生成簡介、6 題與 4 組結果</button>
       <div id="adminQuestionFields"></div>
       <h3 style="font-size:16px;margin:24px 0 8px">測驗結果（4 組）</h3>
       <div id="adminResultFields" class="form-grid"></div>
@@ -724,10 +725,10 @@ async function handleAdminLogout(){
   document.getElementById("adminLoginForm").reset();clearAdminError();
 }
 
-function buildAdminCreateFields(){
+function buildAdminCreateFields(questionCount=6){
   const q=document.getElementById("adminQuestionFields");
   const r=document.getElementById("adminResultFields");
-  q.innerHTML=Array.from({length:3},(_,i)=>`<div class="admin-question-card">
+  q.innerHTML=Array.from({length:questionCount},(_,i)=>`<div class="admin-question-card">
     <h3>第 ${i+1} 題</h3>
     <div class="admin-field"><label for="createQ${i}">題目內容</label><textarea id="createQ${i}" required placeholder="輸入第 ${i+1} 題"></textarea></div>
     <div class="form-grid">${Array.from({length:4},(_,j)=>`<div class="admin-field"><label for="createQ${i}O${j}">選項 ${String.fromCharCode(65+j)}</label><input id="createQ${i}O${j}" required placeholder="輸入選項內容"></div>`).join("")}</div>
@@ -735,12 +736,29 @@ function buildAdminCreateFields(){
   r.innerHTML=Array.from({length:4},(_,i)=>`<div class="admin-field"><label for="createR${i}">結果 ${i+1} 名稱</label><input id="createR${i}" required placeholder="結果名稱">
     <label for="createRD${i}">結果 ${i+1} 描述</label><textarea id="createRD${i}" required placeholder="結果描述"></textarea></div>`).join("");
 }
+async function generateAdminQuiz(){
+ const title=document.getElementById("createTitle").value.trim(),category=document.getElementById("createCategory").value;
+ const token=getAdminToken(),button=document.getElementById("adminGenerateQuizButton"),error=document.getElementById("adminCreateError");
+ if(!title){error.textContent="請先輸入測驗名稱。";error.classList.add("show");document.getElementById("createTitle").focus();return;}
+ if(!token){error.textContent="登入已逾期，請重新登入。";error.classList.add("show");return;}
+ button.disabled=true;button.textContent="✨ AI 正在創作測驗內容…";error.textContent="";error.classList.remove("show");
+ try{
+  const response=await fetch(API_BASE+"/admin/generate-quiz",{method:"POST",headers:{"Authorization":"Bearer "+token,"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({title,category})});
+  const data=await response.json();if(response.status===401){sessionStorage.removeItem(ADMIN_TOKEN_KEY);sessionStorage.removeItem(ADMIN_EXPIRY_KEY);throw new Error("登入已逾期，請重新登入。");}
+  if(!response.ok||data.success!==true)throw new Error(data.error||"生成失敗");
+  const quiz=data.data;document.getElementById("createDescription").value=quiz.description||"";buildAdminCreateFields(quiz.questions.length);
+  quiz.questions.forEach((q,i)=>{document.getElementById(`createQ${i}`).value=q.text; q.options.forEach((v,j)=>document.getElementById(`createQ${i}O${j}`).value=v);});
+  quiz.results.forEach((r,i)=>{document.getElementById(`createR${i}`).value=r.title;document.getElementById(`createRD${i}`).value=r.description;});
+  button.textContent="✨ 生成完成，請檢查內容";
+ }catch(err){error.textContent=err.message||"生成失敗";error.classList.add("show");button.textContent="✨ AI 自動生成簡介、6 題與 4 組結果";}
+ finally{button.disabled=false;}
+}
 async function handleAdminCreateQuiz(event){
   event.preventDefault();
   const token=getAdminToken(),button=document.getElementById("adminCreateButton"),error=document.getElementById("adminCreateError");
   error.textContent="";error.classList.remove("show");
   if(!token){error.textContent="登入已逾期，請重新登入。";error.classList.add("show");return;}
-  const questions=Array.from({length:3},(_,i)=>({text:document.getElementById(`createQ${i}`).value.trim(),options:Array.from({length:4},(_,j)=>document.getElementById(`createQ${i}O${j}`).value.trim())}));
+  const questions=Array.from({length:6},(_,i)=>({text:document.getElementById(`createQ${i}`).value.trim(),options:Array.from({length:4},(_,j)=>document.getElementById(`createQ${i}O${j}`).value.trim())}));
   const results=Array.from({length:4},(_,i)=>({title:document.getElementById(`createR${i}`).value.trim(),description:document.getElementById(`createRD${i}`).value.trim()}));
   const payload={title:document.getElementById("createTitle").value.trim(),slug:document.getElementById("createSlug").value.trim(),category_id:document.getElementById("createCategory").value,cover_image:document.getElementById("createEmoji").value.trim()||"✨",description:document.getElementById("createDescription").value.trim(),status:document.getElementById("createStatus").value,questions,results};
   button.disabled=true;button.textContent="建立中…";
@@ -775,7 +793,8 @@ async function initAdminPage(){
   document.getElementById("adminLogoutButton").addEventListener("click",handleAdminLogout);
   document.getElementById("adminRefreshButton").addEventListener("click",loadAdminQuizzes);
   document.getElementById("adminExportResultsButton").addEventListener("click",exportAdminResults);
-  buildAdminCreateFields();
+  buildAdminCreateFields(6);
+  document.getElementById("adminGenerateQuizButton").addEventListener("click",generateAdminQuiz);
   document.getElementById("adminCreateQuizForm").addEventListener("submit",handleAdminCreateQuiz);
   if(!await verifyAdminSession()){document.getElementById("adminLoginCard").hidden=false;document.getElementById("adminDashboard").hidden=true;}
 }
