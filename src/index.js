@@ -764,8 +764,9 @@ if (
         return json({ success: true, plays: Number(updated?.plays || 0) }, 200, origin);
       }
 
-      // 取得已發布測驗
+      // 取得已發布測驗（人氣統計）
       if (path === "/api/quizzes") {
+        await env.DB.prepare(`CREATE TABLE IF NOT EXISTS quiz_play_stats (quiz_id INTEGER PRIMARY KEY, plays INTEGER NOT NULL DEFAULT 0)`).run();
         const lang = url.searchParams.get("lang") || "zh-TW";
 
         const result = await env.DB.prepare(`
@@ -776,6 +777,7 @@ if (
             q.cover_image,
             q.status,
             q.is_featured,
+            COALESCE((SELECT ps.plays FROM quiz_play_stats ps WHERE ps.quiz_id = q.id), 0) AS plays,
             t.language,
             t.title,
             t.description,
