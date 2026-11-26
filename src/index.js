@@ -763,7 +763,8 @@ if (
           {
             success: true,
             message: "Quizzy World API is running",
-            database: "connected"
+            database: "connected",
+            openaiKeyConfigured: Boolean(env.OPENAI_API_KEY)
           },
           200,
           origin
