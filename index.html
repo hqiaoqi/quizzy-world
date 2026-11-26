@@ -506,7 +506,7 @@ async function loadData(){
    loadingQuizzes=false;renderCategories();renderQuizzes();renderRanking();renderMedals();
  }
 }
-function quizCoverPath(q){const id=q.slug||q.id;if(id==="love-expression"||q.title==="你的戀愛表達方式是什麼？")return "/assets/love-expression.png";const pngCovers={"animal-vibe":"animal-vibe.png","dream-symbol":"dream-symbol.png","career-style":"career-style.png","color-mood":"color-mood.png","friendship":"friendship.png"};return "/assets/covers/"+(pngCovers[id]||`${id}.svg`)}
+function quizCoverPath(q){const id=q.slug||q.id;if(["love-expression","love-language","love-style"].includes(id)||q.title==="你的戀愛表達方式是什麼？"||q.title==="你談戀愛後，會變成什麼樣子？"||String(q.title||"").includes("談戀愛後"))return "/assets/love-expression.png";const pngCovers={"animal-vibe":"animal-vibe.png","dream-symbol":"dream-symbol.png","career-style":"career-style.png","color-mood":"color-mood.png","friendship":"friendship.png"};return "/assets/covers/"+(pngCovers[id]||`${id}.svg`)}
 function title(q){return q.title||q.titleEn||"未命名測驗"}
 function desc(q){return q.desc||q.descEn||""}
 function catName(id){const c=categories.find(x=>x.id===id);return c?(c.zh||c.en):id}
