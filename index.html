@@ -507,7 +507,7 @@ async function loadData(){
  }
 }
 function quizCoverPath(q){const id=q.slug||q.id;if(["love-expression","love-language","love-style"].includes(id)||q.title==="你的戀愛表達方式是什麼？"||q.title==="你談戀愛後，會變成什麼樣子？"||String(q.title||"").includes("談戀愛後"))return "/assets/love-expression.png";const pngCovers={"animal-vibe":"animal-vibe.png","dream-symbol":"dream-symbol.png","soul-type":"spirtlive.png","career-style":"career-style.png","color-mood":"color-mood.png","friendship":"friendship.png"};return "/assets/covers/"+(pngCovers[id]||`${id}.svg`)}
-function title(q){return q.title||q.titleEn||"未命名測驗"}
+function basePlays(q){const id=String(q.slug||q.id||"");let h=0;for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;return 500+(h%1501)}\nfunction displayedPlays(q){return Math.max(0,Number(q.plays||0))+basePlays(q)}\nfunction title(q){return q.title||q.titleEn||"未命名測驗"}
 function desc(q){return q.desc||q.descEn||""}
 function catName(id){const c=categories.find(x=>x.id===id);return c?(c.zh||c.en):id}
 function applyStaticTranslations(){
@@ -541,10 +541,10 @@ function clearFilters(){activeCategory="all";document.getElementById("searchInpu
 function renderQuizzes(){
  const query=(document.getElementById("searchInput").value||"").toLowerCase().trim(),sort=document.getElementById("sortSelect").value;
  let list=quizzes.filter(q=>(activeCategory==="all"||q.cat===activeCategory)&&(!query||[q.title,q.titleEn,q.desc,q.descEn,catName(q.cat)].join(" ").toLowerCase().includes(query)));
- if(sort==="popular")list.sort((a,b)=>(b.plays||0)-(a.plays||0));else if(sort==="newest")list.sort((a,b)=>(b.created||0)-(a.created||0));else list.sort((a,b)=>Number(b.isFeatured)-Number(a.isFeatured)||(b.created||0)-(a.created||0));
+ if(sort==="popular")list.sort((a,b)=>displayedPlays(b)-displayedPlays(a));else if(sort==="newest")list.sort((a,b)=>(b.created||0)-(a.created||0));else list.sort((a,b)=>Number(b.isFeatured)-Number(a.isFeatured)||(b.created||0)-(a.created||0));
  document.getElementById("resultCount").textContent=lang==="en"?`${list.length} quizzes`:`共 ${list.length} 個測驗`;
  if(loadingQuizzes&&quizzes.length===0){document.getElementById("quizGrid").innerHTML=`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("loading")}</div>`;return}
- document.getElementById("quizGrid").innerHTML=list.length?list.map(q=>`<article class="quiz-card"><div class="quiz-cover"><img class="quiz-cover-art" src="${quizCoverPath(q)}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="bigemoji" style="display:none">${q.emoji||categoryEmoji(q.cat)}</span></div><div class="quiz-body"><div class="meta"><span class="tag">${catName(q.cat)}</span><span class="duration">${q.minutes||3} ${t("minutes")}</span></div><h3>${title(q)}</h3><p>${desc(q)}</p><div class="card-foot"><span class="plays">👥 ${Number(q.plays||0).toLocaleString()} ${t("plays")}</span><button class="start-btn" onclick="startQuiz('${String(q.slug||q.id).replace(/'/g,"&#39;")}')">${t("start")} →</button></div></div></article>`).join(""):`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("searchEmpty")}</div>`;
+ document.getElementById("quizGrid").innerHTML=list.length?list.map(q=>`<article class="quiz-card"><div class="quiz-cover"><img class="quiz-cover-art" src="${quizCoverPath(q)}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="bigemoji" style="display:none">${q.emoji||categoryEmoji(q.cat)}</span></div><div class="quiz-body"><div class="meta"><span class="tag">${catName(q.cat)}</span><span class="duration">${q.minutes||3} ${t("minutes")}</span></div><h3>${title(q)}</h3><p>${desc(q)}</p><div class="card-foot"><span class="plays">👥 ${displayedPlays(q).toLocaleString()} ${t("plays")}</span><button class="start-btn" onclick="startQuiz('${String(q.slug||q.id).replace(/'/g,"&#39;")}')">${t("start")} →</button></div></div></article>`).join(""):`<div style="grid-column:1/-1;padding:35px;text-align:center;color:var(--muted)">${t("searchEmpty")}</div>`;
  renderMedals();
 }
 function getCompletedQuizIds(){try{const value=JSON.parse(localStorage.getItem("qw_completed_quizzes")||"[]");return Array.isArray(value)?value.map(String):[]}catch(e){return[]}}
