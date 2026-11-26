@@ -473,7 +473,7 @@ if (
         const aiData = await aiResponse.json();
         let generated;
         try { generated = JSON.parse(aiData.choices?.[0]?.message?.content || "{}"); } catch { return json({error:"AI 回傳內容格式無法解析。"},502,origin); }
-        if (!generated.description || !Array.isArray(generated.questions) || generated.questions.length !== 6 || generated.questions.some(q=>!q.text||!Array.isArray(q.options)||q.options.length!==4) || !Array.isArray(generated.results)||generated.results.length!==4||generated.results.some(r=>!r.title||!r.description)) return json({error:"AI 生成內容不完整，請再試一次。"},502,origin);
+        if (!generated.description || !Array.isArray(generated.questions) || generated.questions.length !== 7 || generated.questions.some(q=>!q.text||!Array.isArray(q.options)||q.options.length!==4) || !Array.isArray(generated.results)||generated.results.length!==4||generated.results.some(r=>!r.title||!r.description)) return json({error:"AI 生成內容不完整，請再試一次。"},502,origin);
         return json({success:true,data:generated},200,origin);
       }
 
